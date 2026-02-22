@@ -247,8 +247,6 @@ struct MascotView: View {
                 }
             }
 
-            // Bookmark ribbon
-            bookmarkRibbon
         }
         .offset(y: isBopping && (mood == .happy || mood == .excited) ? -3 : 0)
         .onAppear {
@@ -304,19 +302,6 @@ struct MascotView: View {
             }
             .offset(y: -size * 0.32)
         }
-    }
-
-    private var bookmarkRibbon: some View {
-        Path { path in
-            let ribbonWidth: CGFloat = size * 0.08
-            let startX = size * 0.2
-            path.move(to: CGPoint(x: startX, y: -size * 0.5))
-            path.addLine(to: CGPoint(x: startX, y: size * 0.55))
-            path.addLine(to: CGPoint(x: startX + ribbonWidth/2, y: size * 0.45))
-            path.addLine(to: CGPoint(x: startX + ribbonWidth, y: size * 0.55))
-            path.addLine(to: CGPoint(x: startX + ribbonWidth, y: -size * 0.5))
-        }
-        .fill(Color.appRed)
     }
 
     private func startAnimations() {
