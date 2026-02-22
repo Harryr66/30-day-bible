@@ -1,36 +1,45 @@
 import SwiftUI
 
-// MARK: - App Theme Colors (Rustic + Playful)
+// MARK: - App Theme Colors (Vibrant Duolingo Style)
 extension Color {
-    // Primary rustic colors
-    static let appBrown = Color(hex: "8B5A2B")           // Warm saddle brown
-    static let appBrownDark = Color(hex: "6B4423")       // Dark brown
-    static let appBrownLight = Color(hex: "A67C52")      // Light brown/tan
-    static let appCream = Color(hex: "FFF8F0")           // Warm cream
-    static let appBeige = Color(hex: "F5E6D3")           // Soft beige
+    // Primary brand colors - bright and fun!
+    static let appGreen = Color(hex: "58CC02")           // Duolingo green
+    static let appGreenDark = Color(hex: "46A302")       // Darker green
+    static let appGreenLight = Color(hex: "7ED321")      // Light green
 
-    // Fun accent colors (warm & playful)
-    static let appGreen = Color(hex: "6B8E23")           // Olive/sage green
-    static let appGreenDark = Color(hex: "556B2F")       // Dark olive
-    static let appYellow = Color(hex: "DAA520")          // Goldenrod
-    static let appOrange = Color(hex: "CD853F")          // Peru/terracotta
-    static let appRed = Color(hex: "B22222")             // Firebrick red
-    static let appBlue = Color(hex: "5F9EA0")            // Cadet blue
-    static let appPurple = Color(hex: "9370DB")          // Medium purple
-    static let appPink = Color(hex: "DB7093")            // Pale violet red
-    static let appTeal = Color(hex: "008080")            // Teal accent
+    // Accent colors - rainbow vibes
+    static let appBlue = Color(hex: "1CB0F6")            // Bright blue
+    static let appBlueDark = Color(hex: "1899D6")        // Dark blue
+    static let appPurple = Color(hex: "CE82FF")          // Vibrant purple
+    static let appPurpleDark = Color(hex: "A560E8")      // Dark purple
+    static let appOrange = Color(hex: "FF9600")          // Bright orange
+    static let appOrangeDark = Color(hex: "E58600")      // Dark orange
+    static let appRed = Color(hex: "FF4B4B")             // Bright red
+    static let appRedDark = Color(hex: "EA2B2B")         // Dark red
+    static let appYellow = Color(hex: "FFC800")          // Bright yellow
+    static let appYellowDark = Color(hex: "E5B400")      // Dark yellow
+    static let appPink = Color(hex: "FF86D0")            // Fun pink
+    static let appTeal = Color(hex: "2BD9D9")            // Teal/cyan
 
-    // Background colors
-    static let appBackground = Color(hex: "FFFAF5")      // Warm white
-    static let appCardBackground = Color(hex: "FFFFFF")  // Pure white
-    static let appCardBackgroundLight = Color(hex: "FFF5EB") // Slightly tinted
+    // Background colors - clean and bright
+    static let appBackground = Color(hex: "FFFFFF")       // Pure white
+    static let appBackgroundSecondary = Color(hex: "F7F7F7") // Light gray
+    static let appCardBackground = Color(hex: "FFFFFF")   // White cards
+    static let appCardBackgroundLight = Color(hex: "F0F0F0")
+
+    // Legacy compatibility
+    static let appBrown = appGreen                        // Map to green
+    static let appBrownDark = appGreenDark
+    static let appBrownLight = appGreenLight
+    static let appCream = Color(hex: "FFFDF7")
+    static let appBeige = Color(hex: "F0F0F0")
 
     // Text colors
-    static let appTextPrimary = Color(hex: "3D2914")     // Dark brown text
-    static let appTextSecondary = Color(hex: "8B7355")   // Medium brown text
+    static let appTextPrimary = Color(hex: "3C3C3C")     // Dark gray
+    static let appTextSecondary = Color(hex: "AFAFAF")   // Medium gray
 
     // Accent
-    static let appAccent = appBrown
+    static let appAccent = appGreen
 
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -62,7 +71,7 @@ struct PlayfulButtonStyle: ButtonStyle {
     let color: Color
     let textColor: Color
 
-    init(color: Color = .appBrown, textColor: Color = .white) {
+    init(color: Color = .appGreen, textColor: Color = .white) {
         self.color = color
         self.textColor = textColor
     }
@@ -76,16 +85,27 @@ struct PlayfulButtonStyle: ButtonStyle {
             .padding(.vertical, 16)
             .background(
                 ZStack {
+                    // Shadow layer
                     RoundedRectangle(cornerRadius: 16)
-                        .fill(color.opacity(0.3))
-                        .offset(y: 4)
+                        .fill(darkerColor(for: color))
+                        .offset(y: configuration.isPressed ? 0 : 4)
+                    // Main button
                     RoundedRectangle(cornerRadius: 16)
                         .fill(color)
                         .offset(y: configuration.isPressed ? 4 : 0)
                 }
             )
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
+    }
+
+    private func darkerColor(for color: Color) -> Color {
+        if color == .appGreen { return .appGreenDark }
+        if color == .appBlue { return .appBlueDark }
+        if color == .appOrange { return .appOrangeDark }
+        if color == .appPurple { return .appPurpleDark }
+        if color == .appRed { return .appRedDark }
+        return color.opacity(0.7)
     }
 }
 
@@ -94,16 +114,16 @@ struct SecondaryButtonStyle: ButtonStyle {
         configuration.label
             .font(.headline)
             .fontWeight(.bold)
-            .foregroundStyle(Color.appBrown)
+            .foregroundStyle(Color.appBlue)
             .frame(maxWidth: .infinity)
             .padding(.vertical, 16)
             .background(
                 RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.appBrownLight, lineWidth: 2)
-                    .background(RoundedRectangle(cornerRadius: 16).fill(Color.appCream))
+                    .stroke(Color.appBlue, lineWidth: 2)
+                    .background(RoundedRectangle(cornerRadius: 16).fill(Color.white))
             )
             .scaleEffect(configuration.isPressed ? 0.98 : 1)
-            .animation(.spring(response: 0.3, dampingFraction: 0.6), value: configuration.isPressed)
+            .animation(.spring(response: 0.2, dampingFraction: 0.6), value: configuration.isPressed)
     }
 }
 
@@ -116,11 +136,11 @@ struct PlayfulCard: ViewModifier {
             .background(
                 RoundedRectangle(cornerRadius: 20)
                     .fill(color)
-                    .shadow(color: Color.appBrown.opacity(0.1), radius: 8, y: 4)
+                    .shadow(color: Color.black.opacity(0.08), radius: 12, y: 4)
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.appBeige, lineWidth: 1)
+                    .stroke(Color.black.opacity(0.05), lineWidth: 1)
             )
     }
 }
@@ -131,38 +151,6 @@ extension View {
     }
 }
 
-// MARK: - Rustic Card Modifier (with texture feel)
-struct RusticCard: ViewModifier {
-    func body(content: Content) -> some View {
-        content
-            .background(
-                ZStack {
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(Color.appCream)
-                    RoundedRectangle(cornerRadius: 16)
-                        .fill(
-                            LinearGradient(
-                                colors: [Color.appBeige.opacity(0.3), Color.clear],
-                                startPoint: .topLeading,
-                                endPoint: .bottomTrailing
-                            )
-                        )
-                }
-                .shadow(color: Color.appBrown.opacity(0.15), radius: 6, y: 3)
-            )
-            .overlay(
-                RoundedRectangle(cornerRadius: 16)
-                    .stroke(Color.appBrownLight.opacity(0.3), lineWidth: 1)
-            )
-    }
-}
-
-extension View {
-    func rusticCard() -> some View {
-        modifier(RusticCard())
-    }
-}
-
 // MARK: - Bounce Animation
 struct BounceAnimation: ViewModifier {
     @State private var animate = false
@@ -170,8 +158,9 @@ struct BounceAnimation: ViewModifier {
 
     func body(content: Content) -> some View {
         content
-            .offset(y: animate ? 0 : 20)
+            .offset(y: animate ? 0 : 30)
             .opacity(animate ? 1 : 0)
+            .scaleEffect(animate ? 1 : 0.8)
             .onAppear {
                 withAnimation(.spring(response: 0.6, dampingFraction: 0.7).delay(delay)) {
                     animate = true
@@ -186,157 +175,332 @@ extension View {
     }
 }
 
-// MARK: - Mascot View (Rustic Bible Book Character)
+// MARK: - Bible Mascot View (Happy/Sad based on streak)
 struct MascotView: View {
     let mood: MascotMood
     let size: CGFloat
 
+    @State private var isBopping = false
+    @State private var eyesClosed = false
+
     enum MascotMood {
-        case happy, excited, thinking, encouraging
+        case happy      // Has a streak
+        case excited    // Long streak (7+ days)
+        case sad        // No streak / streak lost
+        case encouraging // First day / comeback
+        case thinking   // Neutral
     }
 
     var body: some View {
         ZStack {
-            // Book spine shadow
-            RoundedRectangle(cornerRadius: size * 0.15)
-                .fill(Color.appBrownDark)
-                .frame(width: size * 0.9, height: size * 1.15)
-                .offset(x: 3, y: 3)
-
-            // Book body (leather-bound look)
-            RoundedRectangle(cornerRadius: size * 0.15)
-                .fill(
-                    LinearGradient(
-                        colors: [Color.appBrown, Color.appBrownDark],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-                .frame(width: size, height: size * 1.2)
-
-            // Book spine detail
-            Rectangle()
-                .fill(Color.appBrownDark.opacity(0.5))
-                .frame(width: 4, height: size)
-                .offset(x: -size * 0.4)
-
-            // Gold decoration lines
-            VStack(spacing: size * 0.15) {
-                Rectangle()
-                    .fill(Color.appYellow.opacity(0.6))
-                    .frame(width: size * 0.5, height: 2)
-                Rectangle()
-                    .fill(Color.appYellow.opacity(0.6))
-                    .frame(width: size * 0.3, height: 2)
-            }
-            .offset(y: -size * 0.4)
+            // Book body
+            bookBody
 
             // Face
-            VStack(spacing: size * 0.05) {
+            VStack(spacing: size * 0.03) {
                 // Eyes
-                HStack(spacing: size * 0.2) {
-                    EyeView(size: size * 0.15, mood: mood)
-                    EyeView(size: size * 0.15, mood: mood)
+                HStack(spacing: size * 0.15) {
+                    BibleEye(size: size * 0.18, mood: mood, isClosed: eyesClosed)
+                    BibleEye(size: size * 0.18, mood: mood, isClosed: eyesClosed)
                 }
 
-                // Rosy cheeks
-                HStack(spacing: size * 0.35) {
-                    Circle()
-                        .fill(Color.appPink.opacity(0.4))
-                        .frame(width: size * 0.1, height: size * 0.08)
-                    Circle()
-                        .fill(Color.appPink.opacity(0.4))
-                        .frame(width: size * 0.1, height: size * 0.08)
+                // Blush cheeks (when happy)
+                if mood == .happy || mood == .excited {
+                    HStack(spacing: size * 0.35) {
+                        Circle()
+                            .fill(Color.appPink.opacity(0.5))
+                            .frame(width: size * 0.1, height: size * 0.08)
+                        Circle()
+                            .fill(Color.appPink.opacity(0.5))
+                            .frame(width: size * 0.1, height: size * 0.08)
+                    }
+                    .offset(y: -size * 0.02)
                 }
-                .offset(y: -size * 0.02)
 
                 // Mouth
-                MouthView(size: size * 0.25, mood: mood)
+                BibleMouth(size: size * 0.2, mood: mood)
             }
-            .offset(y: size * 0.1)
+            .offset(y: size * 0.05)
+
+            // Tears when sad
+            if mood == .sad {
+                HStack(spacing: size * 0.35) {
+                    TearDrop(size: size * 0.08)
+                        .offset(y: size * 0.02)
+                    TearDrop(size: size * 0.08)
+                        .offset(y: size * 0.02)
+                }
+                .offset(y: -size * 0.05)
+            }
+
+            // Sparkles when excited
+            if mood == .excited {
+                ForEach(0..<3) { i in
+                    Image(systemName: "sparkle")
+                        .font(.system(size: size * 0.12))
+                        .foregroundStyle(Color.appYellow)
+                        .offset(
+                            x: CGFloat([-1, 1, 0][i]) * size * 0.5,
+                            y: CGFloat([-0.4, -0.3, -0.55][i]) * size
+                        )
+                        .opacity(isBopping ? 1 : 0.5)
+                }
+            }
 
             // Bookmark ribbon
-            Path { path in
-                path.move(to: CGPoint(x: size * 0.3, y: -size * 0.6))
-                path.addLine(to: CGPoint(x: size * 0.3, y: size * 0.7))
-                path.addLine(to: CGPoint(x: size * 0.35, y: size * 0.6))
-                path.addLine(to: CGPoint(x: size * 0.4, y: size * 0.7))
-                path.addLine(to: CGPoint(x: size * 0.4, y: -size * 0.6))
+            bookmarkRibbon
+        }
+        .offset(y: isBopping && (mood == .happy || mood == .excited) ? -3 : 0)
+        .onAppear {
+            startAnimations()
+        }
+    }
+
+    private var bookBody: some View {
+        ZStack {
+            // Shadow
+            RoundedRectangle(cornerRadius: size * 0.12)
+                .fill(Color.appGreenDark)
+                .frame(width: size * 0.85, height: size)
+                .offset(y: 4)
+
+            // Main book body
+            RoundedRectangle(cornerRadius: size * 0.12)
+                .fill(
+                    LinearGradient(
+                        colors: mood == .sad ? [Color.appBlue.opacity(0.7), Color.appBlueDark.opacity(0.7)] : [Color.appGreen, Color.appGreenDark],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(width: size * 0.85, height: size)
+
+            // Book spine highlight
+            RoundedRectangle(cornerRadius: size * 0.12)
+                .fill(Color.white.opacity(0.2))
+                .frame(width: size * 0.85, height: size)
+                .mask(
+                    HStack {
+                        Rectangle().frame(width: size * 0.1)
+                        Spacer()
+                    }
+                )
+
+            // Page edges (right side)
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color.white.opacity(0.9))
+                .frame(width: size * 0.05, height: size * 0.7)
+                .offset(x: size * 0.38)
+
+            // Cross emblem
+            VStack(spacing: 0) {
+                RoundedRectangle(cornerRadius: 1)
+                    .fill(Color.appYellow)
+                    .frame(width: size * 0.06, height: size * 0.18)
+                RoundedRectangle(cornerRadius: 1)
+                    .fill(Color.appYellow)
+                    .frame(width: size * 0.15, height: size * 0.06)
+                    .offset(y: -size * 0.06)
             }
-            .fill(Color.appRed)
+            .offset(y: -size * 0.32)
+        }
+    }
+
+    private var bookmarkRibbon: some View {
+        Path { path in
+            let ribbonWidth: CGFloat = size * 0.08
+            let startX = size * 0.2
+            path.move(to: CGPoint(x: startX, y: -size * 0.5))
+            path.addLine(to: CGPoint(x: startX, y: size * 0.55))
+            path.addLine(to: CGPoint(x: startX + ribbonWidth/2, y: size * 0.45))
+            path.addLine(to: CGPoint(x: startX + ribbonWidth, y: size * 0.55))
+            path.addLine(to: CGPoint(x: startX + ribbonWidth, y: -size * 0.5))
+        }
+        .fill(Color.appRed)
+    }
+
+    private func startAnimations() {
+        // Bopping animation for happy moods
+        if mood == .happy || mood == .excited {
+            withAnimation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true)) {
+                isBopping = true
+            }
+        }
+
+        // Blinking animation
+        Timer.scheduledTimer(withTimeInterval: 3.0, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                eyesClosed = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    eyesClosed = false
+                }
+            }
         }
     }
 }
 
-struct EyeView: View {
+struct BibleEye: View {
     let size: CGFloat
     let mood: MascotView.MascotMood
+    let isClosed: Bool
 
     var body: some View {
         ZStack {
-            Circle()
-                .fill(Color.appCream)
-                .frame(width: size, height: size)
-
-            Circle()
-                .fill(Color.appBrownDark)
-                .frame(width: size * 0.5, height: size * 0.5)
-                .offset(y: mood == .thinking ? -2 : 0)
-
-            // Eye sparkle
-            Circle()
+            // Eye white
+            Ellipse()
                 .fill(Color.white)
-                .frame(width: size * 0.15, height: size * 0.15)
-                .offset(x: -size * 0.1, y: -size * 0.1)
+                .frame(width: size, height: isClosed ? size * 0.1 : size * 0.9)
+
+            if !isClosed {
+                // Pupil
+                Circle()
+                    .fill(Color(hex: "3C3C3C"))
+                    .frame(width: size * 0.5, height: size * 0.5)
+                    .offset(y: mood == .sad ? 2 : 0)
+
+                // Eye shine
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: size * 0.18, height: size * 0.18)
+                    .offset(x: -size * 0.1, y: -size * 0.1)
+
+                // Worried eyebrows when sad
+                if mood == .sad {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(Color(hex: "3C3C3C"))
+                        .frame(width: size * 0.6, height: 3)
+                        .rotationEffect(.degrees(-15))
+                        .offset(y: -size * 0.5)
+                }
+            }
         }
     }
 }
 
-struct MouthView: View {
+struct BibleMouth: View {
     let size: CGFloat
     let mood: MascotView.MascotMood
 
     var body: some View {
         switch mood {
-        case .happy, .excited:
-            // Smile
-            Circle()
-                .trim(from: 0.1, to: 0.4)
-                .stroke(Color.appBrownDark, lineWidth: 3)
-                .frame(width: size, height: size)
-                .rotationEffect(.degrees(180))
-        case .thinking:
-            // Neutral
-            RoundedRectangle(cornerRadius: 2)
-                .fill(Color.appBrownDark)
-                .frame(width: size * 0.5, height: 4)
+        case .happy:
+            // Happy smile
+            HappyMouth(size: size)
+        case .excited:
+            // Big open smile
+            ExcitedMouth(size: size)
+        case .sad:
+            // Frown
+            SadMouth(size: size)
         case .encouraging:
-            // Big smile
-            Circle()
-                .trim(from: 0.05, to: 0.45)
-                .stroke(Color.appBrownDark, lineWidth: 4)
-                .frame(width: size * 1.2, height: size)
-                .rotationEffect(.degrees(180))
+            // Gentle smile
+            HappyMouth(size: size * 0.8)
+        case .thinking:
+            // Neutral line
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color(hex: "3C3C3C"))
+                .frame(width: size * 0.5, height: 3)
         }
+    }
+}
+
+struct HappyMouth: View {
+    let size: CGFloat
+
+    var body: some View {
+        Path { path in
+            path.move(to: CGPoint(x: 0, y: 0))
+            path.addQuadCurve(
+                to: CGPoint(x: size, y: 0),
+                control: CGPoint(x: size/2, y: size * 0.7)
+            )
+        }
+        .stroke(Color(hex: "3C3C3C"), style: StrokeStyle(lineWidth: 3, lineCap: .round))
+        .frame(width: size, height: size * 0.5)
+    }
+}
+
+struct ExcitedMouth: View {
+    let size: CGFloat
+
+    var body: some View {
+        ZStack {
+            // Open mouth
+            Ellipse()
+                .fill(Color(hex: "3C3C3C"))
+                .frame(width: size, height: size * 0.7)
+
+            // Tongue
+            Ellipse()
+                .fill(Color.appPink)
+                .frame(width: size * 0.5, height: size * 0.3)
+                .offset(y: size * 0.15)
+        }
+    }
+}
+
+struct SadMouth: View {
+    let size: CGFloat
+
+    var body: some View {
+        Path { path in
+            path.move(to: CGPoint(x: 0, y: size * 0.3))
+            path.addQuadCurve(
+                to: CGPoint(x: size, y: size * 0.3),
+                control: CGPoint(x: size/2, y: -size * 0.2)
+            )
+        }
+        .stroke(Color(hex: "3C3C3C"), style: StrokeStyle(lineWidth: 3, lineCap: .round))
+        .frame(width: size, height: size * 0.5)
+    }
+}
+
+struct TearDrop: View {
+    let size: CGFloat
+    @State private var falling = false
+
+    var body: some View {
+        Ellipse()
+            .fill(Color.appBlue.opacity(0.6))
+            .frame(width: size * 0.5, height: size)
+            .offset(y: falling ? size * 2 : 0)
+            .opacity(falling ? 0 : 1)
+            .onAppear {
+                withAnimation(.easeIn(duration: 1.5).repeatForever(autoreverses: false)) {
+                    falling = true
+                }
+            }
     }
 }
 
 // MARK: - XP Badge
 struct XPBadge: View {
     let amount: Int
+    @State private var isPulsing = false
 
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: "star.fill")
                 .foregroundStyle(Color.appYellow)
-            Text("\(amount) XP")
+                .scaleEffect(isPulsing ? 1.1 : 1.0)
+            Text("\(amount)")
                 .font(.subheadline)
-                .fontWeight(.bold)
+                .fontWeight(.black)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .background(Capsule().fill(Color.appYellow.opacity(0.2)))
-        .foregroundStyle(Color.appBrownDark)
+        .background(
+            Capsule()
+                .fill(Color.appYellow.opacity(0.15))
+        )
+        .foregroundStyle(Color.appOrange)
+        .onAppear {
+            withAnimation(.easeInOut(duration: 1).repeatForever(autoreverses: true)) {
+                isPulsing = true
+            }
+        }
     }
 }
 
@@ -350,16 +514,28 @@ struct StreakBadge: View {
             Text("🔥")
                 .font(.title3)
                 .scaleEffect(isAnimating ? 1.2 : 1.0)
-                .animation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true), value: isAnimating)
             Text("\(days)")
                 .font(.headline)
-                .fontWeight(.bold)
+                .fontWeight(.black)
         }
         .padding(.horizontal, 12)
         .padding(.vertical, 6)
-        .background(Capsule().fill(Color.appOrange.opacity(0.2)))
+        .background(
+            Capsule()
+                .fill(
+                    LinearGradient(
+                        colors: [Color.appOrange.opacity(0.2), Color.appRed.opacity(0.2)],
+                        startPoint: .leading,
+                        endPoint: .trailing
+                    )
+                )
+        )
         .foregroundStyle(Color.appOrange)
-        .onAppear { isAnimating = true }
+        .onAppear {
+            withAnimation(.easeInOut(duration: 0.5).repeatForever(autoreverses: true)) {
+                isAnimating = true
+            }
+        }
     }
 }
 
@@ -372,7 +548,7 @@ struct HeartsView: View {
         HStack(spacing: 2) {
             ForEach(0..<maxHearts, id: \.self) { index in
                 Image(systemName: index < hearts ? "heart.fill" : "heart")
-                    .foregroundStyle(index < hearts ? Color.appRed : Color.appTextSecondary)
+                    .foregroundStyle(index < hearts ? Color.appRed : Color.appTextSecondary.opacity(0.3))
                     .font(.caption)
             }
         }
@@ -393,7 +569,10 @@ struct ProgressRing: View {
 
             Circle()
                 .trim(from: 0, to: progress)
-                .stroke(color, style: StrokeStyle(lineWidth: lineWidth, lineCap: .round))
+                .stroke(
+                    color,
+                    style: StrokeStyle(lineWidth: lineWidth, lineCap: .round)
+                )
                 .rotationEffect(.degrees(-90))
                 .animation(.spring(response: 0.6), value: progress)
         }
@@ -409,8 +588,9 @@ struct CelebrationView: View {
         let id = UUID()
         var x: CGFloat
         var y: CGFloat
-        let color: Color
         let emoji: String
+        var rotation: Double
+        var scale: Double
     }
 
     var body: some View {
@@ -418,7 +598,9 @@ struct CelebrationView: View {
             ZStack {
                 ForEach(particles) { particle in
                     Text(particle.emoji)
-                        .font(.title)
+                        .font(.largeTitle)
+                        .scaleEffect(particle.scale)
+                        .rotationEffect(.degrees(particle.rotation))
                         .position(x: particle.x, y: particle.y)
                 }
             }
@@ -430,18 +612,21 @@ struct CelebrationView: View {
     }
 
     private func createParticles(in size: CGSize) {
-        let emojis = ["⭐️", "🎉", "✨", "🌟", "📖", "🙏", "💫", "🕊️"]
-        for i in 0..<20 {
+        let emojis = ["⭐️", "🎉", "✨", "🌟", "🎊", "💫", "🥳", "🏆"]
+        for i in 0..<25 {
             let particle = Particle(
                 x: CGFloat.random(in: 0...size.width),
-                y: size.height + 50,
-                color: [.appYellow, .appGreen, .appBlue, .appPurple].randomElement()!,
-                emoji: emojis.randomElement()!
+                y: size.height + 100,
+                emoji: emojis.randomElement()!,
+                rotation: Double.random(in: 0...360),
+                scale: Double.random(in: 0.5...1.2)
             )
             particles.append(particle)
 
-            withAnimation(.easeOut(duration: 2).delay(Double(i) * 0.05)) {
-                particles[i].y = CGFloat.random(in: -50...size.height * 0.3)
+            let index = i
+            withAnimation(.interpolatingSpring(stiffness: 50, damping: 8).delay(Double(i) * 0.03)) {
+                particles[index].y = CGFloat.random(in: -100...size.height * 0.5)
+                particles[index].rotation = Double.random(in: -30...30)
             }
         }
     }
@@ -450,19 +635,27 @@ struct CelebrationView: View {
 // MARK: - Decorative Divider
 struct RusticDivider: View {
     var body: some View {
-        HStack(spacing: 8) {
+        HStack(spacing: 12) {
             Rectangle()
-                .fill(Color.appBrownLight.opacity(0.3))
-                .frame(height: 1)
+                .fill(Color.appGreen.opacity(0.3))
+                .frame(height: 2)
 
-            Image(systemName: "leaf.fill")
-                .font(.caption2)
-                .foregroundStyle(Color.appGreen.opacity(0.5))
+            Circle()
+                .fill(Color.appGreen)
+                .frame(width: 8, height: 8)
 
             Rectangle()
-                .fill(Color.appBrownLight.opacity(0.3))
-                .frame(height: 1)
+                .fill(Color.appGreen.opacity(0.3))
+                .frame(height: 2)
         }
         .padding(.horizontal)
+    }
+}
+
+// MARK: - Wiggle Animation
+extension View {
+    func wiggle(_ isWiggling: Bool) -> some View {
+        self.rotationEffect(.degrees(isWiggling ? 2 : -2))
+            .animation(.easeInOut(duration: 0.1).repeatForever(autoreverses: true), value: isWiggling)
     }
 }

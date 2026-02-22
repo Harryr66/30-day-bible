@@ -105,10 +105,10 @@ struct HomeView: View {
     }
 
     private var mascotSection: some View {
-        HStack(spacing: 16) {
-            MascotView(mood: greetingMood, size: 60)
+        HStack(spacing: 20) {
+            MascotView(mood: greetingMood, size: 80)
 
-            VStack(alignment: .leading, spacing: 4) {
+            VStack(alignment: .leading, spacing: 6) {
                 Text(greeting)
                     .font(.title2)
                     .fontWeight(.bold)
@@ -117,17 +117,32 @@ struct HomeView: View {
                 Text(motivationalMessage)
                     .font(.subheadline)
                     .foregroundStyle(Color.appTextSecondary)
+                    .lineLimit(2)
             }
 
             Spacer()
         }
         .padding()
-        .playfulCard()
+        .background(
+            RoundedRectangle(cornerRadius: 20)
+                .fill(
+                    LinearGradient(
+                        colors: greetingMood == .sad ? [Color.appBlue.opacity(0.1), Color.appBlue.opacity(0.05)] : [Color.appGreen.opacity(0.1), Color.appGreen.opacity(0.05)],
+                        startPoint: .topLeading,
+                        endPoint: .bottomTrailing
+                    )
+                )
+        )
+        .overlay(
+            RoundedRectangle(cornerRadius: 20)
+                .stroke(greetingMood == .sad ? Color.appBlue.opacity(0.2) : Color.appGreen.opacity(0.2), lineWidth: 2)
+        )
     }
 
     private var greetingMood: MascotView.MascotMood {
+        if userProgress.currentStreak == 0 { return .sad }
         if userProgress.currentStreak >= 7 { return .excited }
-        if userProgress.currentStreak >= 3 { return .happy }
+        if userProgress.currentStreak >= 1 { return .happy }
         return .encouraging
     }
 
@@ -142,11 +157,13 @@ struct HomeView: View {
 
     private var motivationalMessage: String {
         if userProgress.currentStreak == 0 {
-            return "Start your journey today!"
+            return "I miss you! Let's read together today!"
         } else if userProgress.currentStreak >= 7 {
-            return "You're on fire! Keep it up!"
+            return "WOW! \(userProgress.currentStreak) day streak! You're amazing!"
+        } else if userProgress.currentStreak >= 3 {
+            return "\(userProgress.currentStreak) day streak! Keep going!"
         } else {
-            return "\(userProgress.currentStreak) day streak! Amazing!"
+            return "Great start! \(userProgress.currentStreak) day streak!"
         }
     }
 

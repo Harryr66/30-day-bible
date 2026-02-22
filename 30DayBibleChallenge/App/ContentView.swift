@@ -71,12 +71,12 @@ struct CustomTabBar: View {
         .padding(.bottom, 24)
         .background(
             Color.appCardBackground
-                .shadow(color: Color.appBrown.opacity(0.1), radius: 15, y: -5)
+                .shadow(color: Color.black.opacity(0.08), radius: 15, y: -5)
         )
         .overlay(
             Rectangle()
-                .fill(Color.appBeige)
-                .frame(height: 1),
+                .fill(Color.appGreen.opacity(0.1))
+                .frame(height: 2),
             alignment: .top
         )
     }
@@ -100,7 +100,7 @@ struct TabButton: View {
                     .font(.caption2)
                     .fontWeight(.medium)
             }
-            .foregroundStyle(isSelected ? Color.appBrown : Color.appTextSecondary)
+            .foregroundStyle(isSelected ? Color.appGreen : Color.appTextSecondary)
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
