@@ -8,6 +8,8 @@ struct HomeView: View {
     @StateObject private var viewModel = ReadingViewModel()
     @State private var showDailyReading = false
     @State private var animateStats = false
+    @State private var showPaywall = false
+    @State private var selectedGame: GameType?
 
     private var userProgress: UserProgress {
         if let existing = progress.first {
@@ -61,6 +63,19 @@ struct HomeView: View {
             }
             .navigationDestination(isPresented: $showDailyReading) {
                 DailyReadingView(day: todayReading)
+            }
+            .navigationDestination(item: $selectedGame) { gameType in
+                switch gameType {
+                case .quiz:
+                    QuizView(day: todayReading)
+                case .memoryVerse:
+                    MemoryVerseView(day: todayReading)
+                case .fillBlank:
+                    FillBlankView(day: todayReading)
+                }
+            }
+            .sheet(isPresented: $showPaywall) {
+                PaywallView()
             }
             .onChange(of: selectedDay) { _, newValue in
                 if newValue != nil {
@@ -307,7 +322,11 @@ struct HomeView: View {
                     color: .appOrange,
                     locked: !userProgress.isPremium
                 ) {
-                    // Navigate to quiz
+                    if userProgress.isPremium {
+                        selectedGame = .quiz
+                    } else {
+                        showPaywall = true
+                    }
                 }
 
                 PracticeButton(
@@ -316,7 +335,11 @@ struct HomeView: View {
                     color: .appPurple,
                     locked: !userProgress.isPremium
                 ) {
-                    // Navigate to memory
+                    if userProgress.isPremium {
+                        selectedGame = .memoryVerse
+                    } else {
+                        showPaywall = true
+                    }
                 }
 
                 PracticeButton(
@@ -325,7 +348,11 @@ struct HomeView: View {
                     color: .appBlue,
                     locked: !userProgress.isPremium
                 ) {
-                    // Navigate to fill blank
+                    if userProgress.isPremium {
+                        selectedGame = .fillBlank
+                    } else {
+                        showPaywall = true
+                    }
                 }
             }
         }

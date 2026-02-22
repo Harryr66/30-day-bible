@@ -46,12 +46,17 @@ final class UserProgress {
             let lastReadDay = calendar.startOfDay(for: lastRead)
             let daysDifference = calendar.dateComponents([.day], from: lastReadDay, to: today).day ?? 0
 
-            if daysDifference == 1 {
+            if daysDifference == 0 {
+                // Same day, streak stays the same
+            } else if daysDifference == 1 {
+                // Consecutive day, increment streak
                 currentStreak += 1
-            } else if daysDifference > 1 {
+            } else {
+                // Missed days, reset streak
                 currentStreak = 1
             }
         } else {
+            // First reading ever
             currentStreak = 1
         }
 

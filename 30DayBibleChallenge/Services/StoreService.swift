@@ -16,6 +16,13 @@ actor StoreService {
     private var transactionListener: Task<Void, Error>?
 
     init() {
+        // Start listening in a detached task to avoid actor isolation issues
+        Task { [self] in
+            await self.startListening()
+        }
+    }
+
+    private func startListening() {
         transactionListener = listenForTransactions()
     }
 

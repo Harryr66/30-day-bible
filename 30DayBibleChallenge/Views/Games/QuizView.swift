@@ -55,6 +55,12 @@ struct QuizView: View {
         .onAppear {
             viewModel.loadQuestions(for: day)
         }
+        .onDisappear {
+            // Save progress if user leaves mid-quiz
+            if viewModel.currentIndex > 0 && !viewModel.isComplete {
+                saveScore()
+            }
+        }
     }
 
     private var progressBar: some View {

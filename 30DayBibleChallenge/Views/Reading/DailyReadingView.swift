@@ -321,6 +321,9 @@ struct DailyReadingView: View {
     private func markComplete() {
         userProgress.markDayComplete(day.id)
 
+        // Save to SwiftData
+        try? modelContext.save()
+
         // Save to shared container for widget
         let shared = SharedProgress.fromUserProgress(userProgress)
         shared.save()

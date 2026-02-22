@@ -16,13 +16,13 @@ struct VerseCard: View {
             if showReference {
                 Text(verse.reference)
                     .font(referenceFont)
-                    .foregroundStyle(.indigo)
+                    .foregroundStyle(Color.appBrown)
             }
 
             Text(verse.text)
                 .font(textFont)
                 .lineSpacing(lineSpacing)
-                .foregroundStyle(.primary)
+                .foregroundStyle(Color.appTextPrimary)
         }
         .padding(padding)
         .frame(maxWidth: .infinity, alignment: .leading)
@@ -31,7 +31,7 @@ struct VerseCard: View {
         .overlay {
             if style == .featured {
                 RoundedRectangle(cornerRadius: cornerRadius)
-                    .stroke(Color.indigo.opacity(0.3), lineWidth: 1)
+                    .stroke(Color.appBrown.opacity(0.3), lineWidth: 1)
             }
         }
     }
@@ -79,8 +79,8 @@ struct VerseCard: View {
     private var backgroundColor: Color {
         switch style {
         case .compact: return .clear
-        case .default: return Color(.systemGray6)
-        case .featured: return Color(.systemBackground)
+        case .default: return Color.appBeige
+        case .featured: return Color.appCardBackground
         }
     }
 }
@@ -95,15 +95,16 @@ struct PassageCard: View {
             HStack {
                 Text(passage.reference)
                     .font(.headline)
-                    .foregroundStyle(.indigo)
+                    .foregroundStyle(Color.appBrown)
 
                 Spacer()
 
                 Image(systemName: "book.fill")
-                    .foregroundStyle(.indigo.opacity(0.5))
+                    .foregroundStyle(Color.appBrown.opacity(0.5))
             }
 
             Divider()
+                .background(Color.appBrownLight.opacity(0.3))
 
             // Verses
             let versesToShow = maxVerses != nil ? Array(passage.verses.prefix(maxVerses!)) : passage.verses
@@ -112,24 +113,25 @@ struct PassageCard: View {
                 HStack(alignment: .top, spacing: 8) {
                     Text("\(verse.verse)")
                         .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .foregroundStyle(Color.appTextSecondary)
                         .frame(width: 20, alignment: .trailing)
 
                     Text(verse.text)
                         .font(.body)
+                        .foregroundStyle(Color.appTextPrimary)
                 }
             }
 
             if let max = maxVerses, passage.verses.count > max {
                 Text("+ \(passage.verses.count - max) more verses")
                     .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .foregroundStyle(Color.appTextSecondary)
             }
         }
         .padding()
-        .background(Color(.systemBackground))
+        .background(Color.appCardBackground)
         .clipShape(RoundedRectangle(cornerRadius: 16))
-        .shadow(color: .black.opacity(0.05), radius: 10, y: 5)
+        .shadow(color: Color.appBrown.opacity(0.08), radius: 10, y: 5)
     }
 }
 
@@ -141,23 +143,24 @@ struct QuoteCard: View {
         VStack(spacing: 12) {
             Image(systemName: "quote.opening")
                 .font(.title)
-                .foregroundStyle(.indigo.opacity(0.3))
+                .foregroundStyle(Color.appBrown.opacity(0.3))
 
             Text(text)
                 .font(.body)
                 .italic()
+                .foregroundStyle(Color.appTextPrimary)
                 .multilineTextAlignment(.center)
                 .lineSpacing(4)
 
             Text("— \(reference)")
                 .font(.caption)
-                .foregroundStyle(.secondary)
+                .foregroundStyle(Color.appTextSecondary)
         }
         .padding()
         .frame(maxWidth: .infinity)
         .background(
             LinearGradient(
-                colors: [.indigo.opacity(0.05), .purple.opacity(0.05)],
+                colors: [Color.appBrown.opacity(0.05), Color.appYellow.opacity(0.05)],
                 startPoint: .topLeading,
                 endPoint: .bottomTrailing
             )
@@ -205,5 +208,6 @@ struct QuoteCard: View {
             )
         }
         .padding()
+        .background(Color.appBackground)
     }
 }
