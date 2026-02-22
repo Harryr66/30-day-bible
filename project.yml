@@ -1,0 +1,66 @@
+name: 30DayBibleChallenge
+options:
+  bundleIdPrefix: com.biblechallenge
+  deploymentTarget:
+    iOS: "17.0"
+  xcodeVersion: "15.0"
+  generateEmptyDirectories: true
+
+settings:
+  base:
+    SWIFT_VERSION: "5.9"
+    DEVELOPMENT_TEAM: ""
+    MARKETING_VERSION: "1.0"
+    CURRENT_PROJECT_VERSION: "1"
+
+targets:
+  30DayBibleChallenge:
+    type: application
+    platform: iOS
+    sources:
+      - path: 30DayBibleChallenge/App
+      - path: 30DayBibleChallenge/Models
+      - path: 30DayBibleChallenge/Views
+      - path: 30DayBibleChallenge/ViewModels
+      - path: 30DayBibleChallenge/Services
+      - path: 30DayBibleChallenge/Data
+      - path: 30DayBibleChallenge/Resources/Assets.xcassets
+    resources:
+      - path: 30DayBibleChallenge/Data/web_bible.json
+    settings:
+      base:
+        INFOPLIST_FILE: 30DayBibleChallenge/Resources/Info.plist
+        CODE_SIGN_ENTITLEMENTS: 30DayBibleChallenge/Resources/BibleChallenge.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.biblechallenge.app
+        ASSETCATALOG_COMPILER_APPICON_NAME: AppIcon
+        ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME: AccentColor
+    dependencies:
+      - target: BibleWidgetExtension
+
+  BibleWidgetExtension:
+    type: app-extension
+    platform: iOS
+    sources:
+      - path: Widget
+        excludes:
+          - "Info.plist"
+    settings:
+      base:
+        INFOPLIST_FILE: Widget/Info.plist
+        CODE_SIGN_ENTITLEMENTS: Widget/BibleWidget.entitlements
+        PRODUCT_BUNDLE_IDENTIFIER: com.biblechallenge.app.widget
+        SKIP_INSTALL: true
+        ASSETCATALOG_COMPILER_WIDGET_BACKGROUND_COLOR_NAME: WidgetBackground
+    dependencies:
+      - sdk: WidgetKit.framework
+      - sdk: SwiftUI.framework
+
+schemes:
+  30DayBibleChallenge:
+    build:
+      targets:
+        30DayBibleChallenge: all
+        BibleWidgetExtension: all
+    run:
+      config: Debug
+      storeKitConfiguration: 30DayBibleChallenge/Resources/Products.storekit
