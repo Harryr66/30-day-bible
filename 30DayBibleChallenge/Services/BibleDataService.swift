@@ -16,7 +16,7 @@ class BibleDataService {
             let data = try Data(contentsOf: url)
             bibleData = try JSONDecoder().decode([BibleBook].self, from: data)
         } catch {
-            print("Failed to load Bible data: \(error)")
+            // Fallback to sample data - no action needed
         }
     }
 

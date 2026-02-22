@@ -36,7 +36,7 @@ class StoreViewModel: ObservableObject {
             products = try await Product.products(for: productIDs)
             products.sort { $0.price < $1.price }
         } catch {
-            print("Failed to load products: \(error)")
+            // Products will remain empty - UI handles this gracefully
         }
         isLoading = false
     }
@@ -66,7 +66,7 @@ class StoreViewModel: ObservableObject {
             try await AppStore.sync()
             await updatePurchasedProducts()
         } catch {
-            print("Failed to restore purchases: \(error)")
+            // Restore failed silently - user can retry
         }
     }
 
