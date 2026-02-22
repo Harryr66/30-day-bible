@@ -87,7 +87,7 @@ struct MemoryVerseView: View {
             }
         }
         .onAppear {
-            viewModel.loadCards(for: day)
+            viewModel.loadCards(for: day, context: modelContext)
         }
     }
 
@@ -341,8 +341,8 @@ struct MemoryVerseView: View {
 
             // Got it
             Button {
-                if currentCardIndex < viewModel.cards.count {
-                    viewModel.cards[currentCardIndex].masteryLevel = min(5, viewModel.cards[currentCardIndex].masteryLevel + 1)
+                if let card = viewModel.cards[safe: currentCardIndex] {
+                    viewModel.markMastered(card)
                 }
                 if currentCardIndex == viewModel.cards.count - 1 {
                     withAnimation {

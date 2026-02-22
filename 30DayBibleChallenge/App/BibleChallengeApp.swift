@@ -10,7 +10,8 @@ struct BibleChallengeApp: App {
         do {
             let schema = Schema([
                 UserProgress.self,
-                GameScore.self
+                GameScore.self,
+                VerseMastery.self
             ])
             let modelConfiguration = ModelConfiguration(
                 schema: schema,

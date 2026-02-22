@@ -90,3 +90,40 @@ struct FillBlankQuestion: Identifiable {
     let wordBank: [String]
     let verseReference: String
 }
+
+/// Persisted mastery level for a specific verse
+@Model
+final class VerseMastery {
+    var id: UUID
+    var verseReference: String
+    var masteryLevel: Int
+    var lastReviewedDate: Date
+    var nextReviewDate: Date
+
+    init(verseReference: String, masteryLevel: Int = 0) {
+        self.id = UUID()
+        self.verseReference = verseReference
+        self.masteryLevel = masteryLevel
+        self.lastReviewedDate = Date()
+        self.nextReviewDate = VerseMastery.calculateNextReview(masteryLevel: masteryLevel)
+    }
+
+    func incrementMastery() {
+        masteryLevel = min(5, masteryLevel + 1)
+        lastReviewedDate = Date()
+        nextReviewDate = VerseMastery.calculateNextReview(masteryLevel: masteryLevel)
+    }
+
+    func decrementMastery() {
+        masteryLevel = max(0, masteryLevel - 1)
+        lastReviewedDate = Date()
+        nextReviewDate = VerseMastery.calculateNextReview(masteryLevel: masteryLevel)
+    }
+
+    static func calculateNextReview(masteryLevel: Int) -> Date {
+        // Spaced repetition intervals in days
+        let intervals = [0, 1, 3, 7, 14, 30]
+        let interval = intervals[min(masteryLevel, intervals.count - 1)]
+        return Calendar.current.date(byAdding: .day, value: interval, to: Date()) ?? Date()
+    }
+}
