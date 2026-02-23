@@ -75,7 +75,7 @@ struct CustomTabBar: View {
         )
         .overlay(
             Rectangle()
-                .fill(Color.appGreen.opacity(0.1))
+                .fill(Color.appBrown.opacity(0.2))
                 .frame(height: 2),
             alignment: .top
         )
@@ -100,7 +100,7 @@ struct TabButton: View {
                     .font(.caption2)
                     .fontWeight(.medium)
             }
-            .foregroundStyle(isSelected ? Color.appGreen : Color.appTextSecondary)
+            .foregroundStyle(isSelected ? Color.appBrown : Color.appTextSecondary)
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)

@@ -105,10 +105,13 @@ struct HomeView: View {
     }
 
     private var mascotSection: some View {
-        HStack(spacing: 20) {
-            MascotView(mood: greetingMood, size: 80)
+        VStack(spacing: 16) {
+            // Dove in nest scene
+            DoveNestScene(mood: greetingMood)
+                .shadow(color: Color.black.opacity(0.1), radius: 10, y: 4)
 
-            VStack(alignment: .leading, spacing: 6) {
+            // Greeting text
+            VStack(spacing: 4) {
                 Text(greeting)
                     .font(.title2)
                     .fontWeight(.bold)
@@ -117,26 +120,11 @@ struct HomeView: View {
                 Text(motivationalMessage)
                     .font(.subheadline)
                     .foregroundStyle(Color.appTextSecondary)
-                    .lineLimit(2)
+                    .multilineTextAlignment(.center)
             }
-
-            Spacer()
         }
-        .padding()
-        .background(
-            RoundedRectangle(cornerRadius: 20)
-                .fill(
-                    LinearGradient(
-                        colors: greetingMood == .sad ? [Color.appBlue.opacity(0.1), Color.appBlue.opacity(0.05)] : [Color.appGreen.opacity(0.1), Color.appGreen.opacity(0.05)],
-                        startPoint: .topLeading,
-                        endPoint: .bottomTrailing
-                    )
-                )
-        )
-        .overlay(
-            RoundedRectangle(cornerRadius: 20)
-                .stroke(greetingMood == .sad ? Color.appBlue.opacity(0.2) : Color.appGreen.opacity(0.2), lineWidth: 2)
-        )
+        .frame(maxWidth: .infinity)
+        .padding(.vertical, 8)
     }
 
     private var greetingMood: MascotView.MascotMood {
@@ -235,22 +223,16 @@ struct HomeView: View {
         } label: {
             VStack(spacing: 16) {
                 HStack {
-                    // Day badge
+                    // Day badge - warm yellow/orange
                     Text("DAY \(todayReading.id)")
                         .font(.caption)
                         .fontWeight(.black)
-                        .foregroundStyle(.white)
+                        .foregroundStyle(Color.appBrown)
                         .padding(.horizontal, 12)
                         .padding(.vertical, 6)
                         .background(
                             Capsule()
-                                .fill(
-                                    LinearGradient(
-                                        colors: [.appBrown, .appBrownDark],
-                                        startPoint: .leading,
-                                        endPoint: .trailing
-                                    )
-                                )
+                                .fill(Color.appYellow.opacity(0.3))
                         )
 
                     Spacer()
@@ -296,7 +278,7 @@ struct HomeView: View {
                 }
                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                // Start button
+                // Start button - bright blue CTA like Duolingo
                 HStack {
                     Text(userProgress.isDayComplete(todayReading.id) ? "REVIEW" : "START")
                         .font(.headline)
@@ -307,16 +289,15 @@ struct HomeView: View {
                 }
                 .foregroundStyle(.white)
                 .frame(maxWidth: .infinity)
-                .padding(.vertical, 14)
+                .padding(.vertical, 16)
                 .background(
-                    RoundedRectangle(cornerRadius: 14)
-                        .fill(
-                            LinearGradient(
-                                colors: [.appBrown, .appBrownDark],
-                                startPoint: .top,
-                                endPoint: .bottom
-                            )
-                        )
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.appBlueDark)
+                            .offset(y: 4)
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(Color.appBlue)
+                    }
                 )
             }
             .padding()

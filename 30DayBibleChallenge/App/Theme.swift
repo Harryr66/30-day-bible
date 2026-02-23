@@ -1,45 +1,49 @@
 import SwiftUI
 
-// MARK: - App Theme Colors (Vibrant Duolingo Style)
+// MARK: - App Theme Colors (Warm Duolingo Style)
 extension Color {
-    // Primary brand colors - bright and fun!
-    static let appGreen = Color(hex: "58CC02")           // Duolingo green
+    // Primary brand colors - warm brown
+    static let appBrown = Color(hex: "8B6914")           // Warm golden brown
+    static let appBrownDark = Color(hex: "6B5010")       // Darker brown
+    static let appBrownLight = Color(hex: "C4A574")      // Light tan
+
+    // Success green
+    static let appGreen = Color(hex: "58CC02")           // Success green
     static let appGreenDark = Color(hex: "46A302")       // Darker green
     static let appGreenLight = Color(hex: "7ED321")      // Light green
 
-    // Accent colors - rainbow vibes
-    static let appBlue = Color(hex: "1CB0F6")            // Bright blue
-    static let appBlueDark = Color(hex: "1899D6")        // Dark blue
+    // CTA Blue (Duolingo style)
+    static let appBlue = Color(hex: "1CB0F6")            // Bright cyan blue
+    static let appBlueDark = Color(hex: "1899D6")        // Dark cyan blue
+
+    // Accent colors
     static let appPurple = Color(hex: "CE82FF")          // Vibrant purple
     static let appPurpleDark = Color(hex: "A560E8")      // Dark purple
     static let appOrange = Color(hex: "FF9600")          // Bright orange
     static let appOrangeDark = Color(hex: "E58600")      // Dark orange
-    static let appRed = Color(hex: "FF4B4B")             // Bright red
-    static let appRedDark = Color(hex: "EA2B2B")         // Dark red
+    static let appRed = Color(hex: "FF6B6B")             // Soft red
+    static let appRedDark = Color(hex: "EA4B4B")         // Dark red
     static let appYellow = Color(hex: "FFC800")          // Bright yellow
     static let appYellowDark = Color(hex: "E5B400")      // Dark yellow
-    static let appPink = Color(hex: "FF86D0")            // Fun pink
+    static let appPink = Color(hex: "FFB5C5")            // Soft pink
     static let appTeal = Color(hex: "2BD9D9")            // Teal/cyan
 
-    // Background colors - clean and bright
-    static let appBackground = Color(hex: "FFFFFF")       // Pure white
-    static let appBackgroundSecondary = Color(hex: "F7F7F7") // Light gray
-    static let appCardBackground = Color(hex: "FFFFFF")   // White cards
-    static let appCardBackgroundLight = Color(hex: "F0F0F0")
+    // Background colors - warm cream (like competitor)
+    static let appBackground = Color(hex: "FFF8E7")       // Warm cream
+    static let appBackgroundSecondary = Color(hex: "FFF5E0") // Slightly darker cream
+    static let appCardBackground = Color(hex: "FFFDF5")   // Soft cream cards
+    static let appCardBackgroundLight = Color(hex: "FFF8E7")
 
-    // Legacy compatibility
-    static let appBrown = appGreen                        // Map to green
-    static let appBrownDark = appGreenDark
-    static let appBrownLight = appGreenLight
-    static let appCream = Color(hex: "FFFDF7")
-    static let appBeige = Color(hex: "F0F0F0")
+    // Warm tones
+    static let appCream = Color(hex: "FFF8E7")
+    static let appBeige = Color(hex: "FFE8C8")
 
     // Text colors
-    static let appTextPrimary = Color(hex: "3C3C3C")     // Dark gray
-    static let appTextSecondary = Color(hex: "AFAFAF")   // Medium gray
+    static let appTextPrimary = Color(hex: "5C4813")     // Warm dark brown text
+    static let appTextSecondary = Color(hex: "A89060")   // Medium brown text
 
     // Accent
-    static let appAccent = appGreen
+    static let appAccent = appBrown
 
     init(hex: String) {
         let hex = hex.trimmingCharacters(in: CharacterSet.alphanumerics.inverted)
@@ -71,7 +75,7 @@ struct PlayfulButtonStyle: ButtonStyle {
     let color: Color
     let textColor: Color
 
-    init(color: Color = .appGreen, textColor: Color = .white) {
+    init(color: Color = .appBlue, textColor: Color = .white) {
         self.color = color
         self.textColor = textColor
     }
@@ -100,11 +104,12 @@ struct PlayfulButtonStyle: ButtonStyle {
     }
 
     private func darkerColor(for color: Color) -> Color {
-        if color == .appGreen { return .appGreenDark }
         if color == .appBlue { return .appBlueDark }
+        if color == .appBrown { return .appBrownDark }
         if color == .appOrange { return .appOrangeDark }
         if color == .appPurple { return .appPurpleDark }
         if color == .appRed { return .appRedDark }
+        if color == .appGreen { return .appGreenDark }
         return color.opacity(0.7)
     }
 }
@@ -175,7 +180,7 @@ extension View {
     }
 }
 
-// MARK: - Bible Mascot View (Happy/Sad based on streak)
+// MARK: - Dove Mascot View (Happy/Sad based on streak)
 struct MascotView: View {
     let mood: MascotMood
     let size: CGFloat
@@ -193,44 +198,43 @@ struct MascotView: View {
 
     var body: some View {
         ZStack {
-            // Book body
-            bookBody
+            // Dove body
+            doveBody
 
-            // Face
-            VStack(spacing: size * 0.03) {
+            // Face elements
+            VStack(spacing: size * 0.02) {
                 // Eyes
-                HStack(spacing: size * 0.15) {
-                    BibleEye(size: size * 0.18, mood: mood, isClosed: eyesClosed)
-                    BibleEye(size: size * 0.18, mood: mood, isClosed: eyesClosed)
+                HStack(spacing: size * 0.12) {
+                    DoveEye(size: size * 0.22, mood: mood, isClosed: eyesClosed, isLeft: true)
+                    DoveEye(size: size * 0.22, mood: mood, isClosed: eyesClosed, isLeft: false)
                 }
 
-                // Blush cheeks (when happy)
-                if mood == .happy || mood == .excited {
-                    HStack(spacing: size * 0.35) {
-                        Circle()
-                            .fill(Color.appPink.opacity(0.5))
-                            .frame(width: size * 0.1, height: size * 0.08)
-                        Circle()
-                            .fill(Color.appPink.opacity(0.5))
-                            .frame(width: size * 0.1, height: size * 0.08)
-                    }
+                // Beak
+                DoveBeak(size: size * 0.18, mood: mood)
                     .offset(y: -size * 0.02)
-                }
-
-                // Mouth
-                BibleMouth(size: size * 0.2, mood: mood)
             }
-            .offset(y: size * 0.05)
+            .offset(y: size * 0.02)
+
+            // Blush cheeks
+            if mood == .happy || mood == .excited || mood == .encouraging {
+                HStack(spacing: size * 0.42) {
+                    Circle()
+                        .fill(Color(hex: "FFB3B8").opacity(0.65))
+                        .frame(width: size * 0.09, height: size * 0.09)
+                    Circle()
+                        .fill(Color(hex: "FFB3B8").opacity(0.65))
+                        .frame(width: size * 0.09, height: size * 0.09)
+                }
+                .offset(y: size * 0.08)
+            }
 
             // Tears when sad
             if mood == .sad {
                 HStack(spacing: size * 0.35) {
                     TearDrop(size: size * 0.08)
-                        .offset(y: size * 0.02)
                     TearDrop(size: size * 0.08)
-                        .offset(y: size * 0.02)
                 }
-                .offset(y: -size * 0.05)
+                .offset(y: -size * 0.02)
             }
 
             // Sparkles when excited
@@ -246,7 +250,6 @@ struct MascotView: View {
                         .opacity(isBopping ? 1 : 0.5)
                 }
             }
-
         }
         .offset(y: isBopping && (mood == .happy || mood == .excited) ? -3 : 0)
         .onAppear {
@@ -254,53 +257,50 @@ struct MascotView: View {
         }
     }
 
-    private var bookBody: some View {
+    private var doveBody: some View {
         ZStack {
+            // Glow effect behind mascot
+            Circle()
+                .fill(
+                    RadialGradient(
+                        colors: [Color.appYellow.opacity(0.3), Color.appYellow.opacity(0)],
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: size * 0.7
+                    )
+                )
+                .frame(width: size * 1.4, height: size * 1.4)
+
             // Shadow
-            RoundedRectangle(cornerRadius: size * 0.12)
-                .fill(Color.appGreenDark)
-                .frame(width: size * 0.85, height: size)
+            RoundedRectangle(cornerRadius: size * 0.2)
+                .fill(Color.gray.opacity(0.2))
+                .frame(width: size * 0.9, height: size)
                 .offset(y: 4)
 
-            // Main book body
-            RoundedRectangle(cornerRadius: size * 0.12)
+            // Main dove body - white/cream
+            RoundedRectangle(cornerRadius: size * 0.2)
                 .fill(
                     LinearGradient(
-                        colors: mood == .sad ? [Color.appBlue.opacity(0.7), Color.appBlueDark.opacity(0.7)] : [Color.appGreen, Color.appGreenDark],
+                        colors: mood == .sad ? [Color(hex: "F0F0F5"), Color(hex: "E5E5EE")] : [Color(hex: "FDFCFA"), Color(hex: "F5F3EE")],
                         startPoint: .top,
                         endPoint: .bottom
                     )
                 )
-                .frame(width: size * 0.85, height: size)
+                .frame(width: size * 0.9, height: size)
 
-            // Book spine highlight
-            RoundedRectangle(cornerRadius: size * 0.12)
-                .fill(Color.white.opacity(0.2))
-                .frame(width: size * 0.85, height: size)
-                .mask(
-                    HStack {
-                        Rectangle().frame(width: size * 0.1)
-                        Spacer()
-                    }
-                )
-
-            // Page edges (right side)
-            RoundedRectangle(cornerRadius: 2)
-                .fill(Color.white.opacity(0.9))
-                .frame(width: size * 0.05, height: size * 0.7)
-                .offset(x: size * 0.38)
-
-            // Cross emblem
-            VStack(spacing: 0) {
-                RoundedRectangle(cornerRadius: 1)
-                    .fill(Color.appYellow)
-                    .frame(width: size * 0.06, height: size * 0.18)
-                RoundedRectangle(cornerRadius: 1)
-                    .fill(Color.appYellow)
-                    .frame(width: size * 0.15, height: size * 0.06)
-                    .offset(y: -size * 0.06)
+            // Wing shadows on sides
+            HStack {
+                // Left wing hint
+                WingFeathers(size: size, isLeft: true)
+                Spacer()
+                // Right wing hint
+                WingFeathers(size: size, isLeft: false)
             }
-            .offset(y: -size * 0.32)
+            .frame(width: size * 0.95)
+
+            // Head tuft
+            HeadTuft(size: size)
+                .offset(y: -size * 0.48)
         }
     }
 
@@ -326,119 +326,145 @@ struct MascotView: View {
     }
 }
 
-struct BibleEye: View {
+// MARK: - Dove Eye (Pill-shaped like Duolingo)
+struct DoveEye: View {
     let size: CGFloat
     let mood: MascotView.MascotMood
     let isClosed: Bool
+    let isLeft: Bool
 
     var body: some View {
         ZStack {
-            // Eye white
-            Ellipse()
+            // Eye white - pill shaped
+            RoundedRectangle(cornerRadius: size * 0.5)
                 .fill(Color.white)
-                .frame(width: size, height: isClosed ? size * 0.1 : size * 0.9)
+                .frame(width: size, height: isClosed ? size * 0.15 : size * 1.4)
+                .shadow(color: Color.gray.opacity(0.3), radius: 4, y: 2)
+                .rotationEffect(.degrees(isLeft ? 5 : -5))
 
             if !isClosed {
-                // Pupil
-                Circle()
-                    .fill(Color(hex: "3C3C3C"))
-                    .frame(width: size * 0.5, height: size * 0.5)
-                    .offset(y: mood == .sad ? 2 : 0)
+                // Pupil - pill shaped, grey
+                RoundedRectangle(cornerRadius: size * 0.25)
+                    .fill(
+                        LinearGradient(
+                            colors: [Color(hex: "5A5858"), Color(hex: "2E2D2D")],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: size * 0.52, height: size * 0.8)
+                    .offset(x: size * 0.12, y: mood == .sad ? size * 0.1 : -size * 0.05)
+                    .rotationEffect(.degrees(isLeft ? 5 : -5))
 
                 // Eye shine
                 Circle()
                     .fill(Color.white)
-                    .frame(width: size * 0.18, height: size * 0.18)
-                    .offset(x: -size * 0.1, y: -size * 0.1)
+                    .frame(width: size * 0.22, height: size * 0.22)
+                    .offset(x: size * 0.15, y: -size * 0.2)
+                    .rotationEffect(.degrees(isLeft ? 5 : -5))
 
                 // Worried eyebrows when sad
                 if mood == .sad {
                     RoundedRectangle(cornerRadius: 2)
-                        .fill(Color(hex: "3C3C3C"))
-                        .frame(width: size * 0.6, height: 3)
-                        .rotationEffect(.degrees(-15))
-                        .offset(y: -size * 0.5)
+                        .fill(Color(hex: "5A5858"))
+                        .frame(width: size * 0.7, height: 3)
+                        .rotationEffect(.degrees(isLeft ? -12 : 12))
+                        .offset(y: -size * 0.75)
                 }
             }
         }
     }
 }
 
-struct BibleMouth: View {
+// MARK: - Dove Beak
+struct DoveBeak: View {
     let size: CGFloat
     let mood: MascotView.MascotMood
 
     var body: some View {
-        switch mood {
-        case .happy:
-            // Happy smile
-            HappyMouth(size: size)
-        case .excited:
-            // Big open smile
-            ExcitedMouth(size: size)
-        case .sad:
-            // Frown
-            SadMouth(size: size)
-        case .encouraging:
-            // Gentle smile
-            HappyMouth(size: size * 0.8)
-        case .thinking:
-            // Neutral line
-            RoundedRectangle(cornerRadius: 2)
-                .fill(Color(hex: "3C3C3C"))
-                .frame(width: size * 0.5, height: 3)
-        }
-    }
-}
-
-struct HappyMouth: View {
-    let size: CGFloat
-
-    var body: some View {
-        Path { path in
-            path.move(to: CGPoint(x: 0, y: 0))
-            path.addQuadCurve(
-                to: CGPoint(x: size, y: 0),
-                control: CGPoint(x: size/2, y: size * 0.7)
-            )
-        }
-        .stroke(Color(hex: "3C3C3C"), style: StrokeStyle(lineWidth: 3, lineCap: .round))
-        .frame(width: size, height: size * 0.5)
-    }
-}
-
-struct ExcitedMouth: View {
-    let size: CGFloat
-
-    var body: some View {
         ZStack {
-            // Open mouth
-            Ellipse()
-                .fill(Color(hex: "3C3C3C"))
-                .frame(width: size, height: size * 0.7)
+            // Beak shape
+            BeakShape()
+                .fill(
+                    LinearGradient(
+                        colors: [Color(hex: "FFAD36"), Color(hex: "F2720C")],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(width: size * 1.0, height: size * 1.1)
+                .shadow(color: Color.orange.opacity(0.3), radius: 3, y: 2)
 
-            // Tongue
+            // Beak highlight
             Ellipse()
-                .fill(Color.appPink)
-                .frame(width: size * 0.5, height: size * 0.3)
-                .offset(y: size * 0.15)
+                .fill(Color(hex: "FFD980").opacity(0.6))
+                .frame(width: size * 0.35, height: size * 0.2)
+                .offset(x: -size * 0.1, y: -size * 0.25)
         }
     }
 }
 
-struct SadMouth: View {
+struct BeakShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+
+        path.move(to: CGPoint(x: w * 0.15, y: h * 0.15))
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.5, y: h * 0.95),
+            control: CGPoint(x: w * 0.1, y: h * 0.6)
+        )
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.85, y: h * 0.15),
+            control: CGPoint(x: w * 0.9, y: h * 0.6)
+        )
+        path.addQuadCurve(
+            to: CGPoint(x: w * 0.15, y: h * 0.15),
+            control: CGPoint(x: w * 0.5, y: 0)
+        )
+        path.closeSubpath()
+
+        return path
+    }
+}
+
+// MARK: - Wing Feathers
+struct WingFeathers: View {
+    let size: CGFloat
+    let isLeft: Bool
+
+    var body: some View {
+        VStack(spacing: size * 0.08) {
+            ForEach(0..<3) { i in
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color(hex: "C8C6C0"))
+                    .frame(width: size * 0.12 - CGFloat(i) * size * 0.02, height: 2)
+                    .rotationEffect(.degrees(isLeft ? 25 : -25))
+            }
+        }
+        .offset(x: isLeft ? -size * 0.35 : size * 0.35, y: size * 0.1)
+    }
+}
+
+// MARK: - Head Tuft
+struct HeadTuft: View {
     let size: CGFloat
 
     var body: some View {
         Path { path in
-            path.move(to: CGPoint(x: 0, y: size * 0.3))
+            path.move(to: CGPoint(x: size * 0.4, y: size * 0.1))
             path.addQuadCurve(
-                to: CGPoint(x: size, y: size * 0.3),
-                control: CGPoint(x: size/2, y: -size * 0.2)
+                to: CGPoint(x: size * 0.5, y: 0),
+                control: CGPoint(x: size * 0.42, y: size * 0.03)
+            )
+            path.addQuadCurve(
+                to: CGPoint(x: size * 0.6, y: size * 0.1),
+                control: CGPoint(x: size * 0.58, y: size * 0.03)
             )
         }
-        .stroke(Color(hex: "3C3C3C"), style: StrokeStyle(lineWidth: 3, lineCap: .round))
-        .frame(width: size, height: size * 0.5)
+        .fill(Color(hex: "E5E3DE"))
+        .frame(width: size, height: size * 0.15)
     }
 }
 
@@ -622,15 +648,15 @@ struct RusticDivider: View {
     var body: some View {
         HStack(spacing: 12) {
             Rectangle()
-                .fill(Color.appGreen.opacity(0.3))
+                .fill(Color.appBrown.opacity(0.3))
                 .frame(height: 2)
 
             Circle()
-                .fill(Color.appGreen)
+                .fill(Color.appBrown)
                 .frame(width: 8, height: 8)
 
             Rectangle()
-                .fill(Color.appGreen.opacity(0.3))
+                .fill(Color.appBrown.opacity(0.3))
                 .frame(height: 2)
         }
         .padding(.horizontal)
@@ -642,5 +668,353 @@ extension View {
     func wiggle(_ isWiggling: Bool) -> some View {
         self.rotationEffect(.degrees(isWiggling ? 2 : -2))
             .animation(.easeInOut(duration: 0.1).repeatForever(autoreverses: true), value: isWiggling)
+    }
+}
+
+// MARK: - Dove in Nest Scene
+struct DoveNestScene: View {
+    let mood: MascotView.MascotMood
+    @State private var cloudOffset1: CGFloat = 0
+    @State private var cloudOffset2: CGFloat = 0
+    @State private var doveOffset: CGFloat = 0
+    @State private var eyesClosed = false
+    @State private var isBopping = false
+
+    var body: some View {
+        GeometryReader { geo in
+            ZStack {
+                // Sky background gradient
+                LinearGradient(
+                    colors: [
+                        Color(hex: "87CEEB"),  // Light sky blue
+                        Color(hex: "B8E0F0"),  // Lighter blue
+                        Color(hex: "F0E6D3")   // Warm horizon
+                    ],
+                    startPoint: .top,
+                    endPoint: .bottom
+                )
+
+                // Sun glow
+                Circle()
+                    .fill(
+                        RadialGradient(
+                            colors: [
+                                Color(hex: "FFF8DC").opacity(0.8),
+                                Color(hex: "FFE4B5").opacity(0.3),
+                                Color.clear
+                            ],
+                            center: .center,
+                            startRadius: 0,
+                            endRadius: geo.size.width * 0.4
+                        )
+                    )
+                    .frame(width: geo.size.width * 0.8, height: geo.size.width * 0.8)
+                    .offset(x: geo.size.width * 0.3, y: -geo.size.height * 0.15)
+
+                // Clouds
+                CloudShape()
+                    .fill(Color.white.opacity(0.9))
+                    .frame(width: 80, height: 35)
+                    .offset(x: -geo.size.width * 0.25 + cloudOffset1, y: -geo.size.height * 0.3)
+
+                CloudShape()
+                    .fill(Color.white.opacity(0.8))
+                    .frame(width: 60, height: 28)
+                    .offset(x: geo.size.width * 0.2 + cloudOffset2, y: -geo.size.height * 0.25)
+
+                CloudShape()
+                    .fill(Color.white.opacity(0.7))
+                    .frame(width: 50, height: 22)
+                    .offset(x: geo.size.width * 0.05 + cloudOffset1 * 0.5, y: -geo.size.height * 0.35)
+
+                // Nest
+                NestView(width: geo.size.width * 0.55)
+                    .offset(y: geo.size.height * 0.22)
+
+                // Dove sitting in nest
+                DoveInNest(mood: mood, size: geo.size.width * 0.35, eyesClosed: eyesClosed)
+                    .offset(y: geo.size.height * 0.08 + doveOffset)
+
+                // Sparkles when excited
+                if mood == .excited {
+                    ForEach(0..<5) { i in
+                        Image(systemName: "sparkle")
+                            .font(.system(size: 14))
+                            .foregroundStyle(Color.appYellow)
+                            .offset(
+                                x: CGFloat([-50, 50, -30, 40, 0][i]),
+                                y: CGFloat([-40, -35, -55, -50, -65][i]) + geo.size.height * 0.08
+                            )
+                            .opacity(isBopping ? 1 : 0.4)
+                    }
+                }
+            }
+        }
+        .frame(height: 200)
+        .clipShape(RoundedRectangle(cornerRadius: 24))
+        .onAppear {
+            startAnimations()
+        }
+    }
+
+    private func startAnimations() {
+        // Cloud floating animation
+        withAnimation(.easeInOut(duration: 8).repeatForever(autoreverses: true)) {
+            cloudOffset1 = 20
+        }
+        withAnimation(.easeInOut(duration: 10).repeatForever(autoreverses: true).delay(1)) {
+            cloudOffset2 = -15
+        }
+
+        // Dove gentle bob
+        if mood == .happy || mood == .excited {
+            withAnimation(.easeInOut(duration: 1.5).repeatForever(autoreverses: true)) {
+                doveOffset = -3
+                isBopping = true
+            }
+        }
+
+        // Blinking
+        Timer.scheduledTimer(withTimeInterval: 3.5, repeats: true) { _ in
+            withAnimation(.easeInOut(duration: 0.1)) {
+                eyesClosed = true
+            }
+            DispatchQueue.main.asyncAfter(deadline: .now() + 0.15) {
+                withAnimation(.easeInOut(duration: 0.1)) {
+                    eyesClosed = false
+                }
+            }
+        }
+    }
+}
+
+// MARK: - Cloud Shape
+struct CloudShape: Shape {
+    func path(in rect: CGRect) -> Path {
+        var path = Path()
+        let w = rect.width
+        let h = rect.height
+
+        path.move(to: CGPoint(x: w * 0.2, y: h * 0.8))
+        path.addQuadCurve(to: CGPoint(x: w * 0.1, y: h * 0.5), control: CGPoint(x: 0, y: h * 0.7))
+        path.addQuadCurve(to: CGPoint(x: w * 0.25, y: h * 0.2), control: CGPoint(x: w * 0.05, y: h * 0.2))
+        path.addQuadCurve(to: CGPoint(x: w * 0.5, y: h * 0.1), control: CGPoint(x: w * 0.35, y: 0))
+        path.addQuadCurve(to: CGPoint(x: w * 0.75, y: h * 0.2), control: CGPoint(x: w * 0.65, y: 0))
+        path.addQuadCurve(to: CGPoint(x: w * 0.9, y: h * 0.5), control: CGPoint(x: w * 0.95, y: h * 0.2))
+        path.addQuadCurve(to: CGPoint(x: w * 0.8, y: h * 0.8), control: CGPoint(x: w, y: h * 0.7))
+        path.addLine(to: CGPoint(x: w * 0.2, y: h * 0.8))
+        path.closeSubpath()
+
+        return path
+    }
+}
+
+// MARK: - Tree Branch
+struct TreeBranch: View {
+    let isLeft: Bool
+
+    var body: some View {
+        ZStack {
+            // Main branch
+            RoundedRectangle(cornerRadius: 4)
+                .fill(Color(hex: "8B6914"))
+                .frame(width: 60, height: 8)
+                .rotationEffect(.degrees(isLeft ? -20 : 20))
+
+            // Small branches
+            RoundedRectangle(cornerRadius: 2)
+                .fill(Color(hex: "8B6914"))
+                .frame(width: 25, height: 5)
+                .rotationEffect(.degrees(isLeft ? 30 : -30))
+                .offset(x: isLeft ? 15 : -15, y: -12)
+
+            // Leaves
+            ForEach(0..<3) { i in
+                Ellipse()
+                    .fill(Color(hex: "4A7C23").opacity(0.8))
+                    .frame(width: 18, height: 10)
+                    .rotationEffect(.degrees(Double(i * 30 - 30)))
+                    .offset(
+                        x: isLeft ? CGFloat(20 + i * 8) : CGFloat(-20 - i * 8),
+                        y: CGFloat(-15 + i * 5)
+                    )
+            }
+        }
+    }
+}
+
+// MARK: - Nest View
+struct NestView: View {
+    let width: CGFloat
+
+    var body: some View {
+        ZStack {
+            // Nest base
+            Ellipse()
+                .fill(
+                    LinearGradient(
+                        colors: [Color(hex: "8B6914"), Color(hex: "6B4F0A")],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(width: width, height: width * 0.35)
+
+            // Nest texture - twigs
+            ForEach(0..<8) { i in
+                RoundedRectangle(cornerRadius: 2)
+                    .fill(Color(hex: "A07818").opacity(0.7))
+                    .frame(width: width * 0.4, height: 4)
+                    .rotationEffect(.degrees(Double(i * 25 - 90)))
+                    .offset(y: -width * 0.05)
+            }
+
+            // Inner nest hollow
+            Ellipse()
+                .fill(
+                    RadialGradient(
+                        colors: [Color(hex: "5A4010"), Color(hex: "7A5A14")],
+                        center: .center,
+                        startRadius: 0,
+                        endRadius: width * 0.3
+                    )
+                )
+                .frame(width: width * 0.7, height: width * 0.22)
+                .offset(y: -width * 0.04)
+
+            // Front rim of nest
+            Ellipse()
+                .stroke(Color(hex: "9A6A12"), lineWidth: 6)
+                .frame(width: width * 0.85, height: width * 0.25)
+                .offset(y: width * 0.02)
+        }
+    }
+}
+
+// MARK: - Dove In Nest (simplified version for scene)
+struct DoveInNest: View {
+    let mood: MascotView.MascotMood
+    let size: CGFloat
+    let eyesClosed: Bool
+
+    var body: some View {
+        ZStack {
+            // Dove body - rounded white shape
+            Ellipse()
+                .fill(
+                    LinearGradient(
+                        colors: [Color(hex: "FDFCFA"), Color(hex: "F0EDE6")],
+                        startPoint: .top,
+                        endPoint: .bottom
+                    )
+                )
+                .frame(width: size, height: size * 0.85)
+                .shadow(color: Color.gray.opacity(0.2), radius: 4, y: 2)
+
+            // Wing hints
+            Ellipse()
+                .fill(Color(hex: "E8E6E0"))
+                .frame(width: size * 0.3, height: size * 0.5)
+                .rotationEffect(.degrees(-20))
+                .offset(x: -size * 0.32, y: size * 0.05)
+
+            Ellipse()
+                .fill(Color(hex: "E8E6E0"))
+                .frame(width: size * 0.3, height: size * 0.5)
+                .rotationEffect(.degrees(20))
+                .offset(x: size * 0.32, y: size * 0.05)
+
+            // Face
+            VStack(spacing: size * 0.02) {
+                // Eyes
+                HStack(spacing: size * 0.15) {
+                    DoveNestEye(size: size * 0.18, isClosed: eyesClosed, isLeft: true, mood: mood)
+                    DoveNestEye(size: size * 0.18, isClosed: eyesClosed, isLeft: false, mood: mood)
+                }
+
+                // Beak
+                BeakShape()
+                    .fill(
+                        LinearGradient(
+                            colors: [Color(hex: "FFAD36"), Color(hex: "F2720C")],
+                            startPoint: .top,
+                            endPoint: .bottom
+                        )
+                    )
+                    .frame(width: size * 0.18, height: size * 0.2)
+                    .offset(y: -size * 0.02)
+            }
+            .offset(y: -size * 0.08)
+
+            // Blush cheeks
+            if mood == .happy || mood == .excited {
+                HStack(spacing: size * 0.32) {
+                    Circle()
+                        .fill(Color(hex: "FFB3B8").opacity(0.5))
+                        .frame(width: size * 0.08, height: size * 0.08)
+                    Circle()
+                        .fill(Color(hex: "FFB3B8").opacity(0.5))
+                        .frame(width: size * 0.08, height: size * 0.08)
+                }
+                .offset(y: -size * 0.02)
+            }
+
+            // Head tuft - prominent feathers
+            ZStack {
+                // Center feather (tallest)
+                Ellipse()
+                    .fill(Color(hex: "F5F3EE"))
+                    .frame(width: size * 0.08, height: size * 0.18)
+                    .offset(y: -size * 0.48)
+
+                // Left feather
+                Ellipse()
+                    .fill(Color(hex: "EAE8E2"))
+                    .frame(width: size * 0.07, height: size * 0.14)
+                    .rotationEffect(.degrees(-20))
+                    .offset(x: -size * 0.06, y: -size * 0.44)
+
+                // Right feather
+                Ellipse()
+                    .fill(Color(hex: "EAE8E2"))
+                    .frame(width: size * 0.07, height: size * 0.14)
+                    .rotationEffect(.degrees(20))
+                    .offset(x: size * 0.06, y: -size * 0.44)
+            }
+        }
+    }
+}
+
+struct DoveNestEye: View {
+    let size: CGFloat
+    let isClosed: Bool
+    let isLeft: Bool
+    let mood: MascotView.MascotMood
+
+    var body: some View {
+        ZStack {
+            // Eye white - pill shaped
+            RoundedRectangle(cornerRadius: size * 0.5)
+                .fill(Color.white)
+                .frame(width: size, height: isClosed ? size * 0.12 : size * 1.3)
+                .shadow(color: Color.gray.opacity(0.2), radius: 2, y: 1)
+                .rotationEffect(.degrees(isLeft ? 5 : -5))
+
+            if !isClosed {
+                // Pupil
+                RoundedRectangle(cornerRadius: size * 0.22)
+                    .fill(Color(hex: "4A4848"))
+                    .frame(width: size * 0.48, height: size * 0.7)
+                    .offset(x: size * 0.1, y: mood == .sad ? size * 0.08 : -size * 0.04)
+                    .rotationEffect(.degrees(isLeft ? 5 : -5))
+
+                // Highlight
+                Circle()
+                    .fill(Color.white)
+                    .frame(width: size * 0.18, height: size * 0.18)
+                    .offset(x: size * 0.12, y: -size * 0.15)
+                    .rotationEffect(.degrees(isLeft ? 5 : -5))
+            }
+        }
     }
 }
