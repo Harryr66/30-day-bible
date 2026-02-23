@@ -550,7 +550,7 @@ struct DailyReadingView: View {
                     VStack(spacing: 16) {
                         Text("Ready to test your knowledge?")
                             .font(.headline)
-                            .foregroundStyle(.white)
+                            .foregroundStyle(Color.appTextPrimary)
 
                         HStack(spacing: 16) {
                             Button {
