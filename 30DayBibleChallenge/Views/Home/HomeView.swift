@@ -98,8 +98,6 @@ struct HomeView: View {
             Spacer()
 
             XPBadge(amount: userProgress.completedDays.count * 50)
-
-            HeartsView(hearts: 5)
         }
         .padding(.horizontal, 4)
     }
