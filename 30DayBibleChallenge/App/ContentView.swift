@@ -40,30 +40,46 @@ struct CustomTabBar: View {
     @Binding var selectedTab: Int
     @State private var bounceTab: Int? = nil
 
-    let tabs: [(icon: String, label: String)] = [
-        ("house.fill", "Home"),
-        ("calendar", "Plan"),
-        ("gamecontroller.fill", "Games"),
-        ("person.fill", "Profile")
-    ]
-
     var body: some View {
         HStack(spacing: 0) {
-            ForEach(0..<tabs.count, id: \.self) { index in
-                TabButton(
-                    icon: tabs[index].icon,
-                    label: tabs[index].label,
-                    isSelected: selectedTab == index,
-                    bounce: bounceTab == index
-                ) {
-                    withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
-                        selectedTab = index
-                        bounceTab = index
-                    }
-                    DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
-                        bounceTab = nil
-                    }
-                }
+            ColorfulTabButton(
+                icon: "house.fill",
+                label: "Home",
+                color: .appOrange,
+                isSelected: selectedTab == 0,
+                bounce: bounceTab == 0
+            ) {
+                selectTab(0)
+            }
+
+            ColorfulTabButton(
+                icon: "book.fill",
+                label: "Plan",
+                color: .appBrown,
+                isSelected: selectedTab == 1,
+                bounce: bounceTab == 1
+            ) {
+                selectTab(1)
+            }
+
+            ColorfulTabButton(
+                icon: "gamecontroller.fill",
+                label: "Games",
+                color: .appPurple,
+                isSelected: selectedTab == 2,
+                bounce: bounceTab == 2
+            ) {
+                selectTab(2)
+            }
+
+            ColorfulTabButton(
+                icon: "person.fill",
+                label: "Profile",
+                color: .appGreen,
+                isSelected: selectedTab == 3,
+                bounce: bounceTab == 3
+            ) {
+                selectTab(3)
             }
         }
         .padding(.horizontal, 8)
@@ -71,36 +87,69 @@ struct CustomTabBar: View {
         .padding(.bottom, 24)
         .background(
             Color.appCardBackground
-                .shadow(color: Color.black.opacity(0.08), radius: 15, y: -5)
+                .shadow(color: Color.black.opacity(0.1), radius: 15, y: -5)
         )
-        .overlay(
-            Rectangle()
-                .fill(Color.appBrown.opacity(0.2))
-                .frame(height: 2),
-            alignment: .top
-        )
+    }
+
+    private func selectTab(_ index: Int) {
+        withAnimation(.spring(response: 0.3, dampingFraction: 0.7)) {
+            selectedTab = index
+            bounceTab = index
+        }
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.3) {
+            bounceTab = nil
+        }
     }
 }
 
-struct TabButton: View {
+struct ColorfulTabButton: View {
     let icon: String
     let label: String
+    let color: Color
     let isSelected: Bool
     let bounce: Bool
     let action: () -> Void
 
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 4) {
-                Image(systemName: icon)
-                    .font(.system(size: 22))
-                    .scaleEffect(bounce ? 1.2 : 1.0)
+            VStack(spacing: 6) {
+                ZStack {
+                    // Background circle
+                    Circle()
+                        .fill(
+                            isSelected
+                                ? color.opacity(0.2)
+                                : Color.clear
+                        )
+                        .frame(width: 48, height: 48)
+
+                    // Icon with colored background pill
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 10)
+                            .fill(
+                                LinearGradient(
+                                    colors: isSelected
+                                        ? [color, color.opacity(0.8)]
+                                        : [color.opacity(0.15), color.opacity(0.1)],
+                                    startPoint: .topLeading,
+                                    endPoint: .bottomTrailing
+                                )
+                            )
+                            .frame(width: 42, height: 36)
+                            .shadow(color: isSelected ? color.opacity(0.4) : Color.clear, radius: 4, y: 2)
+
+                        Image(systemName: icon)
+                            .font(.system(size: 18, weight: .semibold))
+                            .foregroundStyle(isSelected ? .white : color)
+                    }
+                    .scaleEffect(bounce ? 1.15 : 1.0)
+                }
 
                 Text(label)
                     .font(.caption2)
-                    .fontWeight(.medium)
+                    .fontWeight(isSelected ? .bold : .medium)
+                    .foregroundStyle(isSelected ? color : Color.appTextSecondary)
             }
-            .foregroundStyle(isSelected ? Color.appBrown : Color.appTextSecondary)
             .frame(maxWidth: .infinity)
         }
         .buttonStyle(.plain)
