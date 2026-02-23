@@ -36,7 +36,7 @@ struct HomeView: View {
                     mascotSection
                         .bounceIn(delay: 0.1)
 
-                    // Daily goal progress
+                    // Running streak progress
                     dailyGoalCard
                         .bounceIn(delay: 0.2)
 
@@ -159,7 +159,7 @@ struct HomeView: View {
         VStack(spacing: 16) {
             HStack {
                 VStack(alignment: .leading, spacing: 4) {
-                    Text("Daily Goal")
+                    Text("Running Streak")
                         .font(.headline)
                         .fontWeight(.bold)
                         .foregroundStyle(Color.appTextPrimary)
