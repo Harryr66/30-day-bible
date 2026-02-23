@@ -73,6 +73,8 @@ struct HomeView: View {
                     MemoryVerseView(day: todayReading)
                 case .fillBlank:
                     FillBlankView(day: todayReading)
+                case .matchVerse:
+                    MatchVerseView(day: todayReading)
                 }
             }
             .sheet(isPresented: $showPaywall) {

@@ -45,7 +45,7 @@ struct CustomTabBar: View {
             ColorfulTabButton(
                 icon: "house.fill",
                 label: "Home",
-                color: .appOrange,
+                color: .appBlue,
                 isSelected: selectedTab == 0,
                 bounce: bounceTab == 0
             ) {
@@ -65,7 +65,7 @@ struct CustomTabBar: View {
             ColorfulTabButton(
                 icon: "gamecontroller.fill",
                 label: "Games",
-                color: .appPurple,
+                color: .appOrange,
                 isSelected: selectedTab == 2,
                 bounce: bounceTab == 2
             ) {
@@ -111,6 +111,7 @@ struct ColorfulTabButton: View {
     let action: () -> Void
 
     private var darkerColor: Color {
+        if color == .appBlue { return .appBlueDark }
         if color == .appOrange { return Color(hex: "D97800") }
         if color == .appBrown { return Color(hex: "5A4010") }
         if color == .appPurple { return Color(hex: "9050CC") }

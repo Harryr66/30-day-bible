@@ -5,12 +5,14 @@ enum GameType: String, Codable, CaseIterable {
     case quiz = "Quiz"
     case memoryVerse = "Memory Verse"
     case fillBlank = "Fill in the Blank"
+    case matchVerse = "Match Verse"
 
     var icon: String {
         switch self {
         case .quiz: return "questionmark.circle.fill"
         case .memoryVerse: return "brain.head.profile"
         case .fillBlank: return "text.badge.checkmark"
+        case .matchVerse: return "link"
         }
     }
 
@@ -19,6 +21,7 @@ enum GameType: String, Codable, CaseIterable {
         case .quiz: return "Test your knowledge with multiple choice questions"
         case .memoryVerse: return "Memorize key verses with flashcards"
         case .fillBlank: return "Complete passages with missing words"
+        case .matchVerse: return "Match verses to their references"
         }
     }
 }

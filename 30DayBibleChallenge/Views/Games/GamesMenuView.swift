@@ -37,6 +37,7 @@ struct GamesMenuView: View {
                     }
                 }
                 .padding()
+                .padding(.bottom, 80)
             }
             .background(Color.appBackground.ignoresSafeArea())
             .navigationTitle("")
@@ -128,6 +129,22 @@ struct GamesMenuView: View {
                     showPaywall = true
                 }
             }
+
+            GameCard(
+                title: "Match Verse",
+                description: "Connect verses to their references",
+                icon: "🔗",
+                color: .appTeal,
+                xpReward: 30,
+                isLocked: !userProgress.isPremium,
+                bestScore: bestScore(for: .matchVerse)
+            ) {
+                if userProgress.isPremium {
+                    selectedGame = .matchVerse
+                } else {
+                    showPaywall = true
+                }
+            }
         }
     }
 
@@ -164,6 +181,8 @@ struct GamesMenuView: View {
             MemoryVerseView(day: ReadingPlan.today())
         case .fillBlank:
             FillBlankView(day: ReadingPlan.today())
+        case .matchVerse:
+            MatchVerseView(day: ReadingPlan.today())
         }
     }
 }
@@ -309,6 +328,7 @@ struct ActivityRow: View {
         case .quiz: return "❓"
         case .memoryVerse: return "🧠"
         case .fillBlank: return "✍️"
+        case .matchVerse: return "🔗"
         }
     }
 

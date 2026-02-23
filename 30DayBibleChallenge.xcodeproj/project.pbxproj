@@ -10,6 +10,7 @@
 		034C125D5FD730C2C0EAE889 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B767EC84EE811A7BF24EC1 /* SmallWidgetView.swift */; };
 		MINITESTVIEW001 /* MiniTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MINITESTVIEWREF /* MiniTestView.swift */; };
 		MINITESTVM001 /* MiniTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = MINITESTVMREF /* MiniTestViewModel.swift */; };
+		MATCHVERSEVIEW001 /* MatchVerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = MATCHVERSEVIEWREF /* MatchVerseView.swift */; };
 		06D13BEDE4764CD1CAE09CBD /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B06843160424BF88D6F6B8D /* QuizViewModel.swift */; };
 		06E8FD61D24CB98C7AE3544A /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8F4B5256290BD1B6E6215B /* QuizView.swift */; };
 		07D0C49DEF98596C6A46279B /* StoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BD419A27921A4F8B3837BF /* StoreService.swift */; };
@@ -106,6 +107,7 @@
 		FCF322935E08FF702628D278 /* FillBlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlankView.swift; sourceTree = "<group>"; };
 		MINITESTVIEWREF /* MiniTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniTestView.swift; sourceTree = "<group>"; };
 		MINITESTVMREF /* MiniTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniTestViewModel.swift; sourceTree = "<group>"; };
+		MATCHVERSEVIEWREF /* MatchVerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchVerseView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -293,6 +295,7 @@
 			children = (
 				FCF322935E08FF702628D278 /* FillBlankView.swift */,
 				3691998FA0BD5805767502D2 /* GamesMenuView.swift */,
+				MATCHVERSEVIEWREF /* MatchVerseView.swift */,
 				30F602FED219223C19702E99 /* MemoryVerseView.swift */,
 				BF8F4B5256290BD1B6E6215B /* QuizView.swift */,
 			);
@@ -431,6 +434,7 @@
 				2AF5621941ECFBD6E706DE4E /* VerseCard.swift in Sources */,
 				MINITESTVIEW001 /* MiniTestView.swift in Sources */,
 				MINITESTVM001 /* MiniTestViewModel.swift in Sources */,
+				MATCHVERSEVIEW001 /* MatchVerseView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
