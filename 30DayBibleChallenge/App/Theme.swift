@@ -486,17 +486,27 @@ struct TearDrop: View {
     }
 }
 
-// MARK: - XP Badge
+// MARK: - Level Badge
 struct XPBadge: View {
     let amount: Int
     @State private var isPulsing = false
+
+    var level: Int {
+        switch amount {
+        case 0..<100: return 1
+        case 100..<250: return 2
+        case 250..<500: return 3
+        case 500..<1000: return 4
+        default: return 5
+        }
+    }
 
     var body: some View {
         HStack(spacing: 4) {
             Image(systemName: "star.fill")
                 .foregroundStyle(Color.appYellow)
                 .scaleEffect(isPulsing ? 1.1 : 1.0)
-            Text("\(amount)")
+            Text("Lv.\(level)")
                 .font(.subheadline)
                 .fontWeight(.black)
         }
