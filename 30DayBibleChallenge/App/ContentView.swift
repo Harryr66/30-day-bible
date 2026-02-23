@@ -110,45 +110,60 @@ struct ColorfulTabButton: View {
     let bounce: Bool
     let action: () -> Void
 
+    private var darkerColor: Color {
+        if color == .appOrange { return Color(hex: "D97800") }
+        if color == .appBrown { return Color(hex: "5A4010") }
+        if color == .appPurple { return Color(hex: "9050CC") }
+        if color == .appGreen { return Color(hex: "3EA302") }
+        return color.opacity(0.8)
+    }
+
     var body: some View {
         Button(action: action) {
-            VStack(spacing: 6) {
+            VStack(spacing: 5) {
                 ZStack {
-                    // Background circle
-                    Circle()
-                        .fill(
-                            isSelected
-                                ? color.opacity(0.2)
-                                : Color.clear
-                        )
-                        .frame(width: 48, height: 48)
-
-                    // Icon with colored background pill
+                    // 3D Icon button style
                     ZStack {
-                        RoundedRectangle(cornerRadius: 10)
+                        // Bottom shadow layer
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(darkerColor)
+                            .frame(width: 44, height: 44)
+                            .offset(y: 3)
+
+                        // Main icon background
+                        RoundedRectangle(cornerRadius: 12)
                             .fill(
                                 LinearGradient(
-                                    colors: isSelected
-                                        ? [color, color.opacity(0.8)]
-                                        : [color.opacity(0.15), color.opacity(0.1)],
-                                    startPoint: .topLeading,
-                                    endPoint: .bottomTrailing
+                                    colors: [color, color.opacity(0.85)],
+                                    startPoint: .top,
+                                    endPoint: .bottom
                                 )
                             )
-                            .frame(width: 42, height: 36)
-                            .shadow(color: isSelected ? color.opacity(0.4) : Color.clear, radius: 4, y: 2)
+                            .frame(width: 44, height: 44)
 
+                        // Highlight at top
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(
+                                LinearGradient(
+                                    colors: [Color.white.opacity(0.35), Color.clear],
+                                    startPoint: .top,
+                                    endPoint: .center
+                                )
+                            )
+                            .frame(width: 44, height: 44)
+
+                        // Icon
                         Image(systemName: icon)
-                            .font(.system(size: 18, weight: .semibold))
-                            .foregroundStyle(isSelected ? .white : color)
+                            .font(.system(size: 20, weight: .bold))
+                            .foregroundStyle(.white)
+                            .shadow(color: Color.black.opacity(0.2), radius: 1, y: 1)
                     }
-                    .scaleEffect(bounce ? 1.15 : 1.0)
+                    .scaleEffect(bounce ? 1.1 : 1.0)
                 }
 
                 Text(label)
-                    .font(.caption2)
-                    .fontWeight(isSelected ? .bold : .medium)
-                    .foregroundStyle(isSelected ? color : Color.appTextSecondary)
+                    .font(.system(size: 10, weight: .bold))
+                    .foregroundStyle(color)
             }
             .frame(maxWidth: .infinity)
         }
