@@ -171,25 +171,13 @@ struct HomeView: View {
 
                 Spacer()
 
-                ZStack {
-                    ProgressRing(
-                        progress: userProgress.isDayComplete(todayReading.id) ? 1.0 : 0.0,
-                        size: 50,
-                        lineWidth: 6,
-                        color: .appGreen
-                    )
-
-                    if userProgress.isDayComplete(todayReading.id) {
-                        Image(systemName: "checkmark")
-                            .font(.headline)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.appGreen)
-                    } else {
-                        Text("0/1")
-                            .font(.caption2)
-                            .fontWeight(.bold)
-                            .foregroundStyle(Color.appTextSecondary)
-                    }
+                HStack(spacing: 4) {
+                    Text("🔥")
+                        .font(.title)
+                    Text("\(userProgress.currentStreak)")
+                        .font(.title2)
+                        .fontWeight(.black)
+                        .foregroundStyle(Color.appOrange)
                 }
             }
 
