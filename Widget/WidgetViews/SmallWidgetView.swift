@@ -28,11 +28,46 @@ struct SmallWidgetView: View {
 
             Spacer()
 
-            // Verse preview
-            Text(entry.verseText)
-                .font(.caption)
-                .lineLimit(3)
-                .foregroundStyle(.primary)
+            if entry.isCompleted {
+                // Show countdown or keep reading for completed
+                VStack(alignment: .leading, spacing: 6) {
+                    HStack(spacing: 4) {
+                        Image(systemName: "checkmark.seal.fill")
+                            .foregroundStyle(.green)
+                        Text("Completed!")
+                            .font(.caption)
+                            .fontWeight(.semibold)
+                            .foregroundStyle(.green)
+                    }
+
+                    if entry.isPremium {
+                        // Pro members: Keep reading option
+                        HStack(spacing: 4) {
+                            Image(systemName: "book.fill")
+                                .font(.caption2)
+                            Text("Keep Reading")
+                                .font(.caption2)
+                                .fontWeight(.medium)
+                        }
+                        .foregroundStyle(.indigo)
+                    } else {
+                        // Countdown timer
+                        HStack(spacing: 4) {
+                            Image(systemName: "clock.fill")
+                                .font(.caption2)
+                            Text("Next in \(entry.countdownText)")
+                                .font(.caption2)
+                        }
+                        .foregroundStyle(.secondary)
+                    }
+                }
+            } else {
+                // Verse preview
+                Text(entry.verseText)
+                    .font(.caption)
+                    .lineLimit(3)
+                    .foregroundStyle(.primary)
+            }
 
             Spacer()
 
@@ -56,15 +91,30 @@ struct SmallWidgetView: View {
         reference: "Genesis 1:1",
         verseText: "In the beginning God created the heavens and the earth.",
         theme: "Creation",
-        isCompleted: false
+        isCompleted: false,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
     BibleWidgetEntry(
         date: Date(),
         dayNumber: 22,
         title: "Born Again",
         reference: "John 3:16",
-        verseText: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.",
+        verseText: "For God so loved the world, that he gave his only Son.",
         theme: "New Life",
-        isCompleted: true
+        isCompleted: true,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+    )
+    BibleWidgetEntry(
+        date: Date(),
+        dayNumber: 22,
+        title: "Born Again",
+        reference: "John 3:16",
+        verseText: "For God so loved the world, that he gave his only Son.",
+        theme: "New Life",
+        isCompleted: true,
+        isPremium: true,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
 }

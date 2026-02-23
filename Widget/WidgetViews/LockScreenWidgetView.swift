@@ -55,9 +55,15 @@ struct LockScreenWidgetView: View {
                 }
             }
 
-            Text(truncatedVerse)
-                .font(.caption)
-                .lineLimit(2)
+            if entry.isCompleted {
+                Text("Completed! Next in \(entry.countdownText)")
+                    .font(.caption)
+                    .lineLimit(1)
+            } else {
+                Text(truncatedVerse)
+                    .font(.caption)
+                    .lineLimit(2)
+            }
 
             Text(entry.reference)
                 .font(.caption2)
@@ -92,7 +98,9 @@ struct LockScreenWidgetView: View {
         reference: "Genesis 1:1",
         verseText: "In the beginning God created the heavens and the earth.",
         theme: "Creation",
-        isCompleted: false
+        isCompleted: false,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
 }
 
@@ -106,7 +114,9 @@ struct LockScreenWidgetView: View {
         reference: "John 3:16",
         verseText: "For God so loved the world, that he gave his only Son, that whoever believes in him should not perish but have eternal life.",
         theme: "New Life",
-        isCompleted: true
+        isCompleted: true,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
 }
 
@@ -120,6 +130,8 @@ struct LockScreenWidgetView: View {
         reference: "Psalm 23:1",
         verseText: "The LORD is my shepherd; I shall not want.",
         theme: "Guidance",
-        isCompleted: false
+        isCompleted: false,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
 }

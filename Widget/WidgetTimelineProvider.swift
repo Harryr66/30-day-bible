@@ -9,18 +9,37 @@ struct BibleWidgetEntry: TimelineEntry {
     let verseText: String
     let theme: String
     let isCompleted: Bool
+    let isPremium: Bool
+    let nextDayDate: Date
+
+    var timeUntilNextDay: TimeInterval {
+        nextDayDate.timeIntervalSince(date)
+    }
+
+    var countdownText: String {
+        let hours = Int(timeUntilNextDay) / 3600
+        let minutes = (Int(timeUntilNextDay) % 3600) / 60
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else {
+            return "\(minutes)m"
+        }
+    }
 }
 
 struct BibleWidgetTimelineProvider: TimelineProvider {
     func placeholder(in context: Context) -> BibleWidgetEntry {
-        BibleWidgetEntry(
+        let tomorrow = Calendar.current.startOfDay(for: Calendar.current.date(byAdding: .day, value: 1, to: Date())!)
+        return BibleWidgetEntry(
             date: Date(),
             dayNumber: 1,
             title: "Daily Verse",
             reference: "Loading...",
             verseText: "Your daily verse will appear here.",
             theme: "Faith",
-            isCompleted: false
+            isCompleted: false,
+            isPremium: false,
+            nextDayDate: tomorrow
         )
     }
 
@@ -32,19 +51,30 @@ struct BibleWidgetTimelineProvider: TimelineProvider {
     func getTimeline(in context: Context, completion: @escaping (Timeline<BibleWidgetEntry>) -> Void) {
         let currentDate = Date()
         let entry = createEntry(for: currentDate)
-
-        // Refresh at midnight
         let calendar = Calendar.current
         let tomorrow = calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: currentDate)!)
 
-        let timeline = Timeline(entries: [entry], policy: .after(tomorrow))
+        // If day is completed, refresh every 15 minutes to update countdown
+        // Otherwise refresh at midnight
+        let refreshDate: Date
+        if entry.isCompleted {
+            refreshDate = calendar.date(byAdding: .minute, value: 15, to: currentDate) ?? tomorrow
+        } else {
+            refreshDate = tomorrow
+        }
+
+        let timeline = Timeline(entries: [entry], policy: .after(refreshDate))
         completion(timeline)
     }
 
     private func createEntry(for date: Date) -> BibleWidgetEntry {
         let today = getTodayReading()
         let verse = getMemoryVerse(for: today)
-        let isCompleted = checkIfCompleted(day: today.id)
+        let progress = SharedProgress.load()
+        let isCompleted = progress?.completedDays.contains(today.id) ?? false
+        let isPremium = progress?.isPremium ?? false
+        let calendar = Calendar.current
+        let tomorrow = calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: date)!)
 
         return BibleWidgetEntry(
             date: date,
@@ -53,7 +83,9 @@ struct BibleWidgetTimelineProvider: TimelineProvider {
             reference: today.memoryVerse,
             verseText: verse,
             theme: today.theme,
-            isCompleted: isCompleted
+            isCompleted: isCompleted,
+            isPremium: isPremium,
+            nextDayDate: tomorrow
         )
     }
 
@@ -83,11 +115,6 @@ struct BibleWidgetTimelineProvider: TimelineProvider {
         }
     }
 
-    private func checkIfCompleted(day: Int) -> Bool {
-        // Check shared progress from App Group
-        guard let progress = SharedProgress.load() else { return false }
-        return progress.completedDays.contains(day)
-    }
 }
 
 // Simplified SharedProgress for widget (mirrors main app model)

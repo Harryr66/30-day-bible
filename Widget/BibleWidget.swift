@@ -55,7 +55,31 @@ struct BibleWidgetEntryView: View {
         reference: "Genesis 1:1",
         verseText: "In the beginning God created the heavens and the earth.",
         theme: "Creation",
-        isCompleted: false
+        isCompleted: false,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+    )
+    BibleWidgetEntry(
+        date: Date(),
+        dayNumber: 1,
+        title: "In the Beginning",
+        reference: "Genesis 1:1",
+        verseText: "In the beginning God created the heavens and the earth.",
+        theme: "Creation",
+        isCompleted: true,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+    )
+    BibleWidgetEntry(
+        date: Date(),
+        dayNumber: 1,
+        title: "In the Beginning",
+        reference: "Genesis 1:1",
+        verseText: "In the beginning God created the heavens and the earth.",
+        theme: "Creation",
+        isCompleted: true,
+        isPremium: true,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
 }
 
@@ -69,6 +93,30 @@ struct BibleWidgetEntryView: View {
         reference: "Genesis 1:1",
         verseText: "In the beginning God created the heavens and the earth.",
         theme: "Creation",
-        isCompleted: false
+        isCompleted: false,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+    )
+    BibleWidgetEntry(
+        date: Date(),
+        dayNumber: 22,
+        title: "Born Again",
+        reference: "John 3:16",
+        verseText: "For God so loved the world, that he gave his only Son.",
+        theme: "New Life",
+        isCompleted: true,
+        isPremium: false,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+    )
+    BibleWidgetEntry(
+        date: Date(),
+        dayNumber: 22,
+        title: "Born Again",
+        reference: "John 3:16",
+        verseText: "For God so loved the world, that he gave his only Son.",
+        theme: "New Life",
+        isCompleted: true,
+        isPremium: true,
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
     )
 }

@@ -11,6 +11,7 @@ struct MiniTestView: View {
     @State private var showCelebration = false
     @State private var showMascotFeedback = false
     @State private var mascotMessage = ""
+    @State private var correctAnswerText = ""
 
     init(day: ReadingDay, verses: [BibleVerse]) {
         self.day = day
@@ -316,7 +317,21 @@ struct MiniTestView: View {
                 Text(mascotMessage)
                     .font(.title2)
                     .fontWeight(.bold)
-                    .foregroundStyle(.white)
+                    .foregroundStyle(viewModel.lastAnswerCorrect ? Color.appGreen : Color.appRed)
+
+                if !viewModel.lastAnswerCorrect && !correctAnswerText.isEmpty {
+                    VStack(spacing: 8) {
+                        Text("Correct answer:")
+                            .font(.caption)
+                            .foregroundStyle(Color.appTextSecondary)
+                        Text(correctAnswerText)
+                            .font(.subheadline)
+                            .fontWeight(.medium)
+                            .foregroundStyle(Color.appTextPrimary)
+                            .multilineTextAlignment(.center)
+                    }
+                    .padding(.top, 8)
+                }
             }
             .padding(32)
             .background(
@@ -329,8 +344,9 @@ struct MiniTestView: View {
 
     // MARK: - Answer Handler
 
-    private func handleAnswer(correct: Bool) {
-        mascotMessage = correct ? "Amazing!" : "Try again!"
+    private func handleAnswer(correct: Bool, correctAnswer: String = "") {
+        mascotMessage = correct ? "Amazing!" : "Not quite!"
+        correctAnswerText = correctAnswer
         withAnimation(.spring(response: 0.4)) {
             showMascotFeedback = true
         }
@@ -342,7 +358,8 @@ struct MiniTestView: View {
             }
         }
 
-        DispatchQueue.main.asyncAfter(deadline: .now() + 1.5) {
+        let delay = correct ? 1.5 : 2.5  // Give more time to read correct answer
+        DispatchQueue.main.asyncAfter(deadline: .now() + delay) {
             withAnimation {
                 showMascotFeedback = false
             }
@@ -356,7 +373,7 @@ struct MiniTestView: View {
 struct FillGapQuestionView: View {
     let question: MiniTestQuestion
     @ObservedObject var viewModel: MiniTestViewModel
-    let onAnswer: (Bool) -> Void
+    let onAnswer: (Bool, String) -> Void
 
     @State private var selectedWords: [String] = []
     @State private var remainingWords: [String] = []
@@ -507,7 +524,8 @@ struct FillGapQuestionView: View {
     private func submitAnswer() {
         isSubmitted = true
         let correct = viewModel.checkFillGapAnswer(selectedWords: selectedWords)
-        onAnswer(correct)
+        let correctAnswer = question.missingWords?.joined(separator: ", ") ?? ""
+        onAnswer(correct, correctAnswer)
     }
 }
 
@@ -516,7 +534,7 @@ struct FillGapQuestionView: View {
 struct NameVerseQuestionView: View {
     let question: MiniTestQuestion
     @ObservedObject var viewModel: MiniTestViewModel
-    let onAnswer: (Bool) -> Void
+    let onAnswer: (Bool, String) -> Void
 
     @State private var selectedReference: String?
     @State private var isSubmitted = false
@@ -604,7 +622,7 @@ struct NameVerseQuestionView: View {
         guard let selected = selectedReference else { return }
         isSubmitted = true
         let correct = viewModel.checkNameVerseAnswer(selectedReference: selected)
-        onAnswer(correct)
+        onAnswer(correct, question.verse.reference)
     }
 }
 
@@ -613,7 +631,7 @@ struct NameVerseQuestionView: View {
 struct MatchReferenceQuestionView: View {
     let question: MiniTestQuestion
     @ObservedObject var viewModel: MiniTestViewModel
-    let onAnswer: (Bool) -> Void
+    let onAnswer: (Bool, String) -> Void
 
     @State private var selectedVerseIndex: Int?
     @State private var selectedRefIndex: Int?
@@ -804,7 +822,8 @@ struct MatchReferenceQuestionView: View {
     private func submitAnswer() {
         isSubmitted = true
         let correct = viewModel.checkMatchReferenceAnswer(matches: matches)
-        onAnswer(correct)
+        let correctPairs = question.matchPairs?.map { "\($0.reference)" }.joined(separator: ", ") ?? ""
+        onAnswer(correct, correctPairs)
     }
 }
 
@@ -813,7 +832,7 @@ struct MatchReferenceQuestionView: View {
 struct TypeBackQuestionView: View {
     let question: MiniTestQuestion
     @ObservedObject var viewModel: MiniTestViewModel
-    let onAnswer: (Bool) -> Void
+    let onAnswer: (Bool, String) -> Void
 
     @State private var typedText = ""
     @State private var isSubmitted = false
@@ -896,7 +915,7 @@ struct TypeBackQuestionView: View {
         isFocused = false
         isSubmitted = true
         let correct = viewModel.checkTypeBackAnswer(typedText: typedText)
-        onAnswer(correct)
+        onAnswer(correct, question.verse.text)
     }
 }
 
