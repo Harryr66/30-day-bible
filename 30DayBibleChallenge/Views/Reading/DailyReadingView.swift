@@ -10,6 +10,8 @@ struct DailyReadingView: View {
     @State private var currentStep = 0
     @State private var showCompletionCelebration = false
     @State private var animateContent = false
+    @State private var showMiniTestPrompt = false
+    @State private var navigateToMiniTest = false
 
     private var userProgress: UserProgress {
         if let existing = progress.first {
@@ -504,9 +506,6 @@ struct DailyReadingView: View {
         ZStack {
             Color.black.opacity(0.8)
                 .ignoresSafeArea()
-                .onTapGesture {
-                    dismiss()
-                }
 
             VStack(spacing: 24) {
                 // Mascot
@@ -546,21 +545,76 @@ struct DailyReadingView: View {
                     }
                 }
 
-                Button {
-                    dismiss()
-                } label: {
-                    Text("CONTINUE")
-                        .font(.headline)
-                        .fontWeight(.black)
+                // Mini Test Prompt
+                if showMiniTestPrompt {
+                    VStack(spacing: 16) {
+                        Text("Ready to test your knowledge?")
+                            .font(.headline)
+                            .foregroundStyle(.white)
+
+                        HStack(spacing: 16) {
+                            Button {
+                                dismiss()
+                            } label: {
+                                Text("Skip")
+                                    .font(.subheadline)
+                                    .fontWeight(.semibold)
+                            }
+                            .buttonStyle(SecondaryButtonStyle())
+                            .frame(width: 100)
+
+                            NavigationLink {
+                                MiniTestView(day: day, verses: viewModel.passage?.verses ?? [])
+                            } label: {
+                                Text("Take Mini Test")
+                                    .font(.subheadline)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(.white)
+                                    .padding(.horizontal, 20)
+                                    .padding(.vertical, 14)
+                                    .background(
+                                        ZStack {
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .fill(Color.appPurpleDark)
+                                                .offset(y: 3)
+                                            RoundedRectangle(cornerRadius: 12)
+                                                .fill(Color.appPurple)
+                                        }
+                                    )
+                            }
+                        }
+                    }
+                    .padding()
+                    .background(
+                        RoundedRectangle(cornerRadius: 20)
+                            .fill(Color.appCardBackground.opacity(0.95))
+                    )
+                    .transition(.scale.combined(with: .opacity))
+                } else {
+                    Button {
+                        dismiss()
+                    } label: {
+                        Text("CONTINUE")
+                            .font(.headline)
+                            .fontWeight(.black)
+                    }
+                    .buttonStyle(PlayfulButtonStyle(color: .appGreen))
+                    .padding(.horizontal, 40)
+                    .padding(.top, 16)
                 }
-                .buttonStyle(PlayfulButtonStyle(color: .appGreen))
-                .padding(.horizontal, 40)
-                .padding(.top, 16)
             }
             .padding()
 
             // Confetti particles
             CelebrationView()
+        }
+        .onAppear {
+            // Show mini test prompt after 2 seconds
+            DispatchQueue.main.asyncAfter(deadline: .now() + 2.0) {
+                withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                    showMiniTestPrompt = true
+                }
+            }
         }
     }
 

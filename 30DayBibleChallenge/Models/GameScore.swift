@@ -91,6 +91,38 @@ struct FillBlankQuestion: Identifiable {
     let verseReference: String
 }
 
+// MARK: - Mini Test Models
+
+enum MiniTestQuestionType: String, CaseIterable, Codable {
+    case fillGap = "Fill in the Gap"
+    case nameVerse = "Name the Verse"
+    case matchReference = "Match Reference"
+    case typeBack = "Type Back"
+
+    var icon: String {
+        switch self {
+        case .fillGap: return "text.badge.plus"
+        case .nameVerse: return "doc.text.magnifyingglass"
+        case .matchReference: return "link"
+        case .typeBack: return "keyboard"
+        }
+    }
+}
+
+struct MiniTestQuestion: Identifiable {
+    let id = UUID()
+    let type: MiniTestQuestionType
+    let verse: BibleVerse
+    var textWithGaps: String?
+    var missingWords: [String]?
+    var wordBank: [String]?
+    var referenceOptions: [String]?
+    var matchPairs: [(verse: String, reference: String)]?
+    var hintText: String?
+    var attempts: Int = 0
+    var isAnsweredCorrectly: Bool = false
+}
+
 /// Persisted mastery level for a specific verse
 @Model
 final class VerseMastery {
