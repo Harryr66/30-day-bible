@@ -49,6 +49,7 @@ struct HomeView: View {
                         .bounceIn(delay: 0.4)
                 }
                 .padding()
+                .padding(.bottom, 80)
             }
             .background(Color.appBackground.ignoresSafeArea())
             .navigationTitle("")
