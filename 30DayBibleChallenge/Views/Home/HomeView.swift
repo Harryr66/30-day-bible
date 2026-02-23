@@ -145,7 +145,7 @@ struct HomeView: View {
 
     private var motivationalMessage: String {
         if userProgress.currentStreak == 0 {
-            return "I miss you! Let's read together today!"
+            return "Start your journey today!"
         } else if userProgress.currentStreak >= 7 {
             return "WOW! \(userProgress.currentStreak) day streak! You're amazing!"
         } else if userProgress.currentStreak >= 3 {
