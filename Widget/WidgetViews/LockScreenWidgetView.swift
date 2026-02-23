@@ -100,7 +100,9 @@ struct LockScreenWidgetView: View {
         theme: "Creation",
         isCompleted: false,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 5,
+        timeUntilNextSession: nil
     )
 }
 
@@ -116,7 +118,9 @@ struct LockScreenWidgetView: View {
         theme: "New Life",
         isCompleted: true,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 3,
+        timeUntilNextSession: nil
     )
 }
 
@@ -132,6 +136,8 @@ struct LockScreenWidgetView: View {
         theme: "Guidance",
         isCompleted: false,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 5,
+        timeUntilNextSession: nil
     )
 }

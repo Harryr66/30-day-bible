@@ -3,6 +3,7 @@ import SwiftData
 
 struct DailyReadingView: View {
     let day: ReadingDay
+    var sessionManager: SessionManager?
     @Environment(\.dismiss) private var dismiss
     @Environment(\.modelContext) private var modelContext
     @Query private var progress: [UserProgress]
@@ -12,6 +13,13 @@ struct DailyReadingView: View {
     @State private var animateContent = false
     @State private var showMiniTestPrompt = false
     @State private var navigateToMiniTest = false
+    @State private var showSessionLimitPaywall = false
+    @State private var sessionRecorded = false
+
+    init(day: ReadingDay, sessionManager: SessionManager? = nil) {
+        self.day = day
+        self.sessionManager = sessionManager
+    }
 
     private var userProgress: UserProgress {
         if let existing = progress.first {
@@ -89,10 +97,27 @@ struct DailyReadingView: View {
         .toolbarBackground(.visible, for: .navigationBar)
         .navigationBarBackButtonHidden(true)
         .onAppear {
+            // Record session start if we have a session manager
+            if let manager = sessionManager, !sessionRecorded {
+                if manager.tryStartSession() {
+                    sessionRecorded = true
+                } else {
+                    // Paywall will be shown by the session manager
+                    return
+                }
+            } else if !sessionRecorded {
+                // Record session directly if no session manager provided
+                userProgress.recordSessionStart()
+                sessionRecorded = true
+            }
+
             viewModel.loadPassage(for: day)
             withAnimation(.easeOut(duration: 0.3)) {
                 animateContent = true
             }
+        }
+        .onChange(of: sessionManager?.showSessionLimitPaywall ?? false) { _, newValue in
+            showSessionLimitPaywall = newValue
         }
     }
 

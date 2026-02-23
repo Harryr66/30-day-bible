@@ -12,6 +12,14 @@ final class UserProgress {
     var isPremium: Bool
     var premiumPurchaseDate: Date?
 
+    // Session tracking
+    var sessionTimestamps: [Date] = []
+    var completedLessonIds: [String] = []
+
+    // Session constants
+    static let freeSessionLimit = 5
+    static let sessionWindowHours: TimeInterval = 24 * 60 * 60
+
     init() {
         self.id = UUID()
         self.completedDays = []
@@ -21,6 +29,47 @@ final class UserProgress {
         self.totalReadingTime = 0
         self.isPremium = false
         self.premiumPurchaseDate = nil
+        self.sessionTimestamps = []
+        self.completedLessonIds = []
+    }
+
+    // MARK: - Session Management
+
+    var activeSessions: [Date] {
+        let cutoff = Date().addingTimeInterval(-Self.sessionWindowHours)
+        return sessionTimestamps.filter { $0 > cutoff }
+    }
+
+    var remainingSessions: Int {
+        if isPremium { return Int.max }
+        return max(0, Self.freeSessionLimit - activeSessions.count)
+    }
+
+    var canStartSession: Bool {
+        isPremium || remainingSessions > 0
+    }
+
+    var timeUntilNextSession: TimeInterval? {
+        guard !isPremium && remainingSessions == 0,
+              let oldest = activeSessions.sorted().first else { return nil }
+        return oldest.addingTimeInterval(Self.sessionWindowHours).timeIntervalSince(Date())
+    }
+
+    func recordSessionStart() {
+        sessionTimestamps.append(Date())
+        // Prune old sessions (older than 48 hours)
+        let threshold = Date().addingTimeInterval(-48 * 60 * 60)
+        sessionTimestamps = sessionTimestamps.filter { $0 > threshold }
+    }
+
+    func markLessonComplete(_ lessonId: String) {
+        if !completedLessonIds.contains(lessonId) {
+            completedLessonIds.append(lessonId)
+        }
+    }
+
+    func isLessonComplete(_ lessonId: String) -> Bool {
+        completedLessonIds.contains(lessonId)
     }
 
     func markDayComplete(_ day: Int) {
@@ -71,8 +120,27 @@ struct SharedProgress: Codable {
     var currentStreak: Int
     var lastReadDate: Date?
     var isPremium: Bool
+    var sessionTimestamps: [Date]
+    var completedLessonIds: [String]
 
     static let appGroupIdentifier = "group.com.biblechallenge.shared"
+
+    // Session computed properties for widget
+    var activeSessions: [Date] {
+        let cutoff = Date().addingTimeInterval(-UserProgress.sessionWindowHours)
+        return sessionTimestamps.filter { $0 > cutoff }
+    }
+
+    var remainingSessions: Int {
+        if isPremium { return Int.max }
+        return max(0, UserProgress.freeSessionLimit - activeSessions.count)
+    }
+
+    var timeUntilNextSession: TimeInterval? {
+        guard !isPremium && remainingSessions == 0,
+              let oldest = activeSessions.sorted().first else { return nil }
+        return oldest.addingTimeInterval(UserProgress.sessionWindowHours).timeIntervalSince(Date())
+    }
 
     static func load() -> SharedProgress? {
         guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupIdentifier) else {
@@ -100,7 +168,9 @@ struct SharedProgress: Codable {
             completedDays: progress.completedDays,
             currentStreak: progress.currentStreak,
             lastReadDate: progress.lastReadDate,
-            isPremium: progress.isPremium
+            isPremium: progress.isPremium,
+            sessionTimestamps: progress.sessionTimestamps,
+            completedLessonIds: progress.completedLessonIds
         )
     }
 }

@@ -6,9 +6,11 @@ struct HomeView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var progress: [UserProgress]
     @StateObject private var viewModel = ReadingViewModel()
+    @StateObject private var sessionManager = SessionManager()
     @State private var showDailyReading = false
     @State private var animateStats = false
     @State private var showPaywall = false
+    @State private var showSessionLimitPaywall = false
     @State private var selectedGame: GameType?
 
     private var userProgress: UserProgress {
@@ -31,6 +33,12 @@ struct HomeView: View {
                     // Top stats bar
                     statsBar
                         .bounceIn(delay: 0)
+
+                    // Session status card (for free users)
+                    if !userProgress.isPremium {
+                        sessionStatusCard
+                            .bounceIn(delay: 0.05)
+                    }
 
                     // Mascot greeting
                     mascotSection
@@ -56,10 +64,7 @@ struct HomeView: View {
             .navigationBarTitleDisplayMode(.inline)
             .toolbar {
                 ToolbarItem(placement: .principal) {
-                    Text("30 Day Bible")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.appTextPrimary)
+                    EmptyView()
                 }
             }
             .navigationDestination(isPresented: $showDailyReading) {
@@ -80,6 +85,12 @@ struct HomeView: View {
             .sheet(isPresented: $showPaywall) {
                 PaywallView()
             }
+            .fullScreenCover(isPresented: $showSessionLimitPaywall) {
+                SessionLimitPaywallView(sessionManager: sessionManager)
+            }
+            .onChange(of: sessionManager.showSessionLimitPaywall) { _, newValue in
+                showSessionLimitPaywall = newValue
+            }
             .onChange(of: selectedDay) { _, newValue in
                 if newValue != nil {
                     showDailyReading = true
@@ -87,6 +98,7 @@ struct HomeView: View {
             }
             .onAppear {
                 viewModel.loadPassage(for: todayReading)
+                sessionManager.update(with: userProgress)
                 withAnimation(.spring(response: 0.6).delay(0.5)) {
                     animateStats = true
                 }
@@ -103,6 +115,82 @@ struct HomeView: View {
             XPBadge(amount: userProgress.completedDays.count * 50)
         }
         .padding(.horizontal, 4)
+    }
+
+    private var sessionStatusCard: some View {
+        HStack(spacing: 16) {
+            // Sessions icon
+            ZStack {
+                Circle()
+                    .fill(sessionManager.remainingSessions > 0 ? Color.appGreen.opacity(0.2) : Color.appRed.opacity(0.2))
+                    .frame(width: 44, height: 44)
+
+                Image(systemName: "bolt.fill")
+                    .font(.title3)
+                    .foregroundStyle(sessionManager.remainingSessions > 0 ? Color.appGreen : Color.appRed)
+            }
+
+            // Sessions info
+            VStack(alignment: .leading, spacing: 4) {
+                Text("Daily Sessions")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.appTextPrimary)
+
+                if sessionManager.remainingSessions > 0 {
+                    Text("\(sessionManager.remainingSessions) of \(UserProgress.freeSessionLimit) remaining")
+                        .font(.caption)
+                        .foregroundStyle(Color.appTextSecondary)
+                } else {
+                    HStack(spacing: 4) {
+                        Text("Next in")
+                            .font(.caption)
+                            .foregroundStyle(Color.appTextSecondary)
+                        Text(sessionManager.formattedTimeRemaining)
+                            .font(.caption)
+                            .fontWeight(.bold)
+                            .foregroundStyle(Color.appOrange)
+                    }
+                }
+            }
+
+            Spacer()
+
+            // Progress or upgrade button
+            if sessionManager.remainingSessions > 0 {
+                // Progress circles
+                HStack(spacing: 4) {
+                    ForEach(0..<UserProgress.freeSessionLimit, id: \.self) { index in
+                        Circle()
+                            .fill(index < sessionManager.remainingSessions ? Color.appGreen : Color.appCardBackgroundLight)
+                            .frame(width: 10, height: 10)
+                    }
+                }
+            } else {
+                Button {
+                    showPaywall = true
+                } label: {
+                    Text("GO PRO")
+                        .font(.caption)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .padding(.horizontal, 12)
+                        .padding(.vertical, 8)
+                        .background(
+                            Capsule()
+                                .fill(
+                                    LinearGradient(
+                                        colors: [Color.appYellow, Color.appOrange],
+                                        startPoint: .leading,
+                                        endPoint: .trailing
+                                    )
+                                )
+                        )
+                }
+            }
+        }
+        .padding()
+        .playfulCard()
     }
 
     private var mascotSection: some View {
@@ -208,7 +296,11 @@ struct HomeView: View {
 
     private var todayLessonCard: some View {
         Button {
-            showDailyReading = true
+            if sessionManager.canStartSession() {
+                showDailyReading = true
+            } else {
+                sessionManager.showSessionLimitPaywall = true
+            }
         } label: {
             VStack(spacing: 16) {
                 HStack {

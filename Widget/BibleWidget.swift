@@ -57,7 +57,9 @@ struct BibleWidgetEntryView: View {
         theme: "Creation",
         isCompleted: false,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 5,
+        timeUntilNextSession: nil
     )
     BibleWidgetEntry(
         date: Date(),
@@ -68,7 +70,9 @@ struct BibleWidgetEntryView: View {
         theme: "Creation",
         isCompleted: true,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 3,
+        timeUntilNextSession: nil
     )
     BibleWidgetEntry(
         date: Date(),
@@ -79,7 +83,9 @@ struct BibleWidgetEntryView: View {
         theme: "Creation",
         isCompleted: true,
         isPremium: true,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: Int.max,
+        timeUntilNextSession: nil
     )
 }
 
@@ -95,7 +101,9 @@ struct BibleWidgetEntryView: View {
         theme: "Creation",
         isCompleted: false,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 5,
+        timeUntilNextSession: nil
     )
     BibleWidgetEntry(
         date: Date(),
@@ -106,7 +114,9 @@ struct BibleWidgetEntryView: View {
         theme: "New Life",
         isCompleted: true,
         isPremium: false,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: 2,
+        timeUntilNextSession: nil
     )
     BibleWidgetEntry(
         date: Date(),
@@ -117,6 +127,8 @@ struct BibleWidgetEntryView: View {
         theme: "New Life",
         isCompleted: true,
         isPremium: true,
-        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!
+        nextDayDate: Calendar.current.date(byAdding: .hour, value: 8, to: Date())!,
+        remainingSessions: Int.max,
+        timeUntilNextSession: nil
     )
 }

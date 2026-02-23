@@ -13,14 +13,17 @@ struct ContentView: View {
                 HomeView(selectedDay: $selectedDay)
                     .tag(0)
 
-                ReadingPlanView(selectedDay: $selectedDay)
+                LessonBrowserView()
                     .tag(1)
 
-                GamesMenuView()
+                ReadingPlanView(selectedDay: $selectedDay)
                     .tag(2)
 
-                SettingsView()
+                GamesMenuView()
                     .tag(3)
+
+                SettingsView()
+                    .tag(4)
             }
 
             // Custom Tab Bar
@@ -53,9 +56,9 @@ struct CustomTabBar: View {
             }
 
             ColorfulTabButton(
-                icon: "book.fill",
-                label: "Plan",
-                color: .appBrown,
+                icon: "safari.fill",
+                label: "Explore",
+                color: .appTeal,
                 isSelected: selectedTab == 1,
                 bounce: bounceTab == 1
             ) {
@@ -63,9 +66,9 @@ struct CustomTabBar: View {
             }
 
             ColorfulTabButton(
-                icon: "gamecontroller.fill",
-                label: "Games",
-                color: .appOrange,
+                icon: "book.fill",
+                label: "Plan",
+                color: .appBrown,
                 isSelected: selectedTab == 2,
                 bounce: bounceTab == 2
             ) {
@@ -73,13 +76,23 @@ struct CustomTabBar: View {
             }
 
             ColorfulTabButton(
-                icon: "person.fill",
-                label: "Profile",
-                color: .appGreen,
+                icon: "gamecontroller.fill",
+                label: "Games",
+                color: .appOrange,
                 isSelected: selectedTab == 3,
                 bounce: bounceTab == 3
             ) {
                 selectTab(3)
+            }
+
+            ColorfulTabButton(
+                icon: "person.fill",
+                label: "Profile",
+                color: .appGreen,
+                isSelected: selectedTab == 4,
+                bounce: bounceTab == 4
+            ) {
+                selectTab(4)
             }
         }
         .padding(.horizontal, 8)

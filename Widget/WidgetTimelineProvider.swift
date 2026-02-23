@@ -11,6 +11,8 @@ struct BibleWidgetEntry: TimelineEntry {
     let isCompleted: Bool
     let isPremium: Bool
     let nextDayDate: Date
+    let remainingSessions: Int
+    let timeUntilNextSession: TimeInterval?
 
     var timeUntilNextDay: TimeInterval {
         nextDayDate.timeIntervalSince(date)
@@ -23,6 +25,19 @@ struct BibleWidgetEntry: TimelineEntry {
             return "\(hours)h \(minutes)m"
         } else {
             return "\(minutes)m"
+        }
+    }
+
+    var sessionCountdownText: String? {
+        guard let interval = timeUntilNextSession, interval > 0 else { return nil }
+        let hours = Int(interval) / 3600
+        let minutes = (Int(interval) % 3600) / 60
+        if hours > 0 {
+            return "\(hours)h \(minutes)m"
+        } else if minutes > 0 {
+            return "\(minutes)m"
+        } else {
+            return "< 1m"
         }
     }
 }
@@ -39,7 +54,9 @@ struct BibleWidgetTimelineProvider: TimelineProvider {
             theme: "Faith",
             isCompleted: false,
             isPremium: false,
-            nextDayDate: tomorrow
+            nextDayDate: tomorrow,
+            remainingSessions: 5,
+            timeUntilNextSession: nil
         )
     }
 
@@ -73,6 +90,8 @@ struct BibleWidgetTimelineProvider: TimelineProvider {
         let progress = SharedProgress.load()
         let isCompleted = progress?.completedDays.contains(today.id) ?? false
         let isPremium = progress?.isPremium ?? false
+        let remainingSessions = progress?.remainingSessions ?? 5
+        let timeUntilNextSession = progress?.timeUntilNextSession
         let calendar = Calendar.current
         let tomorrow = calendar.startOfDay(for: calendar.date(byAdding: .day, value: 1, to: date)!)
 
@@ -85,7 +104,9 @@ struct BibleWidgetTimelineProvider: TimelineProvider {
             theme: today.theme,
             isCompleted: isCompleted,
             isPremium: isPremium,
-            nextDayDate: tomorrow
+            nextDayDate: tomorrow,
+            remainingSessions: remainingSessions,
+            timeUntilNextSession: timeUntilNextSession
         )
     }
 
@@ -123,8 +144,28 @@ struct SharedProgress: Codable {
     var currentStreak: Int
     var lastReadDate: Date?
     var isPremium: Bool
+    var sessionTimestamps: [Date]
+    var completedLessonIds: [String]
 
     static let appGroupIdentifier = "group.com.biblechallenge.shared"
+    static let freeSessionLimit = 5
+    static let sessionWindowHours: TimeInterval = 24 * 60 * 60
+
+    var activeSessions: [Date] {
+        let cutoff = Date().addingTimeInterval(-Self.sessionWindowHours)
+        return sessionTimestamps.filter { $0 > cutoff }
+    }
+
+    var remainingSessions: Int {
+        if isPremium { return Int.max }
+        return max(0, Self.freeSessionLimit - activeSessions.count)
+    }
+
+    var timeUntilNextSession: TimeInterval? {
+        guard !isPremium && remainingSessions == 0,
+              let oldest = activeSessions.sorted().first else { return nil }
+        return oldest.addingTimeInterval(Self.sessionWindowHours).timeIntervalSince(Date())
+    }
 
     static func load() -> SharedProgress? {
         guard let containerURL = FileManager.default.containerURL(forSecurityApplicationGroupIdentifier: appGroupIdentifier) else {

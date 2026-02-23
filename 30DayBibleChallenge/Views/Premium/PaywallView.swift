@@ -100,7 +100,8 @@ struct PaywallView: View {
 
     private var featuresSection: some View {
         VStack(spacing: 16) {
-            FeatureRow(icon: "❓", title: "Bible Quizzes", description: "Test your knowledge with engaging questions", color: .appOrange)
+            FeatureRow(icon: "♾️", title: "Unlimited Sessions", description: "No daily limits on lessons and practice", color: .appGreen)
+            FeatureRow(icon: "🎮", title: "All Games Unlocked", description: "Quiz, Memory, Fill-in-Blank, and more", color: .appOrange)
             FeatureRow(icon: "🧠", title: "Memory Verses", description: "Master Scripture with flashcard memorization", color: .appPurple)
             FeatureRow(icon: "✍️", title: "Fill in the Blank", description: "Complete passages and learn deeply", color: .appBlue)
             FeatureRow(icon: "🔥", title: "Streak Tracking", description: "Stay motivated with detailed progress", color: .appRed)
