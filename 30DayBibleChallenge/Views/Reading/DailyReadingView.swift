@@ -7,9 +7,9 @@ struct DailyReadingView: View {
     @Environment(\.modelContext) private var modelContext
     @Query private var progress: [UserProgress]
     @StateObject private var viewModel = ReadingViewModel()
+    @State private var currentStep = 0
     @State private var showCompletionCelebration = false
-    @State private var currentVerseIndex = 0
-    @State private var showAllVerses = false
+    @State private var animateContent = false
 
     private var userProgress: UserProgress {
         if let existing = progress.first {
@@ -20,39 +20,42 @@ struct DailyReadingView: View {
         return newProgress
     }
 
+    // Total steps: intro + verses + memory verse + complete
+    private var totalSteps: Int {
+        let verseCount = viewModel.passage?.verses.count ?? 0
+        return 1 + verseCount + 1 + 1 // intro + verses + memory + complete
+    }
+
+    private var progressPercentage: Double {
+        guard totalSteps > 0 else { return 0 }
+        return Double(currentStep) / Double(totalSteps - 1)
+    }
+
     var body: some View {
         ZStack {
             Color.appBackground.ignoresSafeArea()
 
-            ScrollView(showsIndicators: false) {
-                VStack(spacing: 24) {
-                    // Header card
-                    headerCard
-                        .bounceIn(delay: 0)
+            VStack(spacing: 0) {
+                // Progress bar at top
+                progressBar
+                    .padding(.horizontal)
+                    .padding(.top, 8)
 
-                    // Verse content
-                    if let passage = viewModel.passage {
-                        verseContent(passage)
-                            .bounceIn(delay: 0.1)
-                    } else if viewModel.isLoading {
+                // Main content area
+                ZStack {
+                    if viewModel.isLoading {
                         loadingView
+                    } else {
+                        stepContent
+                            .id(currentStep) // Force refresh on step change
                     }
-
-                    // Memory verse card
-                    if let memoryVerse = viewModel.memoryVerse {
-                        memoryVerseCard(memoryVerse)
-                            .bounceIn(delay: 0.2)
-                    }
-
-                    // Complete button
-                    if !userProgress.isDayComplete(day.id) {
-                        completeButton
-                            .bounceIn(delay: 0.3)
-                    }
-
-                    Spacer(minLength: 100)
                 }
-                .padding()
+                .frame(maxWidth: .infinity, maxHeight: .infinity)
+
+                // Bottom navigation
+                bottomNavigation
+                    .padding()
+                    .background(Color.appCardBackground)
             }
 
             // Celebration overlay
@@ -62,132 +65,424 @@ struct DailyReadingView: View {
         }
         .navigationBarTitleDisplayMode(.inline)
         .toolbar {
+            ToolbarItem(placement: .topBarLeading) {
+                Button {
+                    dismiss()
+                } label: {
+                    Image(systemName: "xmark")
+                        .font(.headline)
+                        .foregroundStyle(Color.appTextSecondary)
+                }
+            }
+
             ToolbarItem(placement: .principal) {
                 Text("Day \(day.id)")
                     .font(.headline)
                     .fontWeight(.bold)
                     .foregroundStyle(Color.appTextPrimary)
             }
-
-            ToolbarItem(placement: .topBarTrailing) {
-                if userProgress.isDayComplete(day.id) {
-                    Image(systemName: "checkmark.circle.fill")
-                        .foregroundStyle(Color.appGreen)
-                }
-            }
         }
         .toolbarBackground(Color.appBackground, for: .navigationBar)
         .toolbarBackground(.visible, for: .navigationBar)
+        .navigationBarBackButtonHidden(true)
         .onAppear {
             viewModel.loadPassage(for: day)
+            withAnimation(.easeOut(duration: 0.3)) {
+                animateContent = true
+            }
         }
     }
 
-    private var headerCard: some View {
-        VStack(spacing: 16) {
-            // Day badge
-            HStack {
-                Text("DAY \(day.id)")
-                    .font(.caption)
-                    .fontWeight(.black)
-                    .foregroundStyle(.white)
-                    .padding(.horizontal, 12)
-                    .padding(.vertical, 6)
-                    .background(
-                        Capsule()
-                            .fill(
-                                LinearGradient(
-                                    colors: [.appBrown, .appBrownDark],
-                                    startPoint: .leading,
-                                    endPoint: .trailing
-                                )
-                            )
+    // MARK: - Progress Bar
+
+    private var progressBar: some View {
+        GeometryReader { geo in
+            ZStack(alignment: .leading) {
+                // Background
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(Color.appCardBackgroundLight)
+                    .frame(height: 12)
+
+                // Progress fill
+                RoundedRectangle(cornerRadius: 8)
+                    .fill(
+                        LinearGradient(
+                            colors: [.appGreen, .appTeal],
+                            startPoint: .leading,
+                            endPoint: .trailing
+                        )
                     )
-
-                Spacer()
-
-                // XP reward
-                HStack(spacing: 4) {
-                    Text("⭐️")
-                    Text("+50 XP")
-                        .font(.caption)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.appYellow)
-                }
+                    .frame(width: geo.size.width * progressPercentage, height: 12)
+                    .animation(.spring(response: 0.4), value: progressPercentage)
             }
-
-            VStack(alignment: .leading, spacing: 8) {
-                Text(day.title)
-                    .font(.title)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.appTextPrimary)
-
-                Text(day.reference)
-                    .font(.headline)
-                    .foregroundStyle(Color.appYellow)
-
-                HStack(spacing: 8) {
-                    Text(day.theme.uppercased())
-                        .font(.caption2)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.appPurple)
-                        .padding(.horizontal, 10)
-                        .padding(.vertical, 4)
-                        .background(Capsule().fill(Color.appPurple.opacity(0.2)))
-
-                    Text("~5 min read")
-                        .font(.caption)
-                        .foregroundStyle(Color.appTextSecondary)
-                }
-            }
-            .frame(maxWidth: .infinity, alignment: .leading)
         }
-        .padding()
-        .playfulCard()
+        .frame(height: 12)
     }
 
-    private func verseContent(_ passage: BiblePassage) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("📖")
+    // MARK: - Step Content
+
+    @ViewBuilder
+    private var stepContent: some View {
+        ScrollView(showsIndicators: false) {
+            VStack(spacing: 24) {
+                if currentStep == 0 {
+                    // Step 0: Introduction
+                    introductionStep
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .move(edge: .leading).combined(with: .opacity)
+                        ))
+                } else if let passage = viewModel.passage, currentStep <= passage.verses.count {
+                    // Verse steps
+                    let verseIndex = currentStep - 1
+                    if verseIndex < passage.verses.count {
+                        verseStep(passage.verses[verseIndex], index: verseIndex + 1, total: passage.verses.count)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .trailing).combined(with: .opacity),
+                                removal: .move(edge: .leading).combined(with: .opacity)
+                            ))
+                    }
+                } else if currentStep == (viewModel.passage?.verses.count ?? 0) + 1 {
+                    // Memory verse step
+                    if let memoryVerse = viewModel.memoryVerse {
+                        memoryVerseStep(memoryVerse)
+                            .transition(.asymmetric(
+                                insertion: .move(edge: .trailing).combined(with: .opacity),
+                                removal: .move(edge: .leading).combined(with: .opacity)
+                            ))
+                    }
+                } else {
+                    // Final completion step
+                    completionStep
+                        .transition(.asymmetric(
+                            insertion: .move(edge: .trailing).combined(with: .opacity),
+                            removal: .move(edge: .leading).combined(with: .opacity)
+                        ))
+                }
+            }
+            .padding()
+            .animation(.spring(response: 0.4, dampingFraction: 0.8), value: currentStep)
+        }
+    }
+
+    // MARK: - Introduction Step
+
+    private var introductionStep: some View {
+        VStack(spacing: 24) {
+            Spacer().frame(height: 20)
+
+            // Day badge
+            Text("DAY \(day.id)")
+                .font(.caption)
+                .fontWeight(.black)
+                .foregroundStyle(.white)
+                .padding(.horizontal, 16)
+                .padding(.vertical, 8)
+                .background(
+                    Capsule()
+                        .fill(
+                            LinearGradient(
+                                colors: [.appBrown, .appBrownDark],
+                                startPoint: .leading,
+                                endPoint: .trailing
+                            )
+                        )
+                )
+
+            // Title
+            Text(day.title)
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundStyle(Color.appTextPrimary)
+                .multilineTextAlignment(.center)
+
+            // Reference
+            Text(day.reference)
+                .font(.title3)
+                .foregroundStyle(Color.appYellow)
+
+            // Theme badge
+            Text(day.theme.uppercased())
+                .font(.caption)
+                .fontWeight(.bold)
+                .foregroundStyle(Color.appPurple)
+                .padding(.horizontal, 14)
+                .padding(.vertical, 6)
+                .background(Capsule().fill(Color.appPurple.opacity(0.2)))
+
+            Spacer().frame(height: 20)
+
+            // Dove mascot
+            MascotView(mood: .encouraging, size: 120)
+
+            // Instructions
+            Text("Let's read through today's passage together!")
+                .font(.body)
+                .foregroundStyle(Color.appTextSecondary)
+                .multilineTextAlignment(.center)
+                .padding(.horizontal, 32)
+
+            // XP preview
+            HStack(spacing: 8) {
+                Text("⭐️")
                     .font(.title2)
-                Text("Scripture")
+                Text("+50 XP")
                     .font(.headline)
                     .fontWeight(.bold)
+                    .foregroundStyle(Color.appYellow)
+            }
+            .padding(.horizontal, 20)
+            .padding(.vertical, 10)
+            .background(Capsule().fill(Color.appYellow.opacity(0.15)))
+
+            Spacer()
+        }
+        .frame(maxWidth: .infinity)
+    }
+
+    // MARK: - Verse Step
+
+    private func verseStep(_ verse: BibleVerse, index: Int, total: Int) -> some View {
+        VStack(spacing: 24) {
+            Spacer().frame(height: 40)
+
+            // Verse counter
+            Text("Verse \(index) of \(total)")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.appTextSecondary)
+
+            // Book icon
+            Text("📖")
+                .font(.system(size: 50))
+
+            // Verse text in card
+            VStack(spacing: 16) {
+                Text(verse.text)
+                    .font(.title3)
                     .foregroundStyle(Color.appTextPrimary)
+                    .lineSpacing(8)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
 
-                Spacer()
+                // Reference
+                Text("— \(verse.reference)")
+                    .font(.subheadline)
+                    .fontWeight(.semibold)
+                    .foregroundStyle(Color.appYellow)
+            }
+            .padding(24)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.appCardBackground)
+                    .shadow(color: Color.black.opacity(0.08), radius: 12, y: 4)
+            )
 
+            Spacer()
+        }
+        .padding(.horizontal)
+    }
+
+    // MARK: - Memory Verse Step
+
+    private func memoryVerseStep(_ verse: BibleVerse) -> some View {
+        VStack(spacing: 24) {
+            Spacer().frame(height: 40)
+
+            // Header
+            Text("Memory Verse")
+                .font(.caption)
+                .fontWeight(.semibold)
+                .foregroundStyle(Color.appTextSecondary)
+
+            // Brain icon
+            Text("🧠")
+                .font(.system(size: 50))
+
+            // Memory verse card
+            VStack(spacing: 16) {
+                Text("Try to memorize this verse!")
+                    .font(.subheadline)
+                    .foregroundStyle(Color.appTextSecondary)
+
+                Text("\"\(verse.text)\"")
+                    .font(.title3)
+                    .fontWeight(.medium)
+                    .italic()
+                    .foregroundStyle(Color.appTextPrimary)
+                    .lineSpacing(8)
+                    .multilineTextAlignment(.center)
+                    .fixedSize(horizontal: false, vertical: true)
+
+                Text("— \(verse.reference)")
+                    .font(.subheadline)
+                    .fontWeight(.bold)
+                    .foregroundStyle(Color.appPurple)
+            }
+            .padding(24)
+            .frame(maxWidth: .infinity)
+            .background(
+                RoundedRectangle(cornerRadius: 20)
+                    .fill(Color.appPurple.opacity(0.1))
+                    .overlay(
+                        RoundedRectangle(cornerRadius: 20)
+                            .stroke(Color.appPurple.opacity(0.3), lineWidth: 2)
+                    )
+            )
+
+            Spacer()
+        }
+        .padding(.horizontal)
+    }
+
+    // MARK: - Completion Step
+
+    private var completionStep: some View {
+        VStack(spacing: 24) {
+            Spacer().frame(height: 40)
+
+            // Celebration
+            Text("🎉")
+                .font(.system(size: 60))
+
+            Text("Great Job!")
+                .font(.largeTitle)
+                .fontWeight(.bold)
+                .foregroundStyle(Color.appTextPrimary)
+
+            Text("You've read through all of today's passage.")
+                .font(.body)
+                .foregroundStyle(Color.appTextSecondary)
+                .multilineTextAlignment(.center)
+
+            // Mascot
+            MascotView(mood: .excited, size: 100)
+
+            // Summary card
+            VStack(spacing: 12) {
+                HStack {
+                    Text("📖")
+                    Text("\(viewModel.passage?.verses.count ?? 0) verses read")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.appTextPrimary)
+                    Spacer()
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color.appGreen)
+                }
+
+                Divider()
+
+                HStack {
+                    Text("🧠")
+                    Text("Memory verse learned")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.appTextPrimary)
+                    Spacer()
+                    Image(systemName: "checkmark.circle.fill")
+                        .foregroundStyle(Color.appGreen)
+                }
+
+                Divider()
+
+                HStack {
+                    Text("⭐️")
+                    Text("+50 XP earned")
+                        .font(.subheadline)
+                        .fontWeight(.semibold)
+                        .foregroundStyle(Color.appYellow)
+                    Spacer()
+                }
+            }
+            .padding()
+            .background(
+                RoundedRectangle(cornerRadius: 16)
+                    .fill(Color.appCardBackground)
+            )
+
+            Spacer()
+        }
+        .padding(.horizontal)
+    }
+
+    // MARK: - Bottom Navigation
+
+    private var bottomNavigation: some View {
+        HStack(spacing: 16) {
+            // Back button (hidden on first step)
+            if currentStep > 0 {
                 Button {
-                    withAnimation(.spring(response: 0.3)) {
-                        showAllVerses.toggle()
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                        currentStep -= 1
                     }
                 } label: {
-                    Text(showAllVerses ? "Show Less" : "Show All")
-                        .font(.caption)
-                        .foregroundStyle(Color.appBlue)
+                    Image(systemName: "chevron.left")
+                        .font(.headline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.appTextSecondary)
+                        .frame(width: 50, height: 50)
+                        .background(
+                            Circle()
+                                .fill(Color.appCardBackgroundLight)
+                        )
                 }
+            } else {
+                Spacer().frame(width: 50)
             }
 
-            VStack(alignment: .leading, spacing: 12) {
-                let versesToShow = showAllVerses ? passage.verses : Array(passage.verses.prefix(5))
+            Spacer()
 
-                ForEach(Array(versesToShow.enumerated()), id: \.element.id) { index, verse in
-                    VerseRow(verse: verse, isHighlighted: index == 0)
+            // Continue / Complete button
+            Button {
+                if isLastStep {
+                    markComplete()
+                } else {
+                    withAnimation(.spring(response: 0.4, dampingFraction: 0.8)) {
+                        currentStep += 1
+                    }
                 }
+            } label: {
+                HStack(spacing: 8) {
+                    Text(buttonTitle)
+                        .font(.headline)
+                        .fontWeight(.black)
 
-                if !showAllVerses && passage.verses.count > 5 {
-                    Text("+ \(passage.verses.count - 5) more verses")
-                        .font(.caption)
-                        .foregroundStyle(Color.appTextSecondary)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, 8)
+                    if !isLastStep {
+                        Image(systemName: "chevron.right")
+                            .font(.headline)
+                    }
                 }
+                .foregroundStyle(.white)
+                .frame(maxWidth: .infinity)
+                .padding(.vertical, 16)
+                .background(
+                    ZStack {
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(isLastStep ? Color.appGreenDark : Color.appBlueDark)
+                            .offset(y: 4)
+                        RoundedRectangle(cornerRadius: 16)
+                            .fill(isLastStep ? Color.appGreen : Color.appBlue)
+                    }
+                )
             }
         }
-        .padding()
-        .playfulCard()
     }
+
+    private var isLastStep: Bool {
+        currentStep >= totalSteps - 1
+    }
+
+    private var buttonTitle: String {
+        if currentStep == 0 {
+            return "START READING"
+        } else if isLastStep {
+            return "COMPLETE LESSON"
+        } else {
+            return "CONTINUE"
+        }
+    }
+
+    // MARK: - Loading View
 
     private var loadingView: some View {
         VStack(spacing: 16) {
@@ -195,64 +490,14 @@ struct DailyReadingView: View {
                 .tint(.appGreen)
                 .scaleEffect(1.5)
 
-            Text("Loading scripture...")
+            Text("Loading lesson...")
                 .font(.subheadline)
                 .foregroundStyle(Color.appTextSecondary)
         }
-        .frame(maxWidth: .infinity)
-        .padding(40)
-        .playfulCard()
+        .frame(maxWidth: .infinity, maxHeight: .infinity)
     }
 
-    private func memoryVerseCard(_ verse: BibleVerse) -> some View {
-        VStack(alignment: .leading, spacing: 16) {
-            HStack {
-                Text("🧠")
-                    .font(.title2)
-                Text("Memory Verse")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.appTextPrimary)
-            }
-
-            VStack(alignment: .leading, spacing: 12) {
-                Text("\"\(verse.text)\"")
-                    .font(.body)
-                    .italic()
-                    .foregroundStyle(Color.appTextPrimary)
-                    .lineSpacing(6)
-
-                Text("— \(verse.reference)")
-                    .font(.caption)
-                    .fontWeight(.semibold)
-                    .foregroundStyle(Color.appYellow)
-            }
-            .padding()
-            .frame(maxWidth: .infinity, alignment: .leading)
-            .background(
-                RoundedRectangle(cornerRadius: 16)
-                    .fill(Color.appPurple.opacity(0.1))
-            )
-        }
-        .padding()
-        .playfulCard()
-    }
-
-    private var completeButton: some View {
-        Button {
-            markComplete()
-        } label: {
-            HStack(spacing: 12) {
-                Text("🎉")
-                    .font(.title2)
-                Text("COMPLETE LESSON")
-                    .font(.headline)
-                    .fontWeight(.black)
-            }
-        }
-        .buttonStyle(PlayfulButtonStyle(color: .appBrown))
-        .padding(.horizontal)
-    }
+    // MARK: - Celebration Overlay
 
     private var celebrationOverlay: some View {
         ZStack {
@@ -307,7 +552,7 @@ struct DailyReadingView: View {
                         .font(.headline)
                         .fontWeight(.black)
                 }
-                .buttonStyle(PlayfulButtonStyle(color: .appBrown))
+                .buttonStyle(PlayfulButtonStyle(color: .appGreen))
                 .padding(.horizontal, 40)
                 .padding(.top, 16)
             }
@@ -317,6 +562,8 @@ struct DailyReadingView: View {
             CelebrationView()
         }
     }
+
+    // MARK: - Actions
 
     private func markComplete() {
         userProgress.markDayComplete(day.id)
@@ -331,33 +578,6 @@ struct DailyReadingView: View {
         withAnimation(.spring(response: 0.5)) {
             showCompletionCelebration = true
         }
-    }
-}
-
-struct VerseRow: View {
-    let verse: BibleVerse
-    let isHighlighted: Bool
-
-    var body: some View {
-        HStack(alignment: .top, spacing: 12) {
-            Text("\(verse.verse)")
-                .font(.caption)
-                .fontWeight(.bold)
-                .foregroundStyle(isHighlighted ? Color.appYellow : Color.appTextSecondary)
-                .frame(width: 24, alignment: .trailing)
-
-            Text(verse.text)
-                .font(.body)
-                .foregroundStyle(Color.appTextPrimary)
-                .lineSpacing(4)
-        }
-        .padding(.vertical, 4)
-        .padding(.horizontal, isHighlighted ? 12 : 0)
-        .background(
-            isHighlighted ?
-            RoundedRectangle(cornerRadius: 8)
-                .fill(Color.appYellow.opacity(0.1)) : nil
-        )
     }
 }
 
