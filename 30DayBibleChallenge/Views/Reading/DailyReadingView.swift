@@ -55,6 +55,7 @@ struct DailyReadingView: View {
                 // Bottom navigation
                 bottomNavigation
                     .padding()
+                    .padding(.bottom, 80)
                     .background(Color.appCardBackground)
             }
 
