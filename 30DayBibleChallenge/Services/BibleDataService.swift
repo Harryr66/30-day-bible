@@ -21,8 +21,55 @@ class BibleDataService {
     }
 
     func loadPassage(for day: ReadingDay) -> BiblePassage? {
-        // Always use sample passages for reliable content
+        // First try to load from actual Bible data
+        if let passage = loadPassageFromData(for: day) {
+            return passage
+        }
+        // Fall back to sample passages
         return createSamplePassage(for: day)
+    }
+
+    private func loadPassageFromData(for day: ReadingDay) -> BiblePassage? {
+        guard let books = bibleData else { return nil }
+
+        let normalizedBook = normalizeBookName(day.book)
+
+        // Find the book
+        guard let book = books.first(where: { normalizeBookName($0.name) == normalizedBook }) else {
+            return nil
+        }
+
+        var verses: [BibleVerse] = []
+
+        // Handle single chapter or multi-chapter passages
+        for chapter in day.startChapter...day.endChapter {
+            guard chapter <= book.chapters.count else { continue }
+            let chapterVerses = book.chapters[chapter - 1]
+
+            let startVerse = (chapter == day.startChapter) ? day.startVerse : 1
+            let endVerse = (chapter == day.endChapter) ? day.endVerse : chapterVerses.count
+
+            for verseNum in startVerse...min(endVerse, chapterVerses.count) {
+                let verseText = chapterVerses[verseNum - 1]
+                verses.append(BibleVerse(
+                    book: day.book,
+                    chapter: chapter,
+                    verse: verseNum,
+                    text: verseText
+                ))
+            }
+        }
+
+        guard !verses.isEmpty else { return nil }
+
+        return BiblePassage(
+            book: day.book,
+            startChapter: day.startChapter,
+            startVerse: day.startVerse,
+            endChapter: day.endChapter,
+            endVerse: day.endVerse,
+            verses: verses
+        )
     }
 
     func loadMemoryVerse(reference: String) -> BibleVerse? {
@@ -39,6 +86,167 @@ class BibleDataService {
             .replacingOccurrences(of: "third ", with: "3")
     }
 
+    // Extended passage data for lessons not in the 30-day plan
+    private var samplePassages: [String: [BibleVerse]] {
+        [
+            // Psalms 19:1-14 - The Creator's Majesty
+            "Psalms_19_19": [
+                BibleVerse(book: "Psalms", chapter: 19, verse: 1, text: "The heavens declare the glory of God; the skies proclaim the work of his hands."),
+                BibleVerse(book: "Psalms", chapter: 19, verse: 2, text: "Day after day they pour forth speech; night after night they reveal knowledge."),
+                BibleVerse(book: "Psalms", chapter: 19, verse: 3, text: "They have no speech, they use no words; no sound is heard from them."),
+                BibleVerse(book: "Psalms", chapter: 19, verse: 4, text: "Yet their voice goes out into all the earth, their words to the ends of the world."),
+                BibleVerse(book: "Psalms", chapter: 19, verse: 7, text: "The law of the LORD is perfect, refreshing the soul. The statutes of the LORD are trustworthy, making wise the simple."),
+                BibleVerse(book: "Psalms", chapter: 19, verse: 8, text: "The precepts of the LORD are right, giving joy to the heart. The commands of the LORD are radiant, giving light to the eyes."),
+                BibleVerse(book: "Psalms", chapter: 19, verse: 14, text: "May these words of my mouth and this meditation of my heart be pleasing in your sight, LORD, my Rock and my Redeemer.")
+            ],
+
+            // Psalms 91:1-16 - A Song of Deliverance
+            "Psalms_91_91": [
+                BibleVerse(book: "Psalms", chapter: 91, verse: 1, text: "Whoever dwells in the shelter of the Most High will rest in the shadow of the Almighty."),
+                BibleVerse(book: "Psalms", chapter: 91, verse: 2, text: "I will say of the LORD, \"He is my refuge and my fortress, my God, in whom I trust.\""),
+                BibleVerse(book: "Psalms", chapter: 91, verse: 4, text: "He will cover you with his feathers, and under his wings you will find refuge; his faithfulness will be your shield and rampart."),
+                BibleVerse(book: "Psalms", chapter: 91, verse: 5, text: "You will not fear the terror of night, nor the arrow that flies by day,"),
+                BibleVerse(book: "Psalms", chapter: 91, verse: 9, text: "If you say, \"The LORD is my refuge,\" and you make the Most High your dwelling,"),
+                BibleVerse(book: "Psalms", chapter: 91, verse: 11, text: "For he will command his angels concerning you to guard you in all your ways;"),
+                BibleVerse(book: "Psalms", chapter: 91, verse: 14, text: "\"Because he loves me,\" says the LORD, \"I will rescue him; I will protect him, for he acknowledges my name.\"")
+            ],
+
+            // Psalms 100:1-5 - Give Thanks
+            "Psalms_100_100": [
+                BibleVerse(book: "Psalms", chapter: 100, verse: 1, text: "Shout for joy to the LORD, all the earth."),
+                BibleVerse(book: "Psalms", chapter: 100, verse: 2, text: "Worship the LORD with gladness; come before him with joyful songs."),
+                BibleVerse(book: "Psalms", chapter: 100, verse: 3, text: "Know that the LORD is God. It is he who made us, and we are his; we are his people, the sheep of his pasture."),
+                BibleVerse(book: "Psalms", chapter: 100, verse: 4, text: "Enter his gates with thanksgiving and his courts with praise; give thanks to him and praise his name."),
+                BibleVerse(book: "Psalms", chapter: 100, verse: 5, text: "For the LORD is good and his love endures forever; his faithfulness continues through all generations.")
+            ],
+
+            // Proverbs 31:10-31 - The Virtuous Woman
+            "Proverbs_31_31": [
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 10, text: "A wife of noble character who can find? She is worth far more than rubies."),
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 11, text: "Her husband has full confidence in her and lacks nothing of value."),
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 25, text: "She is clothed with strength and dignity; she can laugh at the days to come."),
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 26, text: "She speaks with wisdom, and faithful instruction is on her tongue."),
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 28, text: "Her children arise and call her blessed; her husband also, and he praises her:"),
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 30, text: "Charm is deceptive, and beauty is fleeting; but a woman who fears the LORD is to be praised."),
+                BibleVerse(book: "Proverbs", chapter: 31, verse: 31, text: "Honor her for all that her hands have done, and let her works bring her praise at the city gate.")
+            ],
+
+            // Ecclesiastes 3:1-15 - A Time for Everything
+            "Ecclesiastes_3_3": [
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 1, text: "There is a time for everything, and a season for every activity under the heavens:"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 2, text: "A time to be born and a time to die, a time to plant and a time to uproot,"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 3, text: "A time to kill and a time to heal, a time to tear down and a time to build,"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 4, text: "A time to weep and a time to laugh, a time to mourn and a time to dance,"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 5, text: "A time to scatter stones and a time to gather them, a time to embrace and a time to refrain from embracing,"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 6, text: "A time to search and a time to give up, a time to keep and a time to throw away,"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 7, text: "A time to tear and a time to mend, a time to be silent and a time to speak,"),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 8, text: "A time to love and a time to hate, a time for war and a time for peace."),
+                BibleVerse(book: "Ecclesiastes", chapter: 3, verse: 11, text: "He has made everything beautiful in its time. He has also set eternity in the human heart.")
+            ],
+
+            // Isaiah 6:1-13 - Here Am I, Send Me
+            "Isaiah_6_6": [
+                BibleVerse(book: "Isaiah", chapter: 6, verse: 1, text: "In the year that King Uzziah died, I saw the Lord, high and exalted, seated on a throne; and the train of his robe filled the temple."),
+                BibleVerse(book: "Isaiah", chapter: 6, verse: 3, text: "And they were calling to one another: \"Holy, holy, holy is the LORD Almighty; the whole earth is full of his glory.\""),
+                BibleVerse(book: "Isaiah", chapter: 6, verse: 5, text: "\"Woe to me!\" I cried. \"I am ruined! For I am a man of unclean lips, and I live among a people of unclean lips.\""),
+                BibleVerse(book: "Isaiah", chapter: 6, verse: 6, text: "Then one of the seraphim flew to me with a live coal in his hand, which he had taken with tongs from the altar."),
+                BibleVerse(book: "Isaiah", chapter: 6, verse: 7, text: "With it he touched my mouth and said, \"See, this has touched your lips; your guilt is taken away and your sin atoned for.\""),
+                BibleVerse(book: "Isaiah", chapter: 6, verse: 8, text: "Then I heard the voice of the Lord saying, \"Whom shall I send? And who will go for us?\" And I said, \"Here am I. Send me!\"")
+            ],
+
+            // Isaiah 40:1-31 - Comfort My People
+            "Isaiah_40_40": [
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 1, text: "Comfort, comfort my people, says your God."),
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 3, text: "A voice of one calling: \"In the wilderness prepare the way for the LORD; make straight in the desert a highway for our God.\""),
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 8, text: "The grass withers and the flowers fall, but the word of our God endures forever."),
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 11, text: "He tends his flock like a shepherd: He gathers the lambs in his arms and carries them close to his heart."),
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 28, text: "Do you not know? Have you not heard? The LORD is the everlasting God, the Creator of the ends of the earth."),
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 29, text: "He gives strength to the weary and increases the power of the weak."),
+                BibleVerse(book: "Isaiah", chapter: 40, verse: 31, text: "But those who hope in the LORD will renew their strength. They will soar on wings like eagles; they will run and not grow weary.")
+            ],
+
+            // Matthew 28:16-20 - The Great Commission
+            "Matthew_28_28": [
+                BibleVerse(book: "Matthew", chapter: 28, verse: 16, text: "Then the eleven disciples went to Galilee, to the mountain where Jesus had told them to go."),
+                BibleVerse(book: "Matthew", chapter: 28, verse: 17, text: "When they saw him, they worshiped him; but some doubted."),
+                BibleVerse(book: "Matthew", chapter: 28, verse: 18, text: "Then Jesus came to them and said, \"All authority in heaven and on earth has been given to me.\""),
+                BibleVerse(book: "Matthew", chapter: 28, verse: 19, text: "\"Therefore go and make disciples of all nations, baptizing them in the name of the Father and of the Son and of the Holy Spirit,\""),
+                BibleVerse(book: "Matthew", chapter: 28, verse: 20, text: "\"And teaching them to obey everything I have commanded you. And surely I am with you always, to the very end of the age.\"")
+            ],
+
+            // John 15:1-17 - The Vine and Branches
+            "John_15_15": [
+                BibleVerse(book: "John", chapter: 15, verse: 1, text: "I am the true vine, and my Father is the gardener."),
+                BibleVerse(book: "John", chapter: 15, verse: 4, text: "Remain in me, as I also remain in you. No branch can bear fruit by itself; it must remain in the vine."),
+                BibleVerse(book: "John", chapter: 15, verse: 5, text: "I am the vine; you are the branches. If you remain in me and I in you, you will bear much fruit; apart from me you can do nothing."),
+                BibleVerse(book: "John", chapter: 15, verse: 9, text: "As the Father has loved me, so have I loved you. Now remain in my love."),
+                BibleVerse(book: "John", chapter: 15, verse: 12, text: "My command is this: Love each other as I have loved you."),
+                BibleVerse(book: "John", chapter: 15, verse: 13, text: "Greater love has no one than this: to lay down one's life for one's friends."),
+                BibleVerse(book: "John", chapter: 15, verse: 16, text: "You did not choose me, but I chose you and appointed you so that you might go and bear fruit.")
+            ],
+
+            // Philippians 2:1-11 - Christ's Humility
+            "Philippians_2_2": [
+                BibleVerse(book: "Philippians", chapter: 2, verse: 3, text: "Do nothing out of selfish ambition or vain conceit. Rather, in humility value others above yourselves,"),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 4, text: "Not looking to your own interests but each of you to the interests of the others."),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 5, text: "In your relationships with one another, have the same mindset as Christ Jesus:"),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 6, text: "Who, being in very nature God, did not consider equality with God something to be used to his own advantage;"),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 7, text: "Rather, he made himself nothing by taking the very nature of a servant, being made in human likeness."),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 8, text: "And being found in appearance as a man, he humbled himself by becoming obedient to death—even death on a cross!"),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 9, text: "Therefore God exalted him to the highest place and gave him the name that is above every name."),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 10, text: "That at the name of Jesus every knee should bow, in heaven and on earth and under the earth,"),
+                BibleVerse(book: "Philippians", chapter: 2, verse: 11, text: "And every tongue acknowledge that Jesus Christ is Lord, to the glory of God the Father.")
+            ],
+
+            // Hebrews 11:1-40 - Faith Heroes (selected verses)
+            "Hebrews_11_11": [
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 1, text: "Now faith is confidence in what we hope for and assurance about what we do not see."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 3, text: "By faith we understand that the universe was formed at God's command."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 6, text: "And without faith it is impossible to please God, because anyone who comes to him must believe that he exists and that he rewards those who earnestly seek him."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 7, text: "By faith Noah, when warned about things not yet seen, in holy fear built an ark to save his family."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 8, text: "By faith Abraham, when called to go to a place he would later receive as his inheritance, obeyed and went, even though he did not know where he was going."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 11, text: "By faith Sarah, even though she was past childbearing age, was enabled to bear children because she considered him faithful who had made the promise."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 24, text: "By faith Moses, when he had grown up, refused to be known as the son of Pharaoh's daughter."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 32, text: "And what more shall I say? I do not have time to tell about Gideon, Barak, Samson and Jephthah, about David and Samuel and the prophets."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 39, text: "These were all commended for their faith, yet none of them received what had been promised."),
+                BibleVerse(book: "Hebrews", chapter: 11, verse: 40, text: "Since God had planned something better for us so that only together with us would they be made perfect.")
+            ],
+
+            // 1 Samuel 17:32-50 - David and Goliath
+            "1 Samuel_17_17": [
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 32, text: "David said to Saul, \"Let no one lose heart on account of this Philistine; your servant will go and fight him.\""),
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 37, text: "The LORD who rescued me from the paw of the lion and the paw of the bear will rescue me from the hand of this Philistine."),
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 40, text: "Then he took his staff in his hand, chose five smooth stones from the stream, put them in the pouch of his shepherd's bag and, with his sling in his hand, approached the Philistine."),
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 45, text: "David said to the Philistine, \"You come against me with sword and spear and javelin, but I come against you in the name of the LORD Almighty.\""),
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 47, text: "All those gathered here will know that it is not by sword or spear that the LORD saves; for the battle is the LORD's, and he will give all of you into our hands.\""),
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 49, text: "Reaching into his bag and taking out a stone, he slung it and struck the Philistine on the forehead. The stone sank into his forehead, and he fell facedown on the ground."),
+                BibleVerse(book: "1 Samuel", chapter: 17, verse: 50, text: "So David triumphed over the Philistine with a sling and a stone; without a sword in his hand he struck down the Philistine and killed him.")
+            ],
+
+            // 1 Kings 18:20-39 - Elijah on Mount Carmel
+            "1 Kings_18_18": [
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 21, text: "Elijah went before the people and said, \"How long will you waver between two opinions? If the LORD is God, follow him; but if Baal is God, follow him.\""),
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 24, text: "Then you call on the name of your god, and I will call on the name of the LORD. The god who answers by fire—he is God.\""),
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 30, text: "Then Elijah said to all the people, \"Come here to me.\" They came to him, and he repaired the altar of the LORD, which had been torn down."),
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 36, text: "At the time of sacrifice, the prophet Elijah stepped forward and prayed: \"LORD, the God of Abraham, Isaac and Israel, let it be known today that you are God in Israel.\""),
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 37, text: "\"Answer me, LORD, answer me, so these people will know that you, LORD, are God, and that you are turning their hearts back again.\""),
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 38, text: "Then the fire of the LORD fell and burned up the sacrifice, the wood, the stones and the soil, and also licked up the water in the trench."),
+                BibleVerse(book: "1 Kings", chapter: 18, verse: 39, text: "When all the people saw this, they fell prostrate and cried, \"The LORD—he is God! The LORD—he is God!\"")
+            ],
+
+            // Daniel 6:10-23 - Daniel in the Lions' Den
+            "Daniel_6_6": [
+                BibleVerse(book: "Daniel", chapter: 6, verse: 10, text: "Now when Daniel learned that the decree had been published, he went home to his upstairs room where the windows opened toward Jerusalem. Three times a day he got down on his knees and prayed, giving thanks to his God, just as he had done before."),
+                BibleVerse(book: "Daniel", chapter: 6, verse: 16, text: "So the king gave the order, and they brought Daniel and threw him into the lions' den. The king said to Daniel, \"May your God, whom you serve continually, rescue you!\""),
+                BibleVerse(book: "Daniel", chapter: 6, verse: 19, text: "At the first light of dawn, the king got up and hurried to the lions' den."),
+                BibleVerse(book: "Daniel", chapter: 6, verse: 20, text: "When he came near the den, he called to Daniel in an anguished voice, \"Daniel, servant of the living God, has your God, whom you serve continually, been able to rescue you from the lions?\""),
+                BibleVerse(book: "Daniel", chapter: 6, verse: 21, text: "Daniel answered, \"May the king live forever!\""),
+                BibleVerse(book: "Daniel", chapter: 6, verse: 22, text: "\"My God sent his angel, and he shut the mouths of the lions. They have not hurt me, because I was found innocent in his sight.\""),
+                BibleVerse(book: "Daniel", chapter: 6, verse: 23, text: "The king was overjoyed and gave orders to lift Daniel out of the den. And when Daniel was lifted from the den, no wound was found on him, because he had trusted in his God.")
+            ]
+        ]
+    }
+
     private func createSamplePassage(for day: ReadingDay) -> BiblePassage {
         let sampleVerses = getSampleVerses(for: day)
 
@@ -53,6 +261,13 @@ class BibleDataService {
     }
 
     private func getSampleVerses(for day: ReadingDay) -> [BibleVerse] {
+        // First try to find by passage key (book + chapter range)
+        let passageKey = "\(day.book)_\(day.startChapter)_\(day.endChapter)"
+        if let verses = samplePassages[passageKey] {
+            return verses
+        }
+
+        // Fall back to day ID for 30-day plan compatibility
         switch day.id {
         case 1: // Genesis 1:1-31 - Creation
             return [

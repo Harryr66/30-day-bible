@@ -364,15 +364,21 @@ struct SettingsView: View {
             }
 
             SettingsRow(icon: "bell.fill", title: "Notifications", color: .appPurple) {
-                // Open notifications
+                if let url = URL(string: UIApplication.openSettingsURLString) {
+                    UIApplication.shared.open(url)
+                }
             }
 
             SettingsRow(icon: "questionmark.circle.fill", title: "Help & Support", color: .appGreen) {
-                // Open help
+                if let url = URL(string: "mailto:support@biblechallenge.app") {
+                    UIApplication.shared.open(url)
+                }
             }
 
             SettingsRow(icon: "doc.text.fill", title: "Privacy Policy", color: .appTextSecondary) {
-                // Open privacy
+                if let url = URL(string: "https://example.com/privacy") {
+                    UIApplication.shared.open(url)
+                }
             }
         }
         .playfulCard()

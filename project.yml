@@ -28,6 +28,7 @@ targets:
     resources:
       - path: 30DayBibleChallenge/Data/web_bible.json
       - path: 30DayBibleChallenge/Resources/PrivacyInfo.xcprivacy
+      - path: 30DayBibleChallenge/Resources/Products.storekit
     settings:
       base:
         INFOPLIST_FILE: 30DayBibleChallenge/Resources/Info.plist

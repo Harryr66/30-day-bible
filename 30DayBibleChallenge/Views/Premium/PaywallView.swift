@@ -46,12 +46,12 @@ struct PaywallView: View {
                 }
 
                 ToolbarItem(placement: .topBarTrailing) {
-                    Button("Restore") {
+                    Button("Restore Purchases") {
                         Task {
                             await storeViewModel.restorePurchases()
                         }
                     }
-                    .font(.subheadline)
+                    .font(.caption)
                     .foregroundStyle(Color.appBrown)
                 }
             }
@@ -126,9 +126,50 @@ struct PaywallView: View {
             }
 
             if storeViewModel.products.isEmpty {
-                Text("Loading products...")
-                    .foregroundStyle(Color.appTextSecondary)
-                    .padding()
+                VStack(spacing: 16) {
+                    if storeViewModel.isLoading {
+                        ProgressView()
+                            .tint(Color.appBrown)
+                        Text("Loading products...")
+                            .foregroundStyle(Color.appTextSecondary)
+                    } else {
+                        // Fallback when products fail to load
+                        VStack(spacing: 8) {
+                            Text("Lifetime Access")
+                                .font(.headline)
+                                .foregroundStyle(Color.appTextPrimary)
+                            Text("$9.99")
+                                .font(.title)
+                                .fontWeight(.bold)
+                                .foregroundStyle(Color.appBrown)
+                            Text("One-time purchase")
+                                .font(.caption)
+                                .foregroundStyle(Color.appTextSecondary)
+                        }
+                        .padding()
+                        .frame(maxWidth: .infinity)
+                        .background(Color.appBeige)
+                        .clipShape(RoundedRectangle(cornerRadius: 12))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 12)
+                                .stroke(Color.appBrown, lineWidth: 2)
+                        )
+
+                        Button {
+                            Task {
+                                await storeViewModel.loadProducts()
+                            }
+                        } label: {
+                            HStack {
+                                Image(systemName: "arrow.clockwise")
+                                Text("Retry Loading")
+                            }
+                            .font(.subheadline)
+                            .foregroundStyle(Color.appBrown)
+                        }
+                    }
+                }
+                .padding()
             }
 
             // Purchase button
