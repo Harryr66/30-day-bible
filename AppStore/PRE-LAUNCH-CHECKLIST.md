@@ -2,31 +2,21 @@
 
 ## 1. GitHub Pages Setup (for Legal Docs)
 
-```bash
-# Create a new repo on GitHub called 'bible-challenge'
-# Then in your project folder:
-cd "/Users/harry/Desktop/30 Day Bible Challange"
-git remote add origin https://github.com/Harryr66/bible-challenge.git
-git push -u origin main
-```
+✅ **DONE** - Code pushed to https://github.com/Harryr66/30-day-bible
 
-Then in GitHub:
-1. Go to repo Settings → Pages
+Now enable GitHub Pages:
+1. Go to https://github.com/Harryr66/30-day-bible/settings/pages
 2. Source: Deploy from branch
 3. Branch: main, folder: /docs
 4. Save
 
 Your URLs will be:
-- https://Harryr66.github.io/bible-challenge/privacy.html
-- https://Harryr66.github.io/bible-challenge/terms.html
+- https://harryr66.github.io/30-day-bible/privacy.html
+- https://harryr66.github.io/30-day-bible/terms.html
 
 ## 2. Update App URLs
 
-After GitHub Pages is live, update these files:
-- `30DayBibleChallenge/Views/Premium/PaywallView.swift` (lines 326, 329)
-- `30DayBibleChallenge/App/ContentView.swift` (line 447)
-
-Replace `example.com` with your GitHub Pages URLs.
+✅ **DONE** - URLs already updated to use 30-day-bible repo.
 
 ## 3. Xcode Setup
 
@@ -108,9 +98,10 @@ Required devices:
 - [x] App Store description
 - [x] 90+ lessons
 - [x] 200+ quiz questions
+- [x] Code pushed to GitHub
+- [x] URLs updated in code
 - [ ] Set Development Team in Xcode
-- [ ] Create GitHub repo & enable Pages
-- [ ] Update URLs in code
+- [ ] Enable GitHub Pages (Settings → Pages)
 - [ ] Take screenshots
 - [ ] Create App Store Connect listing
 - [ ] Create In-App Purchases
