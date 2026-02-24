@@ -444,7 +444,7 @@ struct SettingsView: View {
             }
 
             SettingsRow(icon: "doc.text.fill", title: "Privacy Policy", color: .appTextSecondary) {
-                if let url = URL(string: "https://example.com/privacy") {
+                if let url = URL(string: "https://harryr66.github.io/bible-challenge/privacy.html") {
                     UIApplication.shared.open(url)
                 }
             }

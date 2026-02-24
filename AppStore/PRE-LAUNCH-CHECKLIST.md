@@ -6,7 +6,7 @@
 # Create a new repo on GitHub called 'bible-challenge'
 # Then in your project folder:
 cd "/Users/harry/Desktop/30 Day Bible Challange"
-git remote add origin https://github.com/YOUR_USERNAME/bible-challenge.git
+git remote add origin https://github.com/Harryr66/bible-challenge.git
 git push -u origin main
 ```
 
@@ -17,8 +17,8 @@ Then in GitHub:
 4. Save
 
 Your URLs will be:
-- https://YOUR_USERNAME.github.io/bible-challenge/privacy.html
-- https://YOUR_USERNAME.github.io/bible-challenge/terms.html
+- https://Harryr66.github.io/bible-challenge/privacy.html
+- https://Harryr66.github.io/bible-challenge/terms.html
 
 ## 2. Update App URLs
 

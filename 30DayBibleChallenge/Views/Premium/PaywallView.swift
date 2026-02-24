@@ -323,10 +323,10 @@ struct PaywallView: View {
                 .multilineTextAlignment(.center)
 
             HStack {
-                Link("Privacy Policy", destination: URL(string: "https://example.com/privacy")!)
+                Link("Privacy Policy", destination: URL(string: "https://harryr66.github.io/bible-challenge/privacy.html")!)
                 Text("•")
                     .foregroundStyle(Color.appTextSecondary)
-                Link("Terms of Service", destination: URL(string: "https://example.com/terms")!)
+                Link("Terms of Service", destination: URL(string: "https://harryr66.github.io/bible-challenge/terms.html")!)
             }
             .font(.caption)
             .foregroundStyle(Color.appBrown)
