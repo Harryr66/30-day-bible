@@ -27,7 +27,7 @@ final class UserProgress {
         self.longestStreak = 0
         self.lastReadDate = nil
         self.totalReadingTime = 0
-        self.isPremium = true // TODO: Set back to false before release
+        self.isPremium = false
         self.premiumPurchaseDate = nil
         self.sessionTimestamps = []
         self.completedLessonIds = []

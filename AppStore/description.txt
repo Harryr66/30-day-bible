@@ -1,0 +1,103 @@
+APP NAME: Bible Challenge - Daily Scripture
+
+SUBTITLE: Learn & Memorize God's Word
+
+—————————————————
+DESCRIPTION (4000 chars max)
+—————————————————
+
+Deepen your faith with daily Bible lessons, interactive quizzes, and engaging games designed to help you learn and memorize Scripture.
+
+FEATURES:
+
+• 90+ Curated Lessons
+Explore essential passages from Genesis to Revelation. Each lesson includes the full passage, a memory verse, and contextual teaching.
+
+• Interactive Quiz Games
+Test your Bible knowledge with 200+ thoughtfully crafted questions. Learn about key events, characters, teachings, and verses.
+
+• Memory Verse Flashcards
+Master Scripture with our flashcard system. Flip cards, rate your recall, and track your progress toward memorization.
+
+• Fill in the Blank
+Complete passages from memory by selecting the right words. A fun way to internalize key verses.
+
+• Match Verse
+Connect verse snippets to their references. Strengthen your ability to locate and recall Scripture.
+
+• Daily Reading Plan
+Follow a structured 30-day journey through the Bible's most important passages, or explore lessons at your own pace.
+
+• Progress Tracking
+See your streak, completed lessons, and XP earned. Stay motivated as you grow in knowledge.
+
+• Beautiful Design
+A warm, inviting interface designed for focused reading and distraction-free learning.
+
+PREMIUM:
+Upgrade to unlock unlimited sessions, all games, and an ad-free experience.
+
+Whether you're new to the Bible or deepening an existing faith, Bible Challenge makes Scripture learning engaging, memorable, and rewarding.
+
+Download now and start your journey through God's Word.
+
+—————————————————
+KEYWORDS (100 chars max)
+—————————————————
+
+bible,scripture,devotional,quiz,memorize,christian,faith,verses,study,learn,daily,reading,gospel
+
+—————————————————
+PROMOTIONAL TEXT (170 chars max)
+—————————————————
+
+New lessons added regularly! Master Scripture through interactive quizzes, memory games, and daily reading plans.
+
+—————————————————
+WHAT'S NEW (for updates)
+—————————————————
+
+• 90+ curated Bible lessons
+• 200+ quiz questions
+• Memory verse flashcards
+• Fill in the blank games
+• Match verse challenges
+• Beautiful redesigned interface
+
+—————————————————
+SUPPORT URL
+—————————————————
+
+https://YOUR_USERNAME.github.io/bible-challenge/
+
+—————————————————
+PRIVACY POLICY URL
+—————————————————
+
+https://YOUR_USERNAME.github.io/bible-challenge/privacy.html
+
+—————————————————
+CATEGORY
+—————————————————
+
+Primary: Education
+Secondary: Reference
+
+—————————————————
+AGE RATING
+—————————————————
+
+4+ (No objectionable content)
+
+—————————————————
+IN-APP PURCHASES
+—————————————————
+
+1. Monthly Premium - $9.99/month
+   - Unlimited lesson sessions
+   - All games unlocked
+   - Ad-free experience
+
+2. Lifetime Access - $49.99 (one-time)
+   - Everything in Premium, forever
+   - Best value for committed learners
