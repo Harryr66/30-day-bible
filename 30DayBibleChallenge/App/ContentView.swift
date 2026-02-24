@@ -316,41 +316,109 @@ struct SettingsView: View {
         Button {
             showPaywall = true
         } label: {
-            HStack(spacing: 16) {
-                Text("👑")
-                    .font(.largeTitle)
+            VStack(spacing: 0) {
+                // Main content
+                HStack(spacing: 16) {
+                    // Crown icon with glow
+                    ZStack {
+                        Circle()
+                            .fill(
+                                RadialGradient(
+                                    colors: [Color.white.opacity(0.3), Color.clear],
+                                    center: .center,
+                                    startRadius: 0,
+                                    endRadius: 40
+                                )
+                            )
+                            .frame(width: 70, height: 70)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    Text("Go Premium!")
-                        .font(.headline)
-                        .fontWeight(.bold)
-                        .foregroundStyle(Color.appTextPrimary)
+                        Text("👑")
+                            .font(.system(size: 44))
+                    }
 
-                    Text("Unlock all games & features")
-                        .font(.caption)
-                        .foregroundStyle(Color.appTextSecondary)
+                    VStack(alignment: .leading, spacing: 6) {
+                        Text("Go Premium")
+                            .font(.title3)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+
+                        Text("Unlimited sessions & all games")
+                            .font(.subheadline)
+                            .foregroundStyle(.white.opacity(0.9))
+
+                        HStack(spacing: 12) {
+                            Text("$9.99/mo")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white.opacity(0.85))
+
+                            Text("•")
+                                .foregroundStyle(.white.opacity(0.6))
+
+                            Text("$49 lifetime")
+                                .font(.caption)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white.opacity(0.85))
+                        }
+                    }
+
+                    Spacer()
+
+                    // Arrow button
+                    ZStack {
+                        Circle()
+                            .fill(Color.white)
+                            .frame(width: 40, height: 40)
+
+                        Circle()
+                            .fill(Color.white.opacity(0.5))
+                            .frame(width: 40, height: 40)
+                            .offset(y: 3)
+                            .zIndex(-1)
+
+                        Image(systemName: "arrow.right")
+                            .font(.system(size: 16, weight: .bold))
+                            .foregroundStyle(Color(hex: "E65C00"))
+                    }
                 }
-
-                Spacer()
-
-                Image(systemName: "chevron.right")
-                    .foregroundStyle(Color.appYellow)
+                .padding(.horizontal, 20)
+                .padding(.vertical, 20)
             }
-            .padding()
             .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(
-                        LinearGradient(
-                            colors: [Color.appYellow.opacity(0.2), Color.appOrange.opacity(0.2)],
-                            startPoint: .leading,
-                            endPoint: .trailing
+                ZStack {
+                    // Bold orange gradient
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color(hex: "FF6B00"),
+                                    Color(hex: "E65C00"),
+                                    Color(hex: "CC5200")
+                                ],
+                                startPoint: .topLeading,
+                                endPoint: .bottomTrailing
+                            )
                         )
-                    )
+
+                    // Subtle shine overlay
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(
+                            LinearGradient(
+                                colors: [
+                                    Color.white.opacity(0.25),
+                                    Color.white.opacity(0.0)
+                                ],
+                                startPoint: .top,
+                                endPoint: .center
+                            )
+                        )
+                }
             )
             .overlay(
                 RoundedRectangle(cornerRadius: 20)
-                    .stroke(Color.appYellow.opacity(0.5), lineWidth: 2)
+                    .stroke(Color.white.opacity(0.3), lineWidth: 1)
             )
+            .shadow(color: Color(hex: "E65C00").opacity(0.4), radius: 12, y: 6)
         }
         .buttonStyle(.plain)
     }

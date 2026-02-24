@@ -88,14 +88,14 @@ struct SessionLimitPaywallView: View {
                         .background(
                             ZStack {
                                 RoundedRectangle(cornerRadius: 16)
-                                    .fill(Color.appBrownDark)
+                                    .fill(Color(hex: "CC5200"))
                                     .offset(y: 4)
                                 RoundedRectangle(cornerRadius: 16)
                                     .fill(
                                         LinearGradient(
-                                            colors: [Color.appYellow, Color.appOrange],
-                                            startPoint: .leading,
-                                            endPoint: .trailing
+                                            colors: [Color(hex: "FF6B00"), Color(hex: "E65C00")],
+                                            startPoint: .top,
+                                            endPoint: .bottom
                                         )
                                     )
                             }

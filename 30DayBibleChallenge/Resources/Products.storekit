@@ -5,12 +5,12 @@
   ],
   "products" : [
     {
-      "displayPrice" : "9.99",
+      "displayPrice" : "49.99",
       "familyShareable" : false,
       "internalID" : "lifetime",
       "localizations" : [
         {
-          "description" : "Unlock all premium features forever",
+          "description" : "Unlock all premium features forever - one time purchase",
           "displayName" : "Lifetime Access",
           "locale" : "en_US"
         }

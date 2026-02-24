@@ -9,6 +9,18 @@ struct PaywallView: View {
     @State private var showError = false
     @State private var errorMessage = ""
     @State private var fallbackProductId: String? = "com.biblechallenge.premium.monthly"
+    @State private var selectedFallbackOption: FallbackOption = .monthly
+
+    enum FallbackOption {
+        case monthly, lifetime
+
+        var productId: String {
+            switch self {
+            case .monthly: return "com.biblechallenge.premium.monthly"
+            case .lifetime: return "com.biblechallenge.premium.lifetime"
+            }
+        }
+    }
 
     var body: some View {
         NavigationStack {
@@ -134,65 +146,122 @@ struct PaywallView: View {
                         Text("Loading products...")
                             .foregroundStyle(Color.appTextSecondary)
                     } else {
-                        // Fallback when products fail to load - show monthly subscription
+                        // Fallback when products fail to load - show both options
                         VStack(spacing: 12) {
                             // Monthly subscription at $9.99
-                            VStack(spacing: 8) {
-                                Text("Premium Monthly")
-                                    .font(.headline)
-                                    .foregroundStyle(Color.appTextPrimary)
-                                Text("$9.99")
-                                    .font(.largeTitle)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(Color.appBrown)
-                                Text("per month")
-                                    .font(.subheadline)
-                                    .foregroundStyle(Color.appTextSecondary)
-                                Text("Full access to all features")
-                                    .font(.caption)
-                                    .foregroundStyle(Color.appTextSecondary)
+                            Button {
+                                selectedFallbackOption = .monthly
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text("Monthly Premium")
+                                            .font(.headline)
+                                            .foregroundStyle(Color.appTextPrimary)
+                                        Text("Full access to all features")
+                                            .font(.caption)
+                                            .foregroundStyle(Color.appTextSecondary)
+                                    }
+
+                                    Spacer()
+
+                                    VStack(alignment: .trailing) {
+                                        Text("$9.99")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color.appBrown)
+                                        Text("per month")
+                                            .font(.caption2)
+                                            .foregroundStyle(Color.appTextSecondary)
+                                    }
+                                }
+                                .padding()
+                                .background(selectedFallbackOption == .monthly ? Color.appBeige : Color.appCardBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(selectedFallbackOption == .monthly ? Color.appBrown : Color.appBrownLight.opacity(0.3), lineWidth: selectedFallbackOption == .monthly ? 2 : 1)
+                                )
                             }
-                            .padding(24)
-                            .frame(maxWidth: .infinity)
-                            .background(Color.appBeige)
-                            .clipShape(RoundedRectangle(cornerRadius: 16))
-                            .overlay(
-                                RoundedRectangle(cornerRadius: 16)
-                                    .stroke(Color.appBrown, lineWidth: 2)
-                            )
+                            .buttonStyle(.plain)
+
+                            // Lifetime at $49
+                            Button {
+                                selectedFallbackOption = .lifetime
+                            } label: {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        HStack {
+                                            Text("Lifetime Access")
+                                                .font(.headline)
+                                                .foregroundStyle(Color.appTextPrimary)
+
+                                            Text("BEST VALUE")
+                                                .font(.caption2)
+                                                .fontWeight(.bold)
+                                                .padding(.horizontal, 8)
+                                                .padding(.vertical, 2)
+                                                .background(Color.appGreen)
+                                                .foregroundStyle(.white)
+                                                .clipShape(Capsule())
+                                        }
+                                        Text("One-time purchase, forever yours")
+                                            .font(.caption)
+                                            .foregroundStyle(Color.appTextSecondary)
+                                    }
+
+                                    Spacer()
+
+                                    VStack(alignment: .trailing) {
+                                        Text("$49")
+                                            .font(.title3)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(Color.appBrown)
+                                        Text("one time")
+                                            .font(.caption2)
+                                            .foregroundStyle(Color.appTextSecondary)
+                                    }
+                                }
+                                .padding()
+                                .background(selectedFallbackOption == .lifetime ? Color.appBeige : Color.appCardBackground)
+                                .clipShape(RoundedRectangle(cornerRadius: 12))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: 12)
+                                        .stroke(selectedFallbackOption == .lifetime ? Color.appBrown : Color.appBrownLight.opacity(0.3), lineWidth: selectedFallbackOption == .lifetime ? 2 : 1)
+                                )
+                            }
+                            .buttonStyle(.plain)
                         }
 
                         // Purchase button for fallback
-                        if fallbackProductId != nil {
-                            Button {
-                                purchaseFallback()
-                            } label: {
-                                HStack {
-                                    if isPurchasing {
-                                        ProgressView()
-                                            .tint(.white)
-                                    } else {
-                                        Text("Continue")
-                                        Image(systemName: "arrow.right")
-                                    }
+                        Button {
+                            fallbackProductId = selectedFallbackOption.productId
+                            purchaseFallback()
+                        } label: {
+                            HStack {
+                                if isPurchasing {
+                                    ProgressView()
+                                        .tint(.white)
+                                } else {
+                                    Text("Continue")
+                                    Image(systemName: "arrow.right")
                                 }
-                                .fontWeight(.bold)
-                                .frame(maxWidth: .infinity)
-                                .padding()
-                                .background(
-                                    LinearGradient(
-                                        colors: [Color.appBrown, Color.appBrownDark],
-                                        startPoint: .top,
-                                        endPoint: .bottom
-                                    )
-                                )
-                                .foregroundStyle(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 14))
-                                .shadow(color: Color.appBrown.opacity(0.3), radius: 4, y: 2)
                             }
-                            .disabled(isPurchasing)
-                            .padding(.top)
+                            .fontWeight(.bold)
+                            .frame(maxWidth: .infinity)
+                            .padding()
+                            .background(
+                                LinearGradient(
+                                    colors: [Color(hex: "FF6B00"), Color(hex: "E65C00")],
+                                    startPoint: .top,
+                                    endPoint: .bottom
+                                )
+                            )
+                            .foregroundStyle(.white)
+                            .clipShape(RoundedRectangle(cornerRadius: 14))
+                            .shadow(color: Color(hex: "FF6B00").opacity(0.4), radius: 4, y: 2)
                         }
+                        .disabled(isPurchasing)
+                        .padding(.top)
 
                         Button {
                             Task {
@@ -231,14 +300,14 @@ struct PaywallView: View {
                     .padding()
                     .background(
                         LinearGradient(
-                            colors: [Color.appBrown, Color.appBrownDark],
+                            colors: [Color(hex: "FF6B00"), Color(hex: "E65C00")],
                             startPoint: .top,
                             endPoint: .bottom
                         )
                     )
                     .foregroundStyle(.white)
                     .clipShape(RoundedRectangle(cornerRadius: 14))
-                    .shadow(color: Color.appBrown.opacity(0.3), radius: 4, y: 2)
+                    .shadow(color: Color(hex: "FF6B00").opacity(0.4), radius: 4, y: 2)
                 }
                 .disabled(isPurchasing)
                 .padding(.top)

@@ -180,12 +180,13 @@ struct HomeView: View {
                             Capsule()
                                 .fill(
                                     LinearGradient(
-                                        colors: [Color.appYellow, Color.appOrange],
+                                        colors: [Color(hex: "FF6B00"), Color(hex: "E65C00")],
                                         startPoint: .leading,
                                         endPoint: .trailing
                                     )
                                 )
                         )
+                        .shadow(color: Color(hex: "FF6B00").opacity(0.4), radius: 4, y: 2)
                 }
             }
         }
