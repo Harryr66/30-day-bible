@@ -290,18 +290,10 @@ struct LessonBrowserView: View {
 
     private var lessonGrid: some View {
         VStack(alignment: .leading, spacing: 12) {
-            HStack {
-                Text(selectedCategory?.rawValue ?? "All Lessons")
-                    .font(.headline)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.appTextPrimary)
-
-                Spacer()
-
-                Text("\(filteredLessons.count) lessons")
-                    .font(.caption)
-                    .foregroundStyle(Color.appTextSecondary)
-            }
+            Text(selectedCategory?.rawValue ?? "All Lessons")
+                .font(.headline)
+                .fontWeight(.bold)
+                .foregroundStyle(Color.appTextPrimary)
 
             LazyVStack(spacing: 12) {
                 ForEach(filteredLessons) { lesson in
