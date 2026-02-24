@@ -15,6 +15,13 @@ struct DailyReadingView: View {
     @State private var navigateToMiniTest = false
     @State private var showSessionLimitPaywall = false
     @State private var sessionRecorded = false
+    @State private var memoryVerseMode: MemoryVerseMode = .study
+    @State private var memoryVerseAnswer = ""
+    @State private var memoryVerseCorrect: Bool? = nil
+
+    enum MemoryVerseMode {
+        case study, test, result
+    }
 
     init(day: ReadingDay, sessionManager: SessionManager? = nil) {
         self.day = day
@@ -316,7 +323,7 @@ struct DailyReadingView: View {
 
     private func memoryVerseStep(_ verse: BibleVerse) -> some View {
         VStack(spacing: 24) {
-            Spacer().frame(height: 40)
+            Spacer().frame(height: 20)
 
             // Header
             Text("Memory Verse")
@@ -328,40 +335,206 @@ struct DailyReadingView: View {
             Text("🧠")
                 .font(.system(size: 50))
 
-            // Memory verse card
-            VStack(spacing: 16) {
-                Text("Try to memorize this verse!")
-                    .font(.subheadline)
-                    .foregroundStyle(Color.appTextSecondary)
+            switch memoryVerseMode {
+            case .study:
+                // Study mode - show the verse
+                VStack(spacing: 16) {
+                    Text("Memorize this verse!")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.appTextSecondary)
 
-                Text("\"\(verse.text)\"")
-                    .font(.title3)
-                    .fontWeight(.medium)
-                    .italic()
-                    .foregroundStyle(Color.appTextPrimary)
-                    .lineSpacing(8)
-                    .multilineTextAlignment(.center)
-                    .fixedSize(horizontal: false, vertical: true)
+                    Text("\"\(verse.text)\"")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .italic()
+                        .foregroundStyle(Color.appTextPrimary)
+                        .lineSpacing(8)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
 
-                Text("— \(verse.reference)")
-                    .font(.subheadline)
-                    .fontWeight(.bold)
-                    .foregroundStyle(Color.appPurple)
+                    Text("— \(verse.reference)")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.appPurple)
+                }
+                .padding(24)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.appPurple.opacity(0.1))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.appPurple.opacity(0.3), lineWidth: 2)
+                        )
+                )
+
+                Button {
+                    withAnimation {
+                        memoryVerseMode = .test
+                    }
+                } label: {
+                    Text("I'm Ready to Test!")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.appPurple)
+                }
+                .padding(.top, 8)
+
+            case .test:
+                // Test mode - fill in missing words
+                VStack(spacing: 16) {
+                    Text("Complete the verse:")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.appTextSecondary)
+
+                    Text(createMaskedVerse(verse.text))
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .italic()
+                        .foregroundStyle(Color.appTextPrimary)
+                        .lineSpacing(8)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    TextField("Type the missing word(s)...", text: $memoryVerseAnswer)
+                        .textFieldStyle(.roundedBorder)
+                        .multilineTextAlignment(.center)
+                        .autocorrectionDisabled()
+
+                    Text("— \(verse.reference)")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.appPurple)
+                }
+                .padding(24)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill(Color.appPurple.opacity(0.1))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke(Color.appPurple.opacity(0.3), lineWidth: 2)
+                        )
+                )
+
+                HStack(spacing: 16) {
+                    Button {
+                        withAnimation {
+                            memoryVerseMode = .study
+                            memoryVerseAnswer = ""
+                        }
+                    } label: {
+                        Text("Show Verse")
+                            .font(.subheadline)
+                            .foregroundStyle(Color.appPurple)
+                    }
+
+                    Button {
+                        checkMemoryVerseAnswer(verse.text)
+                    } label: {
+                        Text("Check Answer")
+                            .font(.subheadline)
+                            .fontWeight(.bold)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, 20)
+                            .padding(.vertical, 10)
+                            .background(Color.appPurple)
+                            .clipShape(Capsule())
+                    }
+                }
+                .padding(.top, 8)
+
+            case .result:
+                // Result mode
+                VStack(spacing: 16) {
+                    if memoryVerseCorrect == true {
+                        Text("✅ Great job!")
+                            .font(.headline)
+                            .foregroundStyle(Color.appGreen)
+                    } else {
+                        Text("Keep practicing!")
+                            .font(.headline)
+                            .foregroundStyle(Color.appOrange)
+                    }
+
+                    Text("\"\(verse.text)\"")
+                        .font(.title3)
+                        .fontWeight(.medium)
+                        .italic()
+                        .foregroundStyle(Color.appTextPrimary)
+                        .lineSpacing(8)
+                        .multilineTextAlignment(.center)
+                        .fixedSize(horizontal: false, vertical: true)
+
+                    Text("— \(verse.reference)")
+                        .font(.subheadline)
+                        .fontWeight(.bold)
+                        .foregroundStyle(Color.appPurple)
+                }
+                .padding(24)
+                .frame(maxWidth: .infinity)
+                .background(
+                    RoundedRectangle(cornerRadius: 20)
+                        .fill((memoryVerseCorrect == true ? Color.appGreen : Color.appOrange).opacity(0.1))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 20)
+                                .stroke((memoryVerseCorrect == true ? Color.appGreen : Color.appOrange).opacity(0.3), lineWidth: 2)
+                        )
+                )
+
+                Button {
+                    withAnimation {
+                        memoryVerseMode = .study
+                        memoryVerseAnswer = ""
+                        memoryVerseCorrect = nil
+                    }
+                } label: {
+                    Text("Try Again")
+                        .font(.subheadline)
+                        .foregroundStyle(Color.appPurple)
+                }
+                .padding(.top, 8)
             }
-            .padding(24)
-            .frame(maxWidth: .infinity)
-            .background(
-                RoundedRectangle(cornerRadius: 20)
-                    .fill(Color.appPurple.opacity(0.1))
-                    .overlay(
-                        RoundedRectangle(cornerRadius: 20)
-                            .stroke(Color.appPurple.opacity(0.3), lineWidth: 2)
-                    )
-            )
 
             Spacer()
         }
         .padding(.horizontal)
+    }
+
+    private func createMaskedVerse(_ text: String) -> String {
+        let words = text.components(separatedBy: " ")
+        guard words.count > 3 else { return "___" }
+
+        // Mask 2-3 key words from the middle of the verse
+        var masked = words
+        let middleIndex = words.count / 2
+        let maskCount = min(3, max(2, words.count / 4))
+
+        for i in 0..<maskCount {
+            let index = middleIndex - maskCount/2 + i
+            if index >= 0 && index < masked.count {
+                masked[index] = "___"
+            }
+        }
+
+        return masked.joined(separator: " ")
+    }
+
+    private func checkMemoryVerseAnswer(_ originalText: String) {
+        let words = originalText.lowercased().components(separatedBy: " ")
+        let answerWords = memoryVerseAnswer.lowercased().components(separatedBy: " ")
+
+        // Check if any answer word appears in the original (lenient matching)
+        let isCorrect = answerWords.contains { answerWord in
+            words.contains { originalWord in
+                originalWord.contains(answerWord) && answerWord.count > 2
+            }
+        }
+
+        withAnimation {
+            memoryVerseCorrect = isCorrect
+            memoryVerseMode = .result
+        }
     }
 
     // MARK: - Completion Step

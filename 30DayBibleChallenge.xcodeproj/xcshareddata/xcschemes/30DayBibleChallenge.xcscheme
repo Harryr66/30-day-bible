@@ -78,7 +78,7 @@
       <CommandLineArguments>
       </CommandLineArguments>
       <StoreKitConfigurationFileReference
-         identifier = "../../../30DayBibleChallenge/Resources/Products.storekit">
+         identifier = "30DayBibleChallenge/Resources/Products.storekit">
       </StoreKitConfigurationFileReference>
    </LaunchAction>
    <ProfileAction

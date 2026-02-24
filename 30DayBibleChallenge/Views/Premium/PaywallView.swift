@@ -8,6 +8,7 @@ struct PaywallView: View {
     @State private var isPurchasing = false
     @State private var showError = false
     @State private var errorMessage = ""
+    @State private var fallbackProductId: String? = "com.biblechallenge.premium.monthly"
 
     var body: some View {
         NavigationStack {
@@ -133,27 +134,65 @@ struct PaywallView: View {
                         Text("Loading products...")
                             .foregroundStyle(Color.appTextSecondary)
                     } else {
-                        // Fallback when products fail to load
-                        VStack(spacing: 8) {
-                            Text("Lifetime Access")
-                                .font(.headline)
-                                .foregroundStyle(Color.appTextPrimary)
-                            Text("$9.99")
-                                .font(.title)
-                                .fontWeight(.bold)
-                                .foregroundStyle(Color.appBrown)
-                            Text("One-time purchase")
-                                .font(.caption)
-                                .foregroundStyle(Color.appTextSecondary)
+                        // Fallback when products fail to load - show monthly subscription
+                        VStack(spacing: 12) {
+                            // Monthly subscription at $9.99
+                            VStack(spacing: 8) {
+                                Text("Premium Monthly")
+                                    .font(.headline)
+                                    .foregroundStyle(Color.appTextPrimary)
+                                Text("$9.99")
+                                    .font(.largeTitle)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(Color.appBrown)
+                                Text("per month")
+                                    .font(.subheadline)
+                                    .foregroundStyle(Color.appTextSecondary)
+                                Text("Full access to all features")
+                                    .font(.caption)
+                                    .foregroundStyle(Color.appTextSecondary)
+                            }
+                            .padding(24)
+                            .frame(maxWidth: .infinity)
+                            .background(Color.appBeige)
+                            .clipShape(RoundedRectangle(cornerRadius: 16))
+                            .overlay(
+                                RoundedRectangle(cornerRadius: 16)
+                                    .stroke(Color.appBrown, lineWidth: 2)
+                            )
                         }
-                        .padding()
-                        .frame(maxWidth: .infinity)
-                        .background(Color.appBeige)
-                        .clipShape(RoundedRectangle(cornerRadius: 12))
-                        .overlay(
-                            RoundedRectangle(cornerRadius: 12)
-                                .stroke(Color.appBrown, lineWidth: 2)
-                        )
+
+                        // Purchase button for fallback
+                        if fallbackProductId != nil {
+                            Button {
+                                purchaseFallback()
+                            } label: {
+                                HStack {
+                                    if isPurchasing {
+                                        ProgressView()
+                                            .tint(.white)
+                                    } else {
+                                        Text("Continue")
+                                        Image(systemName: "arrow.right")
+                                    }
+                                }
+                                .fontWeight(.bold)
+                                .frame(maxWidth: .infinity)
+                                .padding()
+                                .background(
+                                    LinearGradient(
+                                        colors: [Color.appBrown, Color.appBrownDark],
+                                        startPoint: .top,
+                                        endPoint: .bottom
+                                    )
+                                )
+                                .foregroundStyle(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 14))
+                                .shadow(color: Color.appBrown.opacity(0.3), radius: 4, y: 2)
+                            }
+                            .disabled(isPurchasing)
+                            .padding(.top)
+                        }
 
                         Button {
                             Task {
@@ -164,9 +203,10 @@ struct PaywallView: View {
                                 Image(systemName: "arrow.clockwise")
                                 Text("Retry Loading")
                             }
-                            .font(.subheadline)
+                            .font(.caption)
                             .foregroundStyle(Color.appBrown)
                         }
+                        .padding(.top, 8)
                     }
                 }
                 .padding()
@@ -233,6 +273,28 @@ struct PaywallView: View {
                 dismiss()
             } catch {
                 errorMessage = error.localizedDescription
+                showError = true
+            }
+            isPurchasing = false
+        }
+    }
+
+    private func purchaseFallback() {
+        guard let productId = fallbackProductId else { return }
+        isPurchasing = true
+        Task {
+            // Try to load products first, then purchase
+            await storeViewModel.loadProducts()
+            if let product = storeViewModel.products.first(where: { $0.id == productId }) {
+                do {
+                    try await storeViewModel.purchase(product)
+                    dismiss()
+                } catch {
+                    errorMessage = error.localizedDescription
+                    showError = true
+                }
+            } else {
+                errorMessage = "Unable to load product. Please check your internet connection and try again."
                 showError = true
             }
             isPurchasing = false
