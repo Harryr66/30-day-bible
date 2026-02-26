@@ -53,8 +53,34 @@ struct BiblePassage: Codable, Identifiable, Hashable {
     }
 }
 
-/// Book structure for parsing Bible JSON
+/// Verse structure for KJV Bible JSON
+struct KJVVerse: Codable {
+    let verse: String
+    let text: String
+}
+
+/// Chapter structure for KJV Bible JSON
+struct KJVChapter: Codable {
+    let chapter: String
+    let verses: [KJVVerse]
+}
+
+/// Book structure for parsing Bible JSON (KJV format)
 struct BibleBook: Codable {
-    let name: String
-    let chapters: [[String]]
+    let book: String
+    let chapters: [KJVChapter]
+
+    /// Get verse text by chapter and verse number
+    func getVerse(chapter: Int, verse: Int) -> String? {
+        guard chapter > 0 && chapter <= chapters.count else { return nil }
+        let chapterData = chapters[chapter - 1]
+        guard verse > 0 && verse <= chapterData.verses.count else { return nil }
+        return chapterData.verses[verse - 1].text
+    }
+
+    /// Get all verses for a chapter
+    func getChapterVerses(chapter: Int) -> [KJVVerse]? {
+        guard chapter > 0 && chapter <= chapters.count else { return nil }
+        return chapters[chapter - 1].verses
+    }
 }

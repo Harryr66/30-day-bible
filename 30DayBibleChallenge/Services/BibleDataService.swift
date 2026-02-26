@@ -8,15 +8,17 @@ class BibleDataService {
     }
 
     private func loadBibleData() {
-        guard let url = Bundle.main.url(forResource: "web_bible", withExtension: "json") else {
+        guard let url = Bundle.main.url(forResource: "Bible", withExtension: "json") else {
+            print("Bible.json not found in bundle")
             return
         }
 
         do {
             let data = try Data(contentsOf: url)
             bibleData = try JSONDecoder().decode([BibleBook].self, from: data)
+            print("Loaded Bible with \(bibleData?.count ?? 0) books")
         } catch {
-            // Fallback to sample data - no action needed
+            print("Failed to parse Bible.json: \(error)")
         }
     }
 
@@ -35,7 +37,7 @@ class BibleDataService {
         let normalizedBook = normalizeBookName(day.book)
 
         // Find the book
-        guard let book = books.first(where: { normalizeBookName($0.name) == normalizedBook }) else {
+        guard let book = books.first(where: { normalizeBookName($0.book) == normalizedBook }) else {
             return nil
         }
 
@@ -43,14 +45,13 @@ class BibleDataService {
 
         // Handle single chapter or multi-chapter passages
         for chapter in day.startChapter...day.endChapter {
-            guard chapter <= book.chapters.count else { continue }
-            let chapterVerses = book.chapters[chapter - 1]
+            guard let chapterVerses = book.getChapterVerses(chapter: chapter) else { continue }
 
             let startVerse = (chapter == day.startChapter) ? day.startVerse : 1
             let endVerse = (chapter == day.endChapter) ? day.endVerse : chapterVerses.count
 
             for verseNum in startVerse...min(endVerse, chapterVerses.count) {
-                let verseText = chapterVerses[verseNum - 1]
+                let verseText = chapterVerses[verseNum - 1].text
                 verses.append(BibleVerse(
                     book: day.book,
                     chapter: chapter,
@@ -72,18 +73,76 @@ class BibleDataService {
         )
     }
 
+    /// Load passage for a Lesson
+    func loadPassage(for lesson: Lesson) -> BiblePassage? {
+        guard let books = bibleData else { return nil }
+
+        let normalizedBook = normalizeBookName(lesson.book)
+
+        guard let book = books.first(where: { normalizeBookName($0.book) == normalizedBook }) else {
+            return nil
+        }
+
+        var verses: [BibleVerse] = []
+
+        for chapter in lesson.startChapter...lesson.endChapter {
+            guard let chapterVerses = book.getChapterVerses(chapter: chapter) else { continue }
+
+            let startVerse = (chapter == lesson.startChapter) ? lesson.startVerse : 1
+            let endVerse = (chapter == lesson.endChapter) ? lesson.endVerse : chapterVerses.count
+
+            for verseNum in startVerse...min(endVerse, chapterVerses.count) {
+                let verseText = chapterVerses[verseNum - 1].text
+                verses.append(BibleVerse(
+                    book: lesson.book,
+                    chapter: chapter,
+                    verse: verseNum,
+                    text: verseText
+                ))
+            }
+        }
+
+        guard !verses.isEmpty else { return nil }
+
+        return BiblePassage(
+            book: lesson.book,
+            startChapter: lesson.startChapter,
+            startVerse: lesson.startVerse,
+            endChapter: lesson.endChapter,
+            endVerse: lesson.endVerse,
+            verses: verses
+        )
+    }
+
+    /// Load a specific verse by reference (e.g., "John 3:16")
+    func loadVerse(book: String, chapter: Int, verse: Int) -> BibleVerse? {
+        guard let books = bibleData else { return nil }
+
+        let normalizedBook = normalizeBookName(book)
+
+        guard let bookData = books.first(where: { normalizeBookName($0.book) == normalizedBook }),
+              let text = bookData.getVerse(chapter: chapter, verse: verse) else {
+            return nil
+        }
+
+        return BibleVerse(book: book, chapter: chapter, verse: verse, text: text)
+    }
+
     func loadMemoryVerse(reference: String) -> BibleVerse? {
         return createSampleMemoryVerse(reference: reference)
     }
 
     private func normalizeBookName(_ name: String) -> String {
         name.lowercased()
-            .replacingOccurrences(of: "1 ", with: "1")
-            .replacingOccurrences(of: "2 ", with: "2")
-            .replacingOccurrences(of: "3 ", with: "3")
-            .replacingOccurrences(of: "first ", with: "1")
-            .replacingOccurrences(of: "second ", with: "2")
-            .replacingOccurrences(of: "third ", with: "3")
+            .replacingOccurrences(of: " ", with: "")
+            .replacingOccurrences(of: "1", with: "1")
+            .replacingOccurrences(of: "2", with: "2")
+            .replacingOccurrences(of: "3", with: "3")
+            .replacingOccurrences(of: "first", with: "1")
+            .replacingOccurrences(of: "second", with: "2")
+            .replacingOccurrences(of: "third", with: "3")
+            .replacingOccurrences(of: "songofsolomon", with: "songofsolomon")
+            .replacingOccurrences(of: "songofsongs", with: "songofsolomon")
     }
 
     // Extended passage data for lessons not in the 30-day plan

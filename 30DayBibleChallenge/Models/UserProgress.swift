@@ -16,6 +16,10 @@ final class UserProgress {
     var sessionTimestamps: [Date] = []
     var completedLessonIds: [String] = []
 
+    // Cloud sync
+    var userId: String?
+    var lastSyncDate: Date?
+
     // Session constants
     static let freeSessionLimit = 5
     static let sessionWindowHours: TimeInterval = 24 * 60 * 60
@@ -27,10 +31,12 @@ final class UserProgress {
         self.longestStreak = 0
         self.lastReadDate = nil
         self.totalReadingTime = 0
-        self.isPremium = false
+        self.isPremium = true  // TODO: Set back to false before App Store submission
         self.premiumPurchaseDate = nil
         self.sessionTimestamps = []
         self.completedLessonIds = []
+        self.userId = nil
+        self.lastSyncDate = nil
     }
 
     // MARK: - Session Management
@@ -111,6 +117,45 @@ final class UserProgress {
 
         lastReadDate = today
         longestStreak = max(longestStreak, currentStreak)
+    }
+
+    // MARK: - Cloud Sync
+
+    /// Sync progress to cloud
+    func syncToCloud() async {
+        do {
+            _ = try await CloudSyncService.shared.syncProgress(localProgress: self)
+            await MainActor.run {
+                self.lastSyncDate = Date()
+            }
+        } catch {
+            print("Failed to sync to cloud: \(error)")
+        }
+    }
+
+    /// Pull progress from cloud and merge
+    func pullFromCloud() async {
+        do {
+            if let cloudUser = try await CloudSyncService.shared.pullProgress() {
+                await MainActor.run {
+                    cloudUser.applyTo(self)
+                    self.lastSyncDate = Date()
+                }
+            }
+        } catch {
+            print("Failed to pull from cloud: \(error)")
+        }
+    }
+
+    /// Associate with a user ID for cloud sync
+    func associateWithUser(_ userId: String) {
+        self.userId = userId
+    }
+
+    /// Clear user association (on sign out)
+    func clearUserAssociation() {
+        self.userId = nil
+        self.lastSyncDate = nil
     }
 }
 
