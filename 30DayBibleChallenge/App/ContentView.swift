@@ -445,7 +445,7 @@ struct SettingsView: View {
             }
 
             SettingsRow(icon: "questionmark.circle.fill", title: "Help & Support", color: .appGreen) {
-                if let url = URL(string: "mailto:support@biblechallenge.app") {
+                if let url = URL(string: "https://harryr66.github.io/30-day-bible/support.html") {
                     UIApplication.shared.open(url)
                 }
             }
