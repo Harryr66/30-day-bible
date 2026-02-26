@@ -1,5 +1,6 @@
 import Foundation
 import StoreKit
+@preconcurrency import FirebaseAuth
 
 @MainActor
 class StoreViewModel: ObservableObject {
@@ -10,6 +11,11 @@ class StoreViewModel: ObservableObject {
     private let productIDs = [
         "com.biblechallenge.premium.monthly",
         "com.biblechallenge.premium.lifetime"
+    ]
+
+    // Apple Review test account - gets full premium access
+    private let appleReviewTestEmails: Set<String> = [
+        "test@test.com"
     ]
 
     private var updateListenerTask: Task<Void, Error>?
@@ -27,7 +33,19 @@ class StoreViewModel: ObservableObject {
     }
 
     var isPremium: Bool {
-        !purchasedProductIDs.isEmpty
+        // Check if user is Apple review test account
+        if isAppleReviewAccount {
+            return true
+        }
+        return !purchasedProductIDs.isEmpty
+    }
+
+    /// Check if current user is an Apple review test account
+    private var isAppleReviewAccount: Bool {
+        guard let email = Auth.auth().currentUser?.email?.lowercased() else {
+            return false
+        }
+        return appleReviewTestEmails.contains(email)
     }
 
     func loadProducts() async {

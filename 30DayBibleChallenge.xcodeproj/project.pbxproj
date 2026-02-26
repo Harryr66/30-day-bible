@@ -8,14 +8,30 @@
 
 /* Begin PBXBuildFile section */
 		034C125D5FD730C2C0EAE889 /* SmallWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E8B767EC84EE811A7BF24EC1 /* SmallWidgetView.swift */; };
+		043A19DD09866C903F8D905D /* Philippians.json in Resources */ = {isa = PBXBuildFile; fileRef = 3A6D5F9084D0E7884DAB44D0 /* Philippians.json */; };
+		05B13A949BB250923D66420B /* Jude.json in Resources */ = {isa = PBXBuildFile; fileRef = DCB54B0704C8252BD6B1EF95 /* Jude.json */; };
+		05CAB48480B28F931E2F79A6 /* Deuteronomy.json in Resources */ = {isa = PBXBuildFile; fileRef = FA1991C6170D7D81C1ACEC9F /* Deuteronomy.json */; };
+		06CCA84AF1EAB4758585A2FF /* Ezekiel.json in Resources */ = {isa = PBXBuildFile; fileRef = 1E169A1378074952747DCFB9 /* Ezekiel.json */; };
 		06D13BEDE4764CD1CAE09CBD /* QuizViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 1B06843160424BF88D6F6B8D /* QuizViewModel.swift */; };
+		06E1F01711F9F7C0313AE7D7 /* Micah.json in Resources */ = {isa = PBXBuildFile; fileRef = 2B036B7E0A13CA783F3FDE43 /* Micah.json */; };
 		06E8FD61D24CB98C7AE3544A /* QuizView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BF8F4B5256290BD1B6E6215B /* QuizView.swift */; };
+		072F338849ADFA2DA3049700 /* 2Peter.json in Resources */ = {isa = PBXBuildFile; fileRef = 23692FDDB9BDCFF7CB301FBC /* 2Peter.json */; };
 		07D0C49DEF98596C6A46279B /* StoreService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46BD419A27921A4F8B3837BF /* StoreService.swift */; };
 		082176E1C3E101413FA308E0 /* UserProgress.swift in Sources */ = {isa = PBXBuildFile; fileRef = AEF81755C0F9F5E60B347573 /* UserProgress.swift */; };
 		0A5CCFB42C8F642FA9BCDD39 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E7055F2E325C5B17D94CC07B /* ContentView.swift */; };
+		0E8763BB24FF7FCE52DE3B3D /* 1Samuel.json in Resources */ = {isa = PBXBuildFile; fileRef = E88854D5DCDD1BBB74FC1462 /* 1Samuel.json */; };
+		0FC86985B5B26C3E83AB9BA0 /* Hebrews.json in Resources */ = {isa = PBXBuildFile; fileRef = 52696C3363B108CEFFFF3D55 /* Hebrews.json */; };
+		10B70D4A0B2A86F95227B690 /* Lamentations.json in Resources */ = {isa = PBXBuildFile; fileRef = 1FC875F2433F8DEDD0EAD205 /* Lamentations.json */; };
+		11A42A571409C44B4E80FCDD /* 2Kings.json in Resources */ = {isa = PBXBuildFile; fileRef = C17155AAB55587CB3229632C /* 2Kings.json */; };
 		134B4DAE68795E1431C2C59C /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 86C11909FA6DAEDEE8ABA233 /* Assets.xcassets */; };
 		1A09EB2889BBA3A1529D56FF /* SessionManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9CC94A980374E588D06B2206 /* SessionManager.swift */; };
+		1AC9609F04ECE31323EDC507 /* Mark.json in Resources */ = {isa = PBXBuildFile; fileRef = 6E611B5BD220D49EB6143A81 /* Mark.json */; };
 		1B9357094699059DC39C8F38 /* SessionLimitPaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9C7B9717C033DBD1BA84A150 /* SessionLimitPaywallView.swift */; };
+		1EB0D5222A13FDB9C4F0791D /* Zechariah.json in Resources */ = {isa = PBXBuildFile; fileRef = 91744732F9460A2248740772 /* Zechariah.json */; };
+		24920AF5B402F649E1FF349B /* Genesis_test.json in Resources */ = {isa = PBXBuildFile; fileRef = 47288CB2A9EBF1883DEB5553 /* Genesis_test.json */; };
+		2550E3A8C8B8B31725FCC4B6 /* 3John.json in Resources */ = {isa = PBXBuildFile; fileRef = FB34E70E9C4590EF6D78489C /* 3John.json */; };
+		2587BB0889E36389A26E3B42 /* Romans.json in Resources */ = {isa = PBXBuildFile; fileRef = 57F1188C4A5CD7AAFB3011CB /* Romans.json */; };
+		263B3B5D3D18CE804A8FBE45 /* 2Corinthians.json in Resources */ = {isa = PBXBuildFile; fileRef = 3B21C45736E32DDFADED2CDB /* 2Corinthians.json */; };
 		289D6C49C316EB6C2D82AE12 /* WidgetTimelineProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = 154E78112C303CB066094A42 /* WidgetTimelineProvider.swift */; };
 		28A0BA9B08551DE452968212 /* LessonBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B0DD9294BC3099A8A5132A7F /* LessonBrowserView.swift */; };
 		2AF5621941ECFBD6E706DE4E /* VerseCard.swift in Sources */ = {isa = PBXBuildFile; fileRef = 59B96AA9266044F5B7803E1A /* VerseCard.swift */; };
@@ -24,30 +40,95 @@
 		2F346F1E4F427AA7CF453143 /* ReadingPlan.swift in Sources */ = {isa = PBXBuildFile; fileRef = 969CB4F0C611B7A2A7E3A3F3 /* ReadingPlan.swift */; };
 		33344A0405F6B9ED9EDDB8B9 /* WidgetKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 457D07D78E7A082E923ADA07 /* WidgetKit.framework */; };
 		35BF848816DD7B4383A9F1ED /* ReadingViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E5A1C58172167AD7FB33B017 /* ReadingViewModel.swift */; };
+		37F57117E2B8F502FB7BC462 /* Ecclesiastes.json in Resources */ = {isa = PBXBuildFile; fileRef = 9B687F8AEEB2BAE77DDB0E27 /* Ecclesiastes.json */; };
+		385267BAAE463AF6F36B478F /* James.json in Resources */ = {isa = PBXBuildFile; fileRef = 399667745DB746D9AA5E36B7 /* James.json */; };
+		38FD0727CE3ECF539946B92B /* 1Chronicles.json in Resources */ = {isa = PBXBuildFile; fileRef = 574EF85050AAB576AE8A5144 /* 1Chronicles.json */; };
+		39D7AA19964C1F21329ECBCE /* Hosea.json in Resources */ = {isa = PBXBuildFile; fileRef = 6C865AC754A663E5A8479343 /* Hosea.json */; };
+		3A638AFDEC97D921AB0FA73D /* 2John.json in Resources */ = {isa = PBXBuildFile; fileRef = D6C32C5F144CEC41E869D53F /* 2John.json */; };
+		3C179F0F4A5A6DFFE4BED42A /* 1Peter.json in Resources */ = {isa = PBXBuildFile; fileRef = C31D7FFA6A9E3B43159CF2D5 /* 1Peter.json */; };
+		3DFED5ED87F55F7544CE5B27 /* Titus.json in Resources */ = {isa = PBXBuildFile; fileRef = 588E319837CA6FAB8172D252 /* Titus.json */; };
+		3F3059767486C3BD7E218517 /* 1Timothy.json in Resources */ = {isa = PBXBuildFile; fileRef = 07ED7A6F378EBCD5C90E6085 /* 1Timothy.json */; };
+		3F3FDBF8163CE7C71A4E1E29 /* SplashScreenView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E15ADEE699AD514990DD91FC /* SplashScreenView.swift */; };
+		3F79B19706DFA2828EFE8664 /* 1John.json in Resources */ = {isa = PBXBuildFile; fileRef = 291594764B676A223BEBCE74 /* 1John.json */; };
 		432634335F30FB07D565C602 /* LessonCatalog.swift in Sources */ = {isa = PBXBuildFile; fileRef = DDB3BBC5261DCBD3621F5108 /* LessonCatalog.swift */; };
+		4455A93EB0675DC49916887F /* Ephesians.json in Resources */ = {isa = PBXBuildFile; fileRef = 11BFB26385C0B3367349A23D /* Ephesians.json */; };
 		4A2CAFA0609F0281C159394E /* BibleChallengeApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4ADE6A097BE6857E97C662D7 /* BibleChallengeApp.swift */; };
 		5003A52A683C9612DB66B39E /* ReadingPlanView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 9D4D95699CC1CF1F8FB15E8B /* ReadingPlanView.swift */; };
+		50AFF1F462374FD147E8EA3C /* Malachi.json in Resources */ = {isa = PBXBuildFile; fileRef = B8B6BB8442D23D52FDEA8F14 /* Malachi.json */; };
 		51D99FF37DA279FA8C0DF1D8 /* MiniTestView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 71B422149DAC2167525F478E /* MiniTestView.swift */; };
+		54E04C52EEE5FFD75D06344E /* Isaiah.json in Resources */ = {isa = PBXBuildFile; fileRef = 5E3B80C84F7259BEE731C050 /* Isaiah.json */; };
+		5D61DCB50C410E2BCDD9AA4D /* Exodus.json in Resources */ = {isa = PBXBuildFile; fileRef = 77959746732F5E049CB691EA /* Exodus.json */; };
+		5DC86C2A5DA09C55E3C076FC /* Amos.json in Resources */ = {isa = PBXBuildFile; fileRef = D842FBFDCD6F04862B94F308 /* Amos.json */; };
 		5E7FC41F6E29D63BBB2F54AC /* Theme.swift in Sources */ = {isa = PBXBuildFile; fileRef = 254C9E1D5BA485E0C3880057 /* Theme.swift */; };
+		60B90CF5DEC1D1BB75C6B248 /* Proverbs.json in Resources */ = {isa = PBXBuildFile; fileRef = 37049782C6E954ACA6E79933 /* Proverbs.json */; };
+		6168D8CA45BED448AFA51340 /* Luke.json in Resources */ = {isa = PBXBuildFile; fileRef = 241D6195DB38DCACAF092823 /* Luke.json */; };
+		618C1D28801F7FCE85955CA3 /* FirebaseAuth in Frameworks */ = {isa = PBXBuildFile; productRef = 547BEB6627B02AB8E4ABF58A /* FirebaseAuth */; };
+		63363DEC2EB2EAA699BBAC1D /* Jeremiah.json in Resources */ = {isa = PBXBuildFile; fileRef = 02D455D3A6AB77FE3046CFA4 /* Jeremiah.json */; };
 		63E51174BAF8FA6F804755EF /* HomeView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 584256DBD67A885281C3A1C9 /* HomeView.swift */; };
+		63E6CE5E841A01DE1063A09E /* SongofSolomon.json in Resources */ = {isa = PBXBuildFile; fileRef = D67B074448BB2D3EF0BDF3A5 /* SongofSolomon.json */; };
+		63FEDBDB6337EE87F2964AB4 /* 2Samuel.json in Resources */ = {isa = PBXBuildFile; fileRef = C68210641D6695945A4352D5 /* 2Samuel.json */; };
+		659C11168BF9304B66C7CA9A /* Nahum.json in Resources */ = {isa = PBXBuildFile; fileRef = 54E574A91D721D8CE5D155D9 /* Nahum.json */; };
+		65BE116B57445F8E82B2ACE5 /* EmailAuthView.swift in Sources */ = {isa = PBXBuildFile; fileRef = B03B88B690E44ED5738B6525 /* EmailAuthView.swift */; };
+		6679150CB35150952054E800 /* Habakkuk.json in Resources */ = {isa = PBXBuildFile; fileRef = A6067829C7AE76ABAA6BCB4A /* Habakkuk.json */; };
 		6EDF5A6F8391282CBBEEC8B3 /* PaywallView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4E52B6DC091EF43B95708B7F /* PaywallView.swift */; };
+		6FA89BEB9D6A1C6016F9481F /* Genesis.json in Resources */ = {isa = PBXBuildFile; fileRef = C2F313CFB486DD0CE10F6B76 /* Genesis.json */; };
 		70ECC0C0C7665EA8F75372AB /* BibleWidgetExtension.appex in Embed Foundation Extensions */ = {isa = PBXBuildFile; fileRef = B3EECE254EED0B431627298A /* BibleWidgetExtension.appex */; settings = {ATTRIBUTES = (RemoveHeadersOnCopy, ); }; };
 		721ECA4AB361EDE5AE7D7A43 /* BibleWidgetBundle.swift in Sources */ = {isa = PBXBuildFile; fileRef = C5379792517471B9D8F4EF82 /* BibleWidgetBundle.swift */; };
+		726FF3886F5B08916FBC0F35 /* FirebaseFirestore in Frameworks */ = {isa = PBXBuildFile; productRef = F1A085BE9C92C7FEB2A992F4 /* FirebaseFirestore */; };
+		72B18414F803770F499DB6AE /* GoogleSignInSwift in Frameworks */ = {isa = PBXBuildFile; productRef = F8B7E7C39B584F75B90BC6CB /* GoogleSignInSwift */; };
+		75CB4001D0D44F145F1AD00A /* 1Thessalonians.json in Resources */ = {isa = PBXBuildFile; fileRef = 792B54CDB141556C75619505 /* 1Thessalonians.json */; };
+		7722C1851B772AF4FD2F5CC6 /* Zephaniah.json in Resources */ = {isa = PBXBuildFile; fileRef = 1F8D90034F750911EF0CBFDF /* Zephaniah.json */; };
+		7C0E8523A6843D0B72B97185 /* Obadiah.json in Resources */ = {isa = PBXBuildFile; fileRef = B19B4A82A91B6041ABA893C6 /* Obadiah.json */; };
+		7DFE6ACC45DF9F22341D4D9A /* Daniel.json in Resources */ = {isa = PBXBuildFile; fileRef = 4C617B9BC6E91EE07FD4E3FE /* Daniel.json */; };
 		84C0C5BC6DC8626FE6AA8C37 /* SwiftUI.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 933BCA7DF30F5F99C6016692 /* SwiftUI.framework */; };
+		85F26758EE4A1EFF3C788C75 /* CloudSyncService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F82DEBBA0C566D745FD983AA /* CloudSyncService.swift */; };
+		86C036450CF905FFC67E0C5F /* GoogleService-Info.plist in Resources */ = {isa = PBXBuildFile; fileRef = BC77042CF71D0B78B685F968 /* GoogleService-Info.plist */; };
 		8AFAA1BCA769360A4C37EB1E /* Lesson.swift in Sources */ = {isa = PBXBuildFile; fileRef = BBCAC61AF9B37558A7E9CC2B /* Lesson.swift */; };
+		8BBD36AEBF25DB64CFF20006 /* GoogleSignIn in Frameworks */ = {isa = PBXBuildFile; productRef = A9AD908511B6873947E17414 /* GoogleSignIn */; };
 		8F99602D6A452B54933BD68B /* MatchVerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4A5D7BC73309718426EB0715 /* MatchVerseView.swift */; };
+		90C8FFE55A124AF8F5A3F944 /* AuthViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 427B5341876783A898D5DFFD /* AuthViewModel.swift */; };
+		913D344D89F3AE19D82A9419 /* Acts.json in Resources */ = {isa = PBXBuildFile; fileRef = C697AE86F020DD5067203051 /* Acts.json */; };
 		943FD0C3FA27915FFE8DDEAF /* LockScreenWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EEB189423DA0473A07F900E1 /* LockScreenWidgetView.swift */; };
+		979345C5CBA71BEFFE45D569 /* Joshua.json in Resources */ = {isa = PBXBuildFile; fileRef = 797A66BEAD4FADF4ABD5BF50 /* Joshua.json */; };
+		9AFE52782E7E97A3E90A90C9 /* AuthenticationView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 731FE5CC37BD667768DB6777 /* AuthenticationView.swift */; };
+		9FA45BCBB9236C03F38C6410 /* Ezra.json in Resources */ = {isa = PBXBuildFile; fileRef = A8FC61AC2CD38368DE10528C /* Ezra.json */; };
 		A0B778B80DE6DA8533EF7408 /* BibleDataService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 62FF9BCB1C91C0DAB73F8279 /* BibleDataService.swift */; };
 		A557EAB52D06199840F4561B /* BibleVerse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8E4CA572F8BB9E648150B98A /* BibleVerse.swift */; };
 		A6342B69DC4B18EBF5A6E997 /* MemoryViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8418668B4CC32A46D89D5F85 /* MemoryViewModel.swift */; };
+		A7EDAF752F3C1F327EAA8402 /* CloudUser.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8489861E8C131D144128198C /* CloudUser.swift */; };
+		A81545277FCB49CD475900E7 /* Matthew.json in Resources */ = {isa = PBXBuildFile; fileRef = 61C6FD04F2E29750787AE1AE /* Matthew.json */; };
 		AEAD702FF649DB4014E53B9A /* BibleAPIService.swift in Sources */ = {isa = PBXBuildFile; fileRef = B36FF9A476D6426618BC0CB9 /* BibleAPIService.swift */; };
+		B1B7FE4CB95751F7A3156068 /* Esther.json in Resources */ = {isa = PBXBuildFile; fileRef = 51E62AF112FF53EDCDDF28E6 /* Esther.json */; };
 		B1CE0041EB5E48B528375C3D /* GamesMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3691998FA0BD5805767502D2 /* GamesMenuView.swift */; };
+		B2973E65831BDAFBA0963A09 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = 82420AA10AC0A03CE4AB160C /* AuthService.swift */; };
 		B8BFFFDB4395835A9BFD66BF /* GameScore.swift in Sources */ = {isa = PBXBuildFile; fileRef = 8705201844339DB1D5392A27 /* GameScore.swift */; };
+		B98C77A044CDC7406C88E2FB /* Philemon.json in Resources */ = {isa = PBXBuildFile; fileRef = 4782B8AF08101B8C2E5E375C /* Philemon.json */; };
 		BCAB0A693612AEA8336D41B9 /* MediumWidgetView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14E55530CE292C0CFF33FFDA /* MediumWidgetView.swift */; };
+		BD6D920B3411293A634BC187 /* Nehemiah.json in Resources */ = {isa = PBXBuildFile; fileRef = C612DAE5A4304CC7B29FED51 /* Nehemiah.json */; };
+		C256D1FF140A9F59CD2E5539 /* Bible.json in Resources */ = {isa = PBXBuildFile; fileRef = 2F92D752AF2F111BE6518A69 /* Bible.json */; };
+		C30C111D516434829D494B0F /* Jonah.json in Resources */ = {isa = PBXBuildFile; fileRef = B82EC90EDCA3C28FD50B9917 /* Jonah.json */; };
+		C560FDAE8AE571C500A39D5D /* 1Kings.json in Resources */ = {isa = PBXBuildFile; fileRef = 0D94324F6210841BCA29295F /* 1Kings.json */; };
+		CAAE2671E1EEDC4762E42276 /* 1Corinthians.json in Resources */ = {isa = PBXBuildFile; fileRef = 848AAA26CCB46A881D822CF1 /* 1Corinthians.json */; };
+		CC31A8BAE7A739260F4B9F84 /* 2Chronicles.json in Resources */ = {isa = PBXBuildFile; fileRef = 39E9FBD926624E739B80A5CD /* 2Chronicles.json */; };
+		D0F4E506B1C1F016080F3D6A /* Revelation.json in Resources */ = {isa = PBXBuildFile; fileRef = C380375C2225CF5F6E64E8B5 /* Revelation.json */; };
+		D40D5D36C04A338E3BBFEA6F /* John.json in Resources */ = {isa = PBXBuildFile; fileRef = B0553EBAABE1EC448E039F64 /* John.json */; };
+		D83E332A2766C3E486955CB3 /* Haggai.json in Resources */ = {isa = PBXBuildFile; fileRef = 53D8CBA0E994AC7BF3514A17 /* Haggai.json */; };
+		DB482970DACEDEDAC5DC69E4 /* Books.json in Resources */ = {isa = PBXBuildFile; fileRef = 85DC300F9A9B577B67C760C8 /* Books.json */; };
+		E08734ED76ECE138A5016EFF /* Judges.json in Resources */ = {isa = PBXBuildFile; fileRef = 05C318BE9F2321A31795BC75 /* Judges.json */; };
+		E18016C7F8C106E46882C3C5 /* Colossians.json in Resources */ = {isa = PBXBuildFile; fileRef = A50158FB6C4B622F64C33187 /* Colossians.json */; };
 		E49FE4168851FC1AFAE0B595 /* web_bible.json in Resources */ = {isa = PBXBuildFile; fileRef = ADE19C915DFDBCE3FD2F2F79 /* web_bible.json */; };
 		E7E67EA814618677AABDC471 /* StoreViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 14111CFEC145FF64173B4CFD /* StoreViewModel.swift */; };
+		E952F21098A24769AF841663 /* 2Thessalonians.json in Resources */ = {isa = PBXBuildFile; fileRef = A06710F28FB1F8E106DFA54A /* 2Thessalonians.json */; };
+		F165E6FB34CF37F13A3EBD57 /* Leviticus.json in Resources */ = {isa = PBXBuildFile; fileRef = 37B31A1EBED095AAB7428FAE /* Leviticus.json */; };
 		F2375549C1BF425DB07EDF7A /* MemoryVerseView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 30F602FED219223C19702E99 /* MemoryVerseView.swift */; };
+		F3CDA29E3522314480F0B5B7 /* Psalms.json in Resources */ = {isa = PBXBuildFile; fileRef = 07BCE554802E32A8ADBAA8BF /* Psalms.json */; };
+		F41D43334AC056CCC81EED98 /* Joel.json in Resources */ = {isa = PBXBuildFile; fileRef = E64342DD5A32D2D5F20BB144 /* Joel.json */; };
+		F584AED0F3B8AD19FE4F2208 /* Ruth.json in Resources */ = {isa = PBXBuildFile; fileRef = 115630C66F4A47DB1E3A7672 /* Ruth.json */; };
+		F7485BB8E690F129C2EF9CB3 /* 2Timothy.json in Resources */ = {isa = PBXBuildFile; fileRef = A407124A777D73A744996888 /* 2Timothy.json */; };
+		F9E16CDE0B2605D9B22B1B5A /* Galatians.json in Resources */ = {isa = PBXBuildFile; fileRef = 17094AEEE5DDC5CAA68AB9D5 /* Galatians.json */; };
 		F9F43044B830D473E5C37B54 /* MiniTestViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = 2C221DC7E4888F81FFCA4E88 /* MiniTestViewModel.swift */; };
+		FAC9DD44100FA1A75AFCC7BA /* Job.json in Resources */ = {isa = PBXBuildFile; fileRef = E47E4DC2BE38FB26B0F59612 /* Job.json */; };
+		FD22E5197539ECB7DDAE4D18 /* Numbers.json in Resources */ = {isa = PBXBuildFile; fileRef = 9F9D545509BA7A65988693E8 /* Numbers.json */; };
 		FF601CB54DA69736E2634E0C /* FillBlankView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FCF322935E08FF702628D278 /* FillBlankView.swift */; };
 /* End PBXBuildFile section */
 
@@ -76,53 +157,141 @@
 /* End PBXCopyFilesBuildPhase section */
 
 /* Begin PBXFileReference section */
+		02D455D3A6AB77FE3046CFA4 /* Jeremiah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Jeremiah.json; sourceTree = "<group>"; };
+		05C318BE9F2321A31795BC75 /* Judges.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Judges.json; sourceTree = "<group>"; };
+		07BCE554802E32A8ADBAA8BF /* Psalms.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Psalms.json; sourceTree = "<group>"; };
+		07ED7A6F378EBCD5C90E6085 /* 1Timothy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Timothy.json; sourceTree = "<group>"; };
+		0D94324F6210841BCA29295F /* 1Kings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Kings.json; sourceTree = "<group>"; };
+		115630C66F4A47DB1E3A7672 /* Ruth.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Ruth.json; sourceTree = "<group>"; };
+		11BFB26385C0B3367349A23D /* Ephesians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Ephesians.json; sourceTree = "<group>"; };
 		14111CFEC145FF64173B4CFD /* StoreViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreViewModel.swift; sourceTree = "<group>"; };
 		14E55530CE292C0CFF33FFDA /* MediumWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MediumWidgetView.swift; sourceTree = "<group>"; };
 		154E78112C303CB066094A42 /* WidgetTimelineProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WidgetTimelineProvider.swift; sourceTree = "<group>"; };
+		17094AEEE5DDC5CAA68AB9D5 /* Galatians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Galatians.json; sourceTree = "<group>"; };
 		1ABEB528CD6A62401650C003 /* BibleWidget.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleWidget.swift; sourceTree = "<group>"; };
 		1B06843160424BF88D6F6B8D /* QuizViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizViewModel.swift; sourceTree = "<group>"; };
+		1E169A1378074952747DCFB9 /* Ezekiel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Ezekiel.json; sourceTree = "<group>"; };
+		1F8D90034F750911EF0CBFDF /* Zephaniah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Zephaniah.json; sourceTree = "<group>"; };
+		1FC875F2433F8DEDD0EAD205 /* Lamentations.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Lamentations.json; sourceTree = "<group>"; };
+		23692FDDB9BDCFF7CB301FBC /* 2Peter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Peter.json; sourceTree = "<group>"; };
+		241D6195DB38DCACAF092823 /* Luke.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Luke.json; sourceTree = "<group>"; };
 		254C9E1D5BA485E0C3880057 /* Theme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Theme.swift; sourceTree = "<group>"; };
+		291594764B676A223BEBCE74 /* 1John.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1John.json; sourceTree = "<group>"; };
 		29659A24A7F9117031DCA83C /* BibleWidget.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = BibleWidget.entitlements; sourceTree = "<group>"; };
+		2B036B7E0A13CA783F3FDE43 /* Micah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Micah.json; sourceTree = "<group>"; };
 		2C221DC7E4888F81FFCA4E88 /* MiniTestViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniTestViewModel.swift; sourceTree = "<group>"; };
+		2F92D752AF2F111BE6518A69 /* Bible.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Bible.json; sourceTree = "<group>"; };
 		30F602FED219223C19702E99 /* MemoryVerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryVerseView.swift; sourceTree = "<group>"; };
 		3691998FA0BD5805767502D2 /* GamesMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GamesMenuView.swift; sourceTree = "<group>"; };
+		37049782C6E954ACA6E79933 /* Proverbs.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Proverbs.json; sourceTree = "<group>"; };
+		37B31A1EBED095AAB7428FAE /* Leviticus.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Leviticus.json; sourceTree = "<group>"; };
+		399667745DB746D9AA5E36B7 /* James.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = James.json; sourceTree = "<group>"; };
+		39E9FBD926624E739B80A5CD /* 2Chronicles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Chronicles.json; sourceTree = "<group>"; };
+		3A6D5F9084D0E7884DAB44D0 /* Philippians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Philippians.json; sourceTree = "<group>"; };
+		3B21C45736E32DDFADED2CDB /* 2Corinthians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Corinthians.json; sourceTree = "<group>"; };
+		427B5341876783A898D5DFFD /* AuthViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthViewModel.swift; sourceTree = "<group>"; };
 		457D07D78E7A082E923ADA07 /* WidgetKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = WidgetKit.framework; path = System/Library/Frameworks/WidgetKit.framework; sourceTree = SDKROOT; };
 		46BD419A27921A4F8B3837BF /* StoreService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StoreService.swift; sourceTree = "<group>"; };
+		47288CB2A9EBF1883DEB5553 /* Genesis_test.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Genesis_test.json; sourceTree = "<group>"; };
+		4782B8AF08101B8C2E5E375C /* Philemon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Philemon.json; sourceTree = "<group>"; };
 		4A5D7BC73309718426EB0715 /* MatchVerseView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MatchVerseView.swift; sourceTree = "<group>"; };
 		4ADE6A097BE6857E97C662D7 /* BibleChallengeApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleChallengeApp.swift; sourceTree = "<group>"; };
+		4C617B9BC6E91EE07FD4E3FE /* Daniel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Daniel.json; sourceTree = "<group>"; };
 		4E52B6DC091EF43B95708B7F /* PaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaywallView.swift; sourceTree = "<group>"; };
+		51E62AF112FF53EDCDDF28E6 /* Esther.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Esther.json; sourceTree = "<group>"; };
+		52696C3363B108CEFFFF3D55 /* Hebrews.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Hebrews.json; sourceTree = "<group>"; };
+		53D8CBA0E994AC7BF3514A17 /* Haggai.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Haggai.json; sourceTree = "<group>"; };
+		54E574A91D721D8CE5D155D9 /* Nahum.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Nahum.json; sourceTree = "<group>"; };
+		574EF85050AAB576AE8A5144 /* 1Chronicles.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Chronicles.json; sourceTree = "<group>"; };
+		57F1188C4A5CD7AAFB3011CB /* Romans.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Romans.json; sourceTree = "<group>"; };
 		584256DBD67A885281C3A1C9 /* HomeView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = HomeView.swift; sourceTree = "<group>"; };
+		588E319837CA6FAB8172D252 /* Titus.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Titus.json; sourceTree = "<group>"; };
 		59B96AA9266044F5B7803E1A /* VerseCard.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VerseCard.swift; sourceTree = "<group>"; };
+		5E3B80C84F7259BEE731C050 /* Isaiah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Isaiah.json; sourceTree = "<group>"; };
+		61C6FD04F2E29750787AE1AE /* Matthew.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Matthew.json; sourceTree = "<group>"; };
 		62FF9BCB1C91C0DAB73F8279 /* BibleDataService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleDataService.swift; sourceTree = "<group>"; };
+		6C865AC754A663E5A8479343 /* Hosea.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Hosea.json; sourceTree = "<group>"; };
+		6E611B5BD220D49EB6143A81 /* Mark.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Mark.json; sourceTree = "<group>"; };
 		71B422149DAC2167525F478E /* MiniTestView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MiniTestView.swift; sourceTree = "<group>"; };
+		731FE5CC37BD667768DB6777 /* AuthenticationView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthenticationView.swift; sourceTree = "<group>"; };
+		77959746732F5E049CB691EA /* Exodus.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Exodus.json; sourceTree = "<group>"; };
+		792B54CDB141556C75619505 /* 1Thessalonians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Thessalonians.json; sourceTree = "<group>"; };
+		797A66BEAD4FADF4ABD5BF50 /* Joshua.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Joshua.json; sourceTree = "<group>"; };
+		82420AA10AC0A03CE4AB160C /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
 		8418668B4CC32A46D89D5F85 /* MemoryViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MemoryViewModel.swift; sourceTree = "<group>"; };
+		8489861E8C131D144128198C /* CloudUser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudUser.swift; sourceTree = "<group>"; };
+		848AAA26CCB46A881D822CF1 /* 1Corinthians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Corinthians.json; sourceTree = "<group>"; };
+		85DC300F9A9B577B67C760C8 /* Books.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Books.json; sourceTree = "<group>"; };
 		86C11909FA6DAEDEE8ABA233 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		8705201844339DB1D5392A27 /* GameScore.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameScore.swift; sourceTree = "<group>"; };
 		8AFD50153AC6CA3CB08CFC4F /* DailyReadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DailyReadingView.swift; sourceTree = "<group>"; };
 		8E4CA572F8BB9E648150B98A /* BibleVerse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleVerse.swift; sourceTree = "<group>"; };
+		91744732F9460A2248740772 /* Zechariah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Zechariah.json; sourceTree = "<group>"; };
 		933BCA7DF30F5F99C6016692 /* SwiftUI.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = SwiftUI.framework; path = System/Library/Frameworks/SwiftUI.framework; sourceTree = SDKROOT; };
 		969CB4F0C611B7A2A7E3A3F3 /* ReadingPlan.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingPlan.swift; sourceTree = "<group>"; };
+		9B687F8AEEB2BAE77DDB0E27 /* Ecclesiastes.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Ecclesiastes.json; sourceTree = "<group>"; };
 		9C7B9717C033DBD1BA84A150 /* SessionLimitPaywallView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionLimitPaywallView.swift; sourceTree = "<group>"; };
 		9CC94A980374E588D06B2206 /* SessionManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SessionManager.swift; sourceTree = "<group>"; };
 		9D4D95699CC1CF1F8FB15E8B /* ReadingPlanView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingPlanView.swift; sourceTree = "<group>"; };
+		9F9D545509BA7A65988693E8 /* Numbers.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Numbers.json; sourceTree = "<group>"; };
+		A06710F28FB1F8E106DFA54A /* 2Thessalonians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Thessalonians.json; sourceTree = "<group>"; };
+		A407124A777D73A744996888 /* 2Timothy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Timothy.json; sourceTree = "<group>"; };
+		A50158FB6C4B622F64C33187 /* Colossians.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Colossians.json; sourceTree = "<group>"; };
+		A6067829C7AE76ABAA6BCB4A /* Habakkuk.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Habakkuk.json; sourceTree = "<group>"; };
+		A8FC61AC2CD38368DE10528C /* Ezra.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Ezra.json; sourceTree = "<group>"; };
 		ADE19C915DFDBCE3FD2F2F79 /* web_bible.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = web_bible.json; sourceTree = "<group>"; };
 		AEF81755C0F9F5E60B347573 /* UserProgress.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UserProgress.swift; sourceTree = "<group>"; };
+		B03B88B690E44ED5738B6525 /* EmailAuthView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailAuthView.swift; sourceTree = "<group>"; };
+		B0553EBAABE1EC448E039F64 /* John.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = John.json; sourceTree = "<group>"; };
 		B0DD9294BC3099A8A5132A7F /* LessonBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonBrowserView.swift; sourceTree = "<group>"; };
+		B19B4A82A91B6041ABA893C6 /* Obadiah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Obadiah.json; sourceTree = "<group>"; };
 		B36FF9A476D6426618BC0CB9 /* BibleAPIService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleAPIService.swift; sourceTree = "<group>"; };
 		B3EECE254EED0B431627298A /* BibleWidgetExtension.appex */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = "wrapper.app-extension"; path = BibleWidgetExtension.appex; sourceTree = BUILT_PRODUCTS_DIR; };
+		B82EC90EDCA3C28FD50B9917 /* Jonah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Jonah.json; sourceTree = "<group>"; };
+		B8B6BB8442D23D52FDEA8F14 /* Malachi.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Malachi.json; sourceTree = "<group>"; };
 		BBCAC61AF9B37558A7E9CC2B /* Lesson.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Lesson.swift; sourceTree = "<group>"; };
+		BC77042CF71D0B78B685F968 /* GoogleService-Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = "GoogleService-Info.plist"; sourceTree = "<group>"; };
 		BF8F4B5256290BD1B6E6215B /* QuizView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QuizView.swift; sourceTree = "<group>"; };
+		C17155AAB55587CB3229632C /* 2Kings.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Kings.json; sourceTree = "<group>"; };
+		C2F313CFB486DD0CE10F6B76 /* Genesis.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Genesis.json; sourceTree = "<group>"; };
+		C31D7FFA6A9E3B43159CF2D5 /* 1Peter.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Peter.json; sourceTree = "<group>"; };
+		C380375C2225CF5F6E64E8B5 /* Revelation.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Revelation.json; sourceTree = "<group>"; };
 		C52E36CF84C938C53A7A2CFE /* 30DayBibleChallenge.app */ = {isa = PBXFileReference; includeInIndex = 0; lastKnownFileType = wrapper.application; path = 30DayBibleChallenge.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		C5379792517471B9D8F4EF82 /* BibleWidgetBundle.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BibleWidgetBundle.swift; sourceTree = "<group>"; };
+		C612DAE5A4304CC7B29FED51 /* Nehemiah.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Nehemiah.json; sourceTree = "<group>"; };
+		C68210641D6695945A4352D5 /* 2Samuel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2Samuel.json; sourceTree = "<group>"; };
+		C697AE86F020DD5067203051 /* Acts.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Acts.json; sourceTree = "<group>"; };
+		D67B074448BB2D3EF0BDF3A5 /* SongofSolomon.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = SongofSolomon.json; sourceTree = "<group>"; };
+		D6C32C5F144CEC41E869D53F /* 2John.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 2John.json; sourceTree = "<group>"; };
+		D842FBFDCD6F04862B94F308 /* Amos.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Amos.json; sourceTree = "<group>"; };
+		DCB54B0704C8252BD6B1EF95 /* Jude.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Jude.json; sourceTree = "<group>"; };
 		DDB3BBC5261DCBD3621F5108 /* LessonCatalog.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LessonCatalog.swift; sourceTree = "<group>"; };
+		E15ADEE699AD514990DD91FC /* SplashScreenView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SplashScreenView.swift; sourceTree = "<group>"; };
+		E47E4DC2BE38FB26B0F59612 /* Job.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Job.json; sourceTree = "<group>"; };
 		E5A1C58172167AD7FB33B017 /* ReadingViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReadingViewModel.swift; sourceTree = "<group>"; };
+		E64342DD5A32D2D5F20BB144 /* Joel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Joel.json; sourceTree = "<group>"; };
 		E7055F2E325C5B17D94CC07B /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		E88854D5DCDD1BBB74FC1462 /* 1Samuel.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 1Samuel.json; sourceTree = "<group>"; };
 		E8B767EC84EE811A7BF24EC1 /* SmallWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SmallWidgetView.swift; sourceTree = "<group>"; };
 		EEB189423DA0473A07F900E1 /* LockScreenWidgetView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockScreenWidgetView.swift; sourceTree = "<group>"; };
+		F82DEBBA0C566D745FD983AA /* CloudSyncService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = CloudSyncService.swift; sourceTree = "<group>"; };
+		FA1991C6170D7D81C1ACEC9F /* Deuteronomy.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = Deuteronomy.json; sourceTree = "<group>"; };
+		FB34E70E9C4590EF6D78489C /* 3John.json */ = {isa = PBXFileReference; lastKnownFileType = text.json; path = 3John.json; sourceTree = "<group>"; };
 		FCF322935E08FF702628D278 /* FillBlankView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FillBlankView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
+		AB5DA60915094B1E8E4AD769 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				618C1D28801F7FCE85955CA3 /* FirebaseAuth in Frameworks */,
+				726FF3886F5B08916FBC0F35 /* FirebaseFirestore in Frameworks */,
+				8BBD36AEBF25DB64CFF20006 /* GoogleSignIn in Frameworks */,
+				72B18414F803770F499DB6AE /* GoogleSignInSwift in Frameworks */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
 		DAA21640DB28691EC9FB7BC6 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
@@ -147,7 +316,12 @@
 		0F5E64B4059ABB9C686EDBD3 /* Data */ = {
 			isa = PBXGroup;
 			children = (
+				2F92D752AF2F111BE6518A69 /* Bible.json */,
+				85DC300F9A9B577B67C760C8 /* Books.json */,
+				47288CB2A9EBF1883DEB5553 /* Genesis_test.json */,
+				BC77042CF71D0B78B685F968 /* GoogleService-Info.plist */,
 				ADE19C915DFDBCE3FD2F2F79 /* web_bible.json */,
+				6DA3AA0D47029CDA532FA558 /* KJV */,
 			);
 			name = Data;
 			path = 30DayBibleChallenge/Data;
@@ -166,6 +340,7 @@
 		38AFC00D785A8C6744D7F8D0 /* ViewModels */ = {
 			isa = PBXGroup;
 			children = (
+				427B5341876783A898D5DFFD /* AuthViewModel.swift */,
 				8418668B4CC32A46D89D5F85 /* MemoryViewModel.swift */,
 				2C221DC7E4888F81FFCA4E88 /* MiniTestViewModel.swift */,
 				1B06843160424BF88D6F6B8D /* QuizViewModel.swift */,
@@ -204,16 +379,91 @@
 			children = (
 				4ADE6A097BE6857E97C662D7 /* BibleChallengeApp.swift */,
 				E7055F2E325C5B17D94CC07B /* ContentView.swift */,
+				E15ADEE699AD514990DD91FC /* SplashScreenView.swift */,
 				254C9E1D5BA485E0C3880057 /* Theme.swift */,
 			);
 			name = App;
 			path = 30DayBibleChallenge/App;
 			sourceTree = "<group>";
 		};
+		6DA3AA0D47029CDA532FA558 /* KJV */ = {
+			isa = PBXGroup;
+			children = (
+				574EF85050AAB576AE8A5144 /* 1Chronicles.json */,
+				848AAA26CCB46A881D822CF1 /* 1Corinthians.json */,
+				291594764B676A223BEBCE74 /* 1John.json */,
+				0D94324F6210841BCA29295F /* 1Kings.json */,
+				C31D7FFA6A9E3B43159CF2D5 /* 1Peter.json */,
+				E88854D5DCDD1BBB74FC1462 /* 1Samuel.json */,
+				792B54CDB141556C75619505 /* 1Thessalonians.json */,
+				07ED7A6F378EBCD5C90E6085 /* 1Timothy.json */,
+				39E9FBD926624E739B80A5CD /* 2Chronicles.json */,
+				3B21C45736E32DDFADED2CDB /* 2Corinthians.json */,
+				D6C32C5F144CEC41E869D53F /* 2John.json */,
+				C17155AAB55587CB3229632C /* 2Kings.json */,
+				23692FDDB9BDCFF7CB301FBC /* 2Peter.json */,
+				C68210641D6695945A4352D5 /* 2Samuel.json */,
+				A06710F28FB1F8E106DFA54A /* 2Thessalonians.json */,
+				A407124A777D73A744996888 /* 2Timothy.json */,
+				FB34E70E9C4590EF6D78489C /* 3John.json */,
+				C697AE86F020DD5067203051 /* Acts.json */,
+				D842FBFDCD6F04862B94F308 /* Amos.json */,
+				A50158FB6C4B622F64C33187 /* Colossians.json */,
+				4C617B9BC6E91EE07FD4E3FE /* Daniel.json */,
+				FA1991C6170D7D81C1ACEC9F /* Deuteronomy.json */,
+				9B687F8AEEB2BAE77DDB0E27 /* Ecclesiastes.json */,
+				11BFB26385C0B3367349A23D /* Ephesians.json */,
+				51E62AF112FF53EDCDDF28E6 /* Esther.json */,
+				77959746732F5E049CB691EA /* Exodus.json */,
+				1E169A1378074952747DCFB9 /* Ezekiel.json */,
+				A8FC61AC2CD38368DE10528C /* Ezra.json */,
+				17094AEEE5DDC5CAA68AB9D5 /* Galatians.json */,
+				C2F313CFB486DD0CE10F6B76 /* Genesis.json */,
+				A6067829C7AE76ABAA6BCB4A /* Habakkuk.json */,
+				53D8CBA0E994AC7BF3514A17 /* Haggai.json */,
+				52696C3363B108CEFFFF3D55 /* Hebrews.json */,
+				6C865AC754A663E5A8479343 /* Hosea.json */,
+				5E3B80C84F7259BEE731C050 /* Isaiah.json */,
+				399667745DB746D9AA5E36B7 /* James.json */,
+				02D455D3A6AB77FE3046CFA4 /* Jeremiah.json */,
+				E47E4DC2BE38FB26B0F59612 /* Job.json */,
+				E64342DD5A32D2D5F20BB144 /* Joel.json */,
+				B0553EBAABE1EC448E039F64 /* John.json */,
+				B82EC90EDCA3C28FD50B9917 /* Jonah.json */,
+				797A66BEAD4FADF4ABD5BF50 /* Joshua.json */,
+				DCB54B0704C8252BD6B1EF95 /* Jude.json */,
+				05C318BE9F2321A31795BC75 /* Judges.json */,
+				1FC875F2433F8DEDD0EAD205 /* Lamentations.json */,
+				37B31A1EBED095AAB7428FAE /* Leviticus.json */,
+				241D6195DB38DCACAF092823 /* Luke.json */,
+				B8B6BB8442D23D52FDEA8F14 /* Malachi.json */,
+				6E611B5BD220D49EB6143A81 /* Mark.json */,
+				61C6FD04F2E29750787AE1AE /* Matthew.json */,
+				2B036B7E0A13CA783F3FDE43 /* Micah.json */,
+				54E574A91D721D8CE5D155D9 /* Nahum.json */,
+				C612DAE5A4304CC7B29FED51 /* Nehemiah.json */,
+				9F9D545509BA7A65988693E8 /* Numbers.json */,
+				B19B4A82A91B6041ABA893C6 /* Obadiah.json */,
+				4782B8AF08101B8C2E5E375C /* Philemon.json */,
+				3A6D5F9084D0E7884DAB44D0 /* Philippians.json */,
+				37049782C6E954ACA6E79933 /* Proverbs.json */,
+				07BCE554802E32A8ADBAA8BF /* Psalms.json */,
+				C380375C2225CF5F6E64E8B5 /* Revelation.json */,
+				57F1188C4A5CD7AAFB3011CB /* Romans.json */,
+				115630C66F4A47DB1E3A7672 /* Ruth.json */,
+				D67B074448BB2D3EF0BDF3A5 /* SongofSolomon.json */,
+				588E319837CA6FAB8172D252 /* Titus.json */,
+				91744732F9460A2248740772 /* Zechariah.json */,
+				1F8D90034F750911EF0CBFDF /* Zephaniah.json */,
+			);
+			path = KJV;
+			sourceTree = "<group>";
+		};
 		8D344E231290492556C2C792 /* Models */ = {
 			isa = PBXGroup;
 			children = (
 				8E4CA572F8BB9E648150B98A /* BibleVerse.swift */,
+				8489861E8C131D144128198C /* CloudUser.swift */,
 				8705201844339DB1D5392A27 /* GameScore.swift */,
 				BBCAC61AF9B37558A7E9CC2B /* Lesson.swift */,
 				DDB3BBC5261DCBD3621F5108 /* LessonCatalog.swift */,
@@ -277,6 +527,7 @@
 		CD613FC94DE094F131216FD4 /* Views */ = {
 			isa = PBXGroup;
 			children = (
+				D8B1A4CCF5C60314F1DEFCFF /* Auth */,
 				ECB8EAA22CC9AAD594361137 /* Components */,
 				F8B52A3C9ABCD6A15110AC5A /* Games */,
 				96504B6385AEEDC03D330C88 /* Home */,
@@ -297,11 +548,22 @@
 			name = Frameworks;
 			sourceTree = "<group>";
 		};
+		D8B1A4CCF5C60314F1DEFCFF /* Auth */ = {
+			isa = PBXGroup;
+			children = (
+				731FE5CC37BD667768DB6777 /* AuthenticationView.swift */,
+				B03B88B690E44ED5738B6525 /* EmailAuthView.swift */,
+			);
+			path = Auth;
+			sourceTree = "<group>";
+		};
 		E2B921427F125134640B4E67 /* Services */ = {
 			isa = PBXGroup;
 			children = (
+				82420AA10AC0A03CE4AB160C /* AuthService.swift */,
 				B36FF9A476D6426618BC0CB9 /* BibleAPIService.swift */,
 				62FF9BCB1C91C0DAB73F8279 /* BibleDataService.swift */,
+				F82DEBBA0C566D745FD983AA /* CloudSyncService.swift */,
 				46BD419A27921A4F8B3837BF /* StoreService.swift */,
 			);
 			name = Services;
@@ -337,6 +599,7 @@
 			buildPhases = (
 				FE99EB8825F1E452C4BE9A2F /* Sources */,
 				D10ED1CE93CD266EBF818163 /* Resources */,
+				AB5DA60915094B1E8E4AD769 /* Frameworks */,
 				0A334FEFD0C98A4D506A5483 /* Embed Foundation Extensions */,
 			);
 			buildRules = (
@@ -346,6 +609,10 @@
 			);
 			name = 30DayBibleChallenge;
 			packageProductDependencies = (
+				547BEB6627B02AB8E4ABF58A /* FirebaseAuth */,
+				F1A085BE9C92C7FEB2A992F4 /* FirebaseFirestore */,
+				A9AD908511B6873947E17414 /* GoogleSignIn */,
+				F8B7E7C39B584F75B90BC6CB /* GoogleSignInSwift */,
 			);
 			productName = 30DayBibleChallenge;
 			productReference = C52E36CF84C938C53A7A2CFE /* 30DayBibleChallenge.app */;
@@ -396,6 +663,10 @@
 			);
 			mainGroup = B89B48C462E20EC15582E4DB;
 			minimizedProjectReferenceProxies = 1;
+			packageReferences = (
+				1AEAB2F46443297590E40576 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */,
+				E9B6B2A51B1ADBB7DCF071F7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */,
+			);
 			preferredProjectObjectVersion = 77;
 			projectDirPath = "";
 			projectRoot = "";
@@ -411,7 +682,77 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				38FD0727CE3ECF539946B92B /* 1Chronicles.json in Resources */,
+				CAAE2671E1EEDC4762E42276 /* 1Corinthians.json in Resources */,
+				3F79B19706DFA2828EFE8664 /* 1John.json in Resources */,
+				C560FDAE8AE571C500A39D5D /* 1Kings.json in Resources */,
+				3C179F0F4A5A6DFFE4BED42A /* 1Peter.json in Resources */,
+				0E8763BB24FF7FCE52DE3B3D /* 1Samuel.json in Resources */,
+				75CB4001D0D44F145F1AD00A /* 1Thessalonians.json in Resources */,
+				3F3059767486C3BD7E218517 /* 1Timothy.json in Resources */,
+				CC31A8BAE7A739260F4B9F84 /* 2Chronicles.json in Resources */,
+				263B3B5D3D18CE804A8FBE45 /* 2Corinthians.json in Resources */,
+				3A638AFDEC97D921AB0FA73D /* 2John.json in Resources */,
+				11A42A571409C44B4E80FCDD /* 2Kings.json in Resources */,
+				072F338849ADFA2DA3049700 /* 2Peter.json in Resources */,
+				63FEDBDB6337EE87F2964AB4 /* 2Samuel.json in Resources */,
+				E952F21098A24769AF841663 /* 2Thessalonians.json in Resources */,
+				F7485BB8E690F129C2EF9CB3 /* 2Timothy.json in Resources */,
+				2550E3A8C8B8B31725FCC4B6 /* 3John.json in Resources */,
+				913D344D89F3AE19D82A9419 /* Acts.json in Resources */,
+				5DC86C2A5DA09C55E3C076FC /* Amos.json in Resources */,
 				134B4DAE68795E1431C2C59C /* Assets.xcassets in Resources */,
+				C256D1FF140A9F59CD2E5539 /* Bible.json in Resources */,
+				DB482970DACEDEDAC5DC69E4 /* Books.json in Resources */,
+				E18016C7F8C106E46882C3C5 /* Colossians.json in Resources */,
+				7DFE6ACC45DF9F22341D4D9A /* Daniel.json in Resources */,
+				05CAB48480B28F931E2F79A6 /* Deuteronomy.json in Resources */,
+				37F57117E2B8F502FB7BC462 /* Ecclesiastes.json in Resources */,
+				4455A93EB0675DC49916887F /* Ephesians.json in Resources */,
+				B1B7FE4CB95751F7A3156068 /* Esther.json in Resources */,
+				5D61DCB50C410E2BCDD9AA4D /* Exodus.json in Resources */,
+				06CCA84AF1EAB4758585A2FF /* Ezekiel.json in Resources */,
+				9FA45BCBB9236C03F38C6410 /* Ezra.json in Resources */,
+				F9E16CDE0B2605D9B22B1B5A /* Galatians.json in Resources */,
+				6FA89BEB9D6A1C6016F9481F /* Genesis.json in Resources */,
+				24920AF5B402F649E1FF349B /* Genesis_test.json in Resources */,
+				86C036450CF905FFC67E0C5F /* GoogleService-Info.plist in Resources */,
+				6679150CB35150952054E800 /* Habakkuk.json in Resources */,
+				D83E332A2766C3E486955CB3 /* Haggai.json in Resources */,
+				0FC86985B5B26C3E83AB9BA0 /* Hebrews.json in Resources */,
+				39D7AA19964C1F21329ECBCE /* Hosea.json in Resources */,
+				54E04C52EEE5FFD75D06344E /* Isaiah.json in Resources */,
+				385267BAAE463AF6F36B478F /* James.json in Resources */,
+				63363DEC2EB2EAA699BBAC1D /* Jeremiah.json in Resources */,
+				FAC9DD44100FA1A75AFCC7BA /* Job.json in Resources */,
+				F41D43334AC056CCC81EED98 /* Joel.json in Resources */,
+				D40D5D36C04A338E3BBFEA6F /* John.json in Resources */,
+				C30C111D516434829D494B0F /* Jonah.json in Resources */,
+				979345C5CBA71BEFFE45D569 /* Joshua.json in Resources */,
+				05B13A949BB250923D66420B /* Jude.json in Resources */,
+				E08734ED76ECE138A5016EFF /* Judges.json in Resources */,
+				10B70D4A0B2A86F95227B690 /* Lamentations.json in Resources */,
+				F165E6FB34CF37F13A3EBD57 /* Leviticus.json in Resources */,
+				6168D8CA45BED448AFA51340 /* Luke.json in Resources */,
+				50AFF1F462374FD147E8EA3C /* Malachi.json in Resources */,
+				1AC9609F04ECE31323EDC507 /* Mark.json in Resources */,
+				A81545277FCB49CD475900E7 /* Matthew.json in Resources */,
+				06E1F01711F9F7C0313AE7D7 /* Micah.json in Resources */,
+				659C11168BF9304B66C7CA9A /* Nahum.json in Resources */,
+				BD6D920B3411293A634BC187 /* Nehemiah.json in Resources */,
+				FD22E5197539ECB7DDAE4D18 /* Numbers.json in Resources */,
+				7C0E8523A6843D0B72B97185 /* Obadiah.json in Resources */,
+				B98C77A044CDC7406C88E2FB /* Philemon.json in Resources */,
+				043A19DD09866C903F8D905D /* Philippians.json in Resources */,
+				60B90CF5DEC1D1BB75C6B248 /* Proverbs.json in Resources */,
+				F3CDA29E3522314480F0B5B7 /* Psalms.json in Resources */,
+				D0F4E506B1C1F016080F3D6A /* Revelation.json in Resources */,
+				2587BB0889E36389A26E3B42 /* Romans.json in Resources */,
+				F584AED0F3B8AD19FE4F2208 /* Ruth.json in Resources */,
+				63E6CE5E841A01DE1063A09E /* SongofSolomon.json in Resources */,
+				3DFED5ED87F55F7544CE5B27 /* Titus.json in Resources */,
+				1EB0D5222A13FDB9C4F0791D /* Zechariah.json in Resources */,
+				7722C1851B772AF4FD2F5CC6 /* Zephaniah.json in Resources */,
 				E49FE4168851FC1AFAE0B595 /* web_bible.json in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -436,12 +777,18 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B2973E65831BDAFBA0963A09 /* AuthService.swift in Sources */,
+				90C8FFE55A124AF8F5A3F944 /* AuthViewModel.swift in Sources */,
+				9AFE52782E7E97A3E90A90C9 /* AuthenticationView.swift in Sources */,
 				AEAD702FF649DB4014E53B9A /* BibleAPIService.swift in Sources */,
 				4A2CAFA0609F0281C159394E /* BibleChallengeApp.swift in Sources */,
 				A0B778B80DE6DA8533EF7408 /* BibleDataService.swift in Sources */,
 				A557EAB52D06199840F4561B /* BibleVerse.swift in Sources */,
+				85F26758EE4A1EFF3C788C75 /* CloudSyncService.swift in Sources */,
+				A7EDAF752F3C1F327EAA8402 /* CloudUser.swift in Sources */,
 				0A5CCFB42C8F642FA9BCDD39 /* ContentView.swift in Sources */,
 				2CB3E30D9CDDBC6C1F97D843 /* DailyReadingView.swift in Sources */,
+				65BE116B57445F8E82B2ACE5 /* EmailAuthView.swift in Sources */,
 				FF601CB54DA69736E2634E0C /* FillBlankView.swift in Sources */,
 				B8BFFFDB4395835A9BFD66BF /* GameScore.swift in Sources */,
 				B1CE0041EB5E48B528375C3D /* GamesMenuView.swift in Sources */,
@@ -462,6 +809,7 @@
 				35BF848816DD7B4383A9F1ED /* ReadingViewModel.swift in Sources */,
 				1B9357094699059DC39C8F38 /* SessionLimitPaywallView.swift in Sources */,
 				1A09EB2889BBA3A1529D56FF /* SessionManager.swift in Sources */,
+				3F3FDBF8163CE7C71A4E1E29 /* SplashScreenView.swift in Sources */,
 				07D0C49DEF98596C6A46279B /* StoreService.swift in Sources */,
 				E7E67EA814618677AABDC471 /* StoreViewModel.swift in Sources */,
 				5E7FC41F6E29D63BBB2F54AC /* Theme.swift in Sources */,
@@ -709,6 +1057,48 @@
 			defaultConfigurationName = Debug;
 		};
 /* End XCConfigurationList section */
+
+/* Begin XCRemoteSwiftPackageReference section */
+		1AEAB2F46443297590E40576 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/firebase/firebase-ios-sdk";
+			requirement = {
+				kind = exactVersion;
+				version = 11.0.0;
+			};
+		};
+		E9B6B2A51B1ADBB7DCF071F7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */ = {
+			isa = XCRemoteSwiftPackageReference;
+			repositoryURL = "https://github.com/google/GoogleSignIn-iOS";
+			requirement = {
+				kind = exactVersion;
+				version = 8.0.0;
+			};
+		};
+/* End XCRemoteSwiftPackageReference section */
+
+/* Begin XCSwiftPackageProductDependency section */
+		547BEB6627B02AB8E4ABF58A /* FirebaseAuth */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1AEAB2F46443297590E40576 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseAuth;
+		};
+		A9AD908511B6873947E17414 /* GoogleSignIn */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9B6B2A51B1ADBB7DCF071F7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignIn;
+		};
+		F1A085BE9C92C7FEB2A992F4 /* FirebaseFirestore */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = 1AEAB2F46443297590E40576 /* XCRemoteSwiftPackageReference "firebase-ios-sdk" */;
+			productName = FirebaseFirestore;
+		};
+		F8B7E7C39B584F75B90BC6CB /* GoogleSignInSwift */ = {
+			isa = XCSwiftPackageProductDependency;
+			package = E9B6B2A51B1ADBB7DCF071F7 /* XCRemoteSwiftPackageReference "GoogleSignIn-iOS" */;
+			productName = GoogleSignInSwift;
+		};
+/* End XCSwiftPackageProductDependency section */
 	};
 	rootObject = 91E473D900CF20A7CE015416 /* Project object */;
 }

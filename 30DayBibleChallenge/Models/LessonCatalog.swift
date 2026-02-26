@@ -15,7 +15,7 @@ struct LessonCatalog {
 
     /// Get lessons by category
     static func lessons(for category: LessonCategory) -> [Lesson] {
-        curatedLessons.filter { $0.category == category }
+        allLessons.filter { $0.category == category }
     }
 
     /// Search lessons by title, theme, or book

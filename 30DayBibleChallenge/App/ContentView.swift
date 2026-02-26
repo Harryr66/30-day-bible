@@ -187,9 +187,12 @@ struct ColorfulTabButton: View {
 
 struct SettingsView: View {
     @EnvironmentObject var storeViewModel: StoreViewModel
+    @EnvironmentObject var authViewModel: AuthViewModel
     @Environment(\.modelContext) private var modelContext
     @Query private var progress: [UserProgress]
     @State private var showPaywall = false
+    @State private var showDeleteAccountAlert = false
+    @State private var showSignOutAlert = false
 
     private var userProgress: UserProgress {
         if let existing = progress.first {
@@ -221,6 +224,14 @@ struct SettingsView: View {
                     // Settings list
                     settingsList
                         .bounceIn(delay: 0.3)
+
+                    // Account section
+                    accountSection
+                        .bounceIn(delay: 0.4)
+
+                    // Bottom padding for tab bar
+                    Spacer()
+                        .frame(height: 100)
                 }
                 .padding()
             }
@@ -242,28 +253,24 @@ struct SettingsView: View {
     }
 
     private var profileHeader: some View {
-        VStack(spacing: 16) {
-            // Avatar
-            ZStack {
-                Circle()
-                    .fill(
-                        LinearGradient(
-                            colors: [.appGreen, .appBlue],
-                            startPoint: .topLeading,
-                            endPoint: .bottomTrailing
-                        )
-                    )
-                    .frame(width: 80, height: 80)
-
-                Text("👤")
-                    .font(.system(size: 40))
-            }
+        VStack(spacing: 12) {
+            // Dove mascot banner
+            DoveNestScene(mood: .happy)
+                .frame(height: 140)
+                .clipShape(RoundedRectangle(cornerRadius: 16))
+                .shadow(color: Color.black.opacity(0.1), radius: 8, y: 4)
 
             VStack(spacing: 4) {
-                Text("Bible Learner")
+                Text(authViewModel.currentUser?.displayName ?? "Bible Learner")
                     .font(.title2)
                     .fontWeight(.bold)
                     .foregroundStyle(Color.appTextPrimary)
+
+                if let email = authViewModel.currentUser?.email {
+                    Text(email)
+                        .font(.caption)
+                        .foregroundStyle(Color.appTextSecondary)
+                }
 
                 HStack(spacing: 8) {
                     if userProgress.isPremium {
@@ -283,7 +290,7 @@ struct SettingsView: View {
             }
         }
         .frame(maxWidth: .infinity)
-        .padding(.vertical, 24)
+        .padding(.vertical, 16)
         .playfulCard()
     }
 
@@ -450,6 +457,50 @@ struct SettingsView: View {
             }
         }
         .playfulCard()
+    }
+
+    private var accountSection: some View {
+        VStack(spacing: 2) {
+            // Sync to cloud button
+            SettingsRow(icon: "arrow.triangle.2.circlepath", title: "Sync Progress", color: .appTeal) {
+                Task {
+                    await userProgress.syncToCloud()
+                }
+            }
+
+            // Sign out button
+            SettingsRow(icon: "rectangle.portrait.and.arrow.right", title: "Sign Out", color: .appOrange) {
+                showSignOutAlert = true
+            }
+
+            // Delete account button
+            SettingsRow(icon: "trash.fill", title: "Delete Account", color: .appRed) {
+                showDeleteAccountAlert = true
+            }
+        }
+        .playfulCard()
+        .alert("Sign Out", isPresented: $showSignOutAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Sign Out", role: .destructive) {
+                userProgress.clearUserAssociation()
+                authViewModel.signOut()
+            }
+        } message: {
+            Text("Are you sure you want to sign out? Your local progress will be preserved.")
+        }
+        .alert("Delete Account", isPresented: $showDeleteAccountAlert) {
+            Button("Cancel", role: .cancel) { }
+            Button("Delete", role: .destructive) {
+                Task {
+                    // Delete cloud data first
+                    try? await CloudSyncService.shared.deleteUserData()
+                    // Then delete the account
+                    await authViewModel.deleteAccount()
+                }
+            }
+        } message: {
+            Text("Are you sure you want to delete your account? This action cannot be undone and all your cloud data will be permanently deleted.")
+        }
     }
 }
 
